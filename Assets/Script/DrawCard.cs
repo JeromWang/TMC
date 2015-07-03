@@ -58,6 +58,7 @@ public class DrawCard : MonoBehaviour
     }
     public void GetEnemyRoundList(int round)
     {
+        //Debug.Log("GetEnemyRoundList");
         string s="";
         if (EnemyRoundList.Count < round)
         {
@@ -67,7 +68,7 @@ public class DrawCard : MonoBehaviour
         {
             s = EnemyRoundList[round - 1];
         }
-        
+        //Debug.Log(s);
         for(int i=0;i<s.Length;i=i+3)
         {
             EnergyManager.Instance.enemyOperationID.Add(s.Substring(i , 3));
@@ -88,11 +89,11 @@ public class DrawCard : MonoBehaviour
         enemyResidue = EnemyCardList.Count;
       //  Debug.Log(enemyResidue.ToString());
     }
-    public void GetNewCardList(string deckName)
+    public void GetNewCardList(string s)
     {
+        //Debug.Log(s);
         newCardList.Clear();
-        string s = PlayerPrefs.GetString(deckName);
-        for (int i = 0; i < deckName.Length/3; i++)
+        for (int i = 0; i < s.Length/3; i++)
         {
             newCardList.Add(s.Substring(i * 3, 3));
         }
@@ -165,7 +166,7 @@ public class DrawCard : MonoBehaviour
     }
     public IEnumerator EnemyShowCard()
     {
-        if (!LevelManager.Instance.IsOnline &&  enemyResidue > 0 || LevelManager.Instance.IsOnline  )
+        if (!LevelManager.Instance.IsOnline &&  (enemyResidue > 0 ||AI.Instance.aiType==AIType.RoundList)|| LevelManager.Instance.IsOnline  )
         {
             GameObject c = (GameObject)Instantiate(cardObject, EnemyHand.position, EnemyHand.rotation);
             getID(c.transform, false);
@@ -250,6 +251,7 @@ public class DrawCard : MonoBehaviour
         {
             if (!LevelManager.Instance.IsOnline)//本地关卡
             {
+                //Debug.Log(AI.Instance.aiType.ToString());
                 if(AI.Instance.aiType==AIType.CardList)
                 {
                     index = enemyResidue - 1;
@@ -260,8 +262,10 @@ public class DrawCard : MonoBehaviour
                 }
                 if(AI.Instance.aiType==AIType.RoundList)
                 {
+                    //Debug.Log("AIType.RoundList");
                     cardScript.ID = EnergyManager.Instance.enemyOperationID[EnergyManager.Instance.enemyOperationIndex];
                     //Debug.Log("对面使用了" + cardScript.ID);
+                    return;
                 }
                 
             }
@@ -291,6 +295,10 @@ public class DrawCard : MonoBehaviour
             card.GetComponent<Card>().Destroy();
         }
         foreach(Transform card in EnemyList.transform)
+        {
+            card.GetComponent<Card>().Destroy();
+        }
+        foreach (Transform card in NewCardList.transform)
         {
             card.GetComponent<Card>().Destroy();
         }

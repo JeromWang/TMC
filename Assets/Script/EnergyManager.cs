@@ -124,9 +124,9 @@ public class EnergyManager : MonoBehaviour
         GuideText.Instance.StartGame();
 
         roundCount++;
+        AuraManager.Instance.AuraStartTurnEffect();
         StartTurn();
     }
-
 
     void Update()
     {
@@ -290,6 +290,7 @@ public class EnergyManager : MonoBehaviour
         }
         if (AI.Instance.aiType == AIType.RoundList)
         {
+            //Debug.Log("offlineEnd");
             DrawCard.Instance.GetEnemyRoundList(roundCount);
             StartCoroutine(Online_End());
         }
@@ -340,7 +341,7 @@ public class EnergyManager : MonoBehaviour
             //Debug.Log("第" + enemyOperationIndex + "个操作");
             if (operation[enemyOperationIndex] == Operation.Cast)
             {
-               // Debug.Log("isuse" + operation[enemyOperationIndex]);
+                //Debug.Log("isuse" + operation[enemyOperationIndex]);
                 StartCoroutine(DrawCard.Instance.EnemyShowCard());
                 yield return new WaitForSeconds(2f);
             }
@@ -452,6 +453,7 @@ public class EnergyManager : MonoBehaviour
         if (!WinLose())//失败直接退出
         {
             roundCount++;
+            AuraManager.Instance.AuraStartTurnEffect();
             StartTurn();
             accessibleCrystal = 2;
             accessibleEnergy = totalEnergy;

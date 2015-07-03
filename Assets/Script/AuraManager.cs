@@ -20,7 +20,7 @@ public class AuraManager : MonoBehaviour {
     public bool E02Enemy = false;
     public bool E28Heros = false;
     public bool E28Enemy = false;
-    List<Card> auraStartTurnList=new List<Card>();
+    public List<Card> auraStartTurnList=new List<Card>();
 	// Use this for initialization
 	void Start () {
         AuraManager.Instance = this;
@@ -328,6 +328,8 @@ public class AuraManager : MonoBehaviour {
         {
             card.Destroy();
         }
+        auraList.Clear();
+        enemyAuraList.Clear();
         auraStartTurnList.Clear();
         auraText = "";
         enemyAuraText = "";
@@ -347,7 +349,6 @@ public class AuraManager : MonoBehaviour {
     public void Restart()
     {
         MagicCircleMananger.Instance.ChangeLine += this.AuraSustain;
-        EnergyManager.Instance.StartTurn += AuraStartTurnEffect;
     }
     public void AuraStartTurnEffect()
     {

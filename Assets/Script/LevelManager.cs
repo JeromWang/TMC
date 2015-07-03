@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     //public static bool Guiding = false;
     public int level;
     public List<string> key;
+    public int debugLevel;
 
     //其他脚本涉及开关的物体
     public GameObject ESC;
@@ -21,6 +22,25 @@ public class LevelManager : MonoBehaviour
     public bool IsOnline;
     public Hero hero, enemyHero;
     Deck deck;
+    string[] newCardList ={
+                             "",//0
+                             "",//1
+                             "",//2
+                             "",//3
+                             "E10C04",//4
+                             "E02C08",//5
+                             "E03C23",//6
+                             "E26E04S71",//7
+                             "E09C24S72",//8
+                             "E15C27E06",//9
+                             "E21C26E17",//10
+                             "E24E28C01",//11
+                             "C03C17C29C13",//12
+                             "",//13
+                             "",//14
+                             "",//15
+                             ""//16
+                         };
 	// Use this for initialization
     void Start()
     {
@@ -34,7 +54,7 @@ public class LevelManager : MonoBehaviour
         }
         LevelManager.Instance = this;
 #if UNITY_EDITOR 
-        level = 6;
+        level = debugLevel;
 #else
         level = PlayerPrefs.GetInt("Level");
 #endif
@@ -66,10 +86,17 @@ public class LevelManager : MonoBehaviour
         CameraMoving.Instance.Move(3);
         deck = DeckPanel.AddComponent<Deck>();
     }
+    void SetNewCard(int level)
+    {
+        if(level<newCardList.Length)
+        DrawCard.Instance.GetNewCardList(newCardList[level]);
+    }
     void SetLevel(int level)
     {
         key.Clear();
+        SetNewCard(level);
         GuideText.Instance.ReturnText("LevelText");
+        DrawCard.Instance.GetCardList("啦啦啦");
         switch(level)
         {
             //case 0:
@@ -130,23 +157,98 @@ public class LevelManager : MonoBehaviour
             case 4:
                 AI.Instance.aiType = AIType.CardList;
                 PlayerPrefs.SetString("EnemyLevel", "S08S08S08S08S08S08S08C23S69S01S74S08S08S12S08C03S69S08S02S01");
-                PlayerPrefs.SetString("NewCard" , "E10C04");
-                DrawCard.Instance.GetNewCardList("NewCard" );
-                DrawCard.Instance.GetCardList("啦啦啦");
+                
                 break;
             case 5:
                 AI.Instance.aiType = AIType.CardList;
                 PlayerPrefs.SetString("EnemyLevel" , "S08S08E05S08S08C03S08S08C23S01S74S08C23S12S08C03S69S08S02S01");
-                PlayerPrefs.SetString("NewCard" , "E02C08");
-                DrawCard.Instance.GetNewCardList("NewCard" );
-                DrawCard.Instance.GetCardList("啦啦啦");
+                
                 DrawCard.Instance.GetEnemyCardList("EnemyLevel" );
                 break;
             case 6:
-                PlayerPrefs.SetString("NewCard" , "E03C23");
-                DrawCard.Instance.GetNewCardList("NewCard" );
-                DrawCard.Instance.GetCardList("啦啦啦");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel" );
+                //小法术+动荡阵列
+                AI.Instance.aiType = AIType.RoundList;
+                DrawCard.Instance.EnemyRoundList.Add("S67");//1
+                DrawCard.Instance.EnemyRoundList.Add("");//2
+                DrawCard.Instance.EnemyRoundList.Add("E04");//3
+                DrawCard.Instance.EnemyRoundList.Add("S03");//4
+                DrawCard.Instance.EnemyRoundList.Add("S08");//5
+                DrawCard.Instance.EnemyRoundList.Add("E04S10");//6
+                DrawCard.Instance.EnemyRoundList.Add("S68");//7
+                DrawCard.Instance.EnemyRoundList.Add("S11");//8
+                DrawCard.Instance.EnemyRoundList.Add("E01S69");//9
+                DrawCard.Instance.EnemyRoundList.Add("S08");//10
+                DrawCard.Instance.EnemyRoundList.Add("S10S00");//11
+                DrawCard.Instance.EnemyRoundList.Add("S13S13");//12
+                DrawCard.Instance.EnemyRoundList.Add("S13S00");//13
+                DrawCard.Instance.EnemyRoundList.Add("S13S13");//14
+                break;
+            case 7:
+                //三重轰击+末日施法者[1]
+                AI.Instance.aiType = AIType.RoundList;
+                DrawCard.Instance.EnemyRoundList.Add("S67");//1
+                DrawCard.Instance.EnemyRoundList.Add("");//2
+                DrawCard.Instance.EnemyRoundList.Add("C07E01");//3
+                DrawCard.Instance.EnemyRoundList.Add("S02");//4
+                DrawCard.Instance.EnemyRoundList.Add("S08");//5
+                DrawCard.Instance.EnemyRoundList.Add("C02");//6
+                DrawCard.Instance.EnemyRoundList.Add("S68S68");//7
+                DrawCard.Instance.EnemyRoundList.Add("C02");//8
+                DrawCard.Instance.EnemyRoundList.Add("E03S69S69");//9
+                DrawCard.Instance.EnemyRoundList.Add("S69");//10
+                DrawCard.Instance.EnemyRoundList.Add("S08S13");//11
+                DrawCard.Instance.EnemyRoundList.Add("E01S14");//12
+                DrawCard.Instance.EnemyRoundList.Add("S09S00");//13
+                DrawCard.Instance.EnemyRoundList.Add("S14");//14
+                DrawCard.Instance.EnemyRoundList.Add("S14");//15
+                DrawCard.Instance.EnemyRoundList.Add("S14");//16
+                DrawCard.Instance.EnemyRoundList.Add("S00S13");//17
+                DrawCard.Instance.EnemyRoundList.Add("S14");//18
+                break;
+
+            case 8:
+                //小法术+光翼+动荡阵列
+                AI.Instance.aiType = AIType.RoundList;
+                DrawCard.Instance.EnemyRoundList.Add("S67");//1
+                DrawCard.Instance.EnemyRoundList.Add("");//2
+                DrawCard.Instance.EnemyRoundList.Add("E04");//3
+                DrawCard.Instance.EnemyRoundList.Add("S03");//4
+                DrawCard.Instance.EnemyRoundList.Add("E04S08");//5
+                DrawCard.Instance.EnemyRoundList.Add("S08S07");//6
+                DrawCard.Instance.EnemyRoundList.Add("E09S68");//7
+                DrawCard.Instance.EnemyRoundList.Add("S11");//8
+                DrawCard.Instance.EnemyRoundList.Add("E01S69S69");//9
+                DrawCard.Instance.EnemyRoundList.Add("S10S00");//10
+                DrawCard.Instance.EnemyRoundList.Add("S10S00");//11
+                DrawCard.Instance.EnemyRoundList.Add("S13S13");//12
+                DrawCard.Instance.EnemyRoundList.Add("S13S00");//13
+                DrawCard.Instance.EnemyRoundList.Add("S13S13");//14
+                break;
+
+            case 9:
+                //三重轰击+末日施法者[2]
+                AI.Instance.aiType = AIType.RoundList;
+                DrawCard.Instance.EnemyRoundList.Add("S67");//1
+                DrawCard.Instance.EnemyRoundList.Add("");//2
+                DrawCard.Instance.EnemyRoundList.Add("C07E01");//3
+                DrawCard.Instance.EnemyRoundList.Add("S02");//4
+                DrawCard.Instance.EnemyRoundList.Add("S08");//5
+                DrawCard.Instance.EnemyRoundList.Add("C02");//6
+                DrawCard.Instance.EnemyRoundList.Add("S68S68");//7
+                DrawCard.Instance.EnemyRoundList.Add("C02");//8
+                DrawCard.Instance.EnemyRoundList.Add("E03S69S69");//9
+                DrawCard.Instance.EnemyRoundList.Add("E02");//10
+                DrawCard.Instance.EnemyRoundList.Add("S08S13");//11
+                DrawCard.Instance.EnemyRoundList.Add("E01S14");//12
+                DrawCard.Instance.EnemyRoundList.Add("S09S00");//13
+                DrawCard.Instance.EnemyRoundList.Add("S14");//14
+                DrawCard.Instance.EnemyRoundList.Add("S14");//15
+                DrawCard.Instance.EnemyRoundList.Add("S14");//16
+                DrawCard.Instance.EnemyRoundList.Add("S00S13");//17
+                DrawCard.Instance.EnemyRoundList.Add("S14");//18
+                break;
+            case 10:
+                
                 AI.Instance.aiType = AIType.RoundList;
                 DrawCard.Instance.EnemyRoundList.Add("");//1
                 DrawCard.Instance.EnemyRoundList.Add("E01");//2
@@ -167,11 +269,8 @@ public class LevelManager : MonoBehaviour
                 DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//17
                 DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//18
                 break;
-            case 7:
-                PlayerPrefs.SetString("NewCard" , "E26E04S71");
-                DrawCard.Instance.GetNewCardList("NewCard" );
-                DrawCard.Instance.GetCardList("啦啦啦");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel" ); 
+            case 11:
+                
                 AI.Instance.aiType = AIType.RoundList;
                 DrawCard.Instance.EnemyRoundList.Add("");//1
                 DrawCard.Instance.EnemyRoundList.Add("E01");//2
@@ -192,15 +291,9 @@ public class LevelManager : MonoBehaviour
                 DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//17
                 DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//18
                 break;
-            case 8:
-
-                PlayerPrefs.SetString("NewCard", "E09C24S72");
-                DrawCard.Instance.GetNewCardList("NewCard");
-                DrawCard.Instance.GetCardList("啦啦啦");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+            case 12:
+                //三重轰击+末日施法者[3]
                 AI.Instance.aiType = AIType.RoundList;
-
-                
                 DrawCard.Instance.EnemyRoundList.Add("S67");//1
                 DrawCard.Instance.EnemyRoundList.Add("");//2
                 DrawCard.Instance.EnemyRoundList.Add("C07E01");//3
@@ -220,20 +313,14 @@ public class LevelManager : MonoBehaviour
                 DrawCard.Instance.EnemyRoundList.Add("S00S13");//17
                 DrawCard.Instance.EnemyRoundList.Add("S14");//18
                 break;
-            case 9:
+            case 13:
                 AI.Instance.aiType = AIType.CardList;
                 PlayerPrefs.SetString("EnemyLevel", "C04S71S74S08C02C04S08S10C05S70S15C03C23C05S16C03S16S08S04S01");
-                PlayerPrefs.SetString("NewCard", "E15C27E06");
-                DrawCard.Instance.GetNewCardList("NewCard");
-                DrawCard.Instance.GetCardList("啦啦啦");
                 DrawCard.Instance.GetEnemyCardList("EnemyLevel");
                 break;
-            case 10:
-                PlayerPrefs.SetString("NewCard", "E21C26E17");
-                DrawCard.Instance.GetNewCardList("NewCard");
-                DrawCard.Instance.GetCardList("啦啦啦");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
-                  AI.Instance.aiType = AIType.RoundList;
+            case 14:
+                
+                AI.Instance.aiType = AIType.RoundList;
                 DrawCard.Instance.EnemyRoundList.Add("S67");//1
                 DrawCard.Instance.EnemyRoundList.Add("S67");//2
                 DrawCard.Instance.EnemyRoundList.Add("S01");//3
@@ -253,11 +340,8 @@ public class LevelManager : MonoBehaviour
                 DrawCard.Instance.EnemyRoundList.Add("S68S68S00");//17
                 DrawCard.Instance.EnemyRoundList.Add("S00");//18
                 break;
-            case 11:
-                PlayerPrefs.SetString("NewCard", "E24E28C01");
-                DrawCard.Instance.GetNewCardList("NewCard");
-                DrawCard.Instance.GetCardList("啦啦啦");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+            case 15:
+                AI.Instance.aiType = AIType.RoundList;
                 DrawCard.Instance.EnemyRoundList.Add("");//1
                 DrawCard.Instance.EnemyRoundList.Add("");//2
                 DrawCard.Instance.EnemyRoundList.Add("S67");//3
@@ -279,11 +363,8 @@ public class LevelManager : MonoBehaviour
                 DrawCard.Instance.EnemyRoundList.Add("S00");//19
 
                 break;
-            case 12:
-                PlayerPrefs.SetString("NewCard", "C03C17C29C13");
-                DrawCard.Instance.GetNewCardList("NewCard");
-                DrawCard.Instance.GetCardList("啦啦啦");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+            case 16:
+                
                 AI.Instance.aiType = AIType.RoundList;
                 
                 DrawCard.Instance.EnemyRoundList.Add("");//1
@@ -305,14 +386,14 @@ public class LevelManager : MonoBehaviour
                 DrawCard.Instance.EnemyRoundList.Add("S00S13");//17
 
                 break;
-            case 13:
+            case 17:
                 AI.Instance.aiType = AIType.CardList;
                 PlayerPrefs.SetString("EnemyLevel", "C04S71S74S08C02C04S08S10C05S70S15C03C23C05S16C03S16S08S04S01");
-                DrawCard.Instance.GetCardList("啦啦啦");
+                
                 DrawCard.Instance.GetEnemyCardList("EnemyLevel");
                 break;
             default:
-                SetLevel(Random.Range(7, 14));
+                SetLevel(Random.Range(6, 17));
                 break;
         }
     }
@@ -344,7 +425,7 @@ public class LevelManager : MonoBehaviour
             SetLevel(level);
         else
         {
-            DrawCard.Instance.GetCardList("啦啦啦");
+            
         }
         
         //GameObject.Find("EndTurnTexture").AddComponent<Sand>();
