@@ -1,0 +1,13 @@
+F:\unity project\6.21\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+F:\unity project\6.21\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+F:\unity project\6.21\Temp\UnityVS_bin\Debug\Assembly-UnityScript-firstpass.dll
+F:\unity project\6.21\Temp\UnityVS_bin\Debug\UnityEditor.dll
+F:\unity project\6.21\Temp\UnityVS_bin\Debug\UnityEngine.dll
+F:\unity project\6.21\Temp\UnityVS_bin\Debug\Vectrosity.dll
+F:\unity project\6.21\Temp\UnityVS_bin\Debug\UnityEngine.xml
+F:\unity project\6.21\Temp\UnityVS_bin\Debug\UnityEditor.xml
+F:\unity project\6.21\obj\Debug\UnityVS.6.21.CSharp.csprojResolveAssemblyReference.cache
+F:\unity project\6.21\obj\Debug\Assembly-CSharp.dll
+F:\unity project\6.21\obj\Debug\Assembly-CSharp.pdb
+F:\unity project\6.21\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll.CodeAnalysisLog.xml
+F:\unity project\6.21\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll.lastcodeanalysissucceeded

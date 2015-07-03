@@ -1,0 +1,17 @@
+F:\unity project\11.24\Temp\bin\Debug\Assembly-CSharp-Editor.dll
+F:\unity project\11.24\Temp\bin\Debug\Assembly-CSharp-Editor.pdb
+F:\unity project\11.24\Temp\bin\Debug\Assembly-UnityScript-firstpass.dll
+F:\unity project\11.24\Temp\bin\Debug\Assembly-UnityScript.dll
+F:\unity project\11.24\Temp\bin\Debug\UnityEditor.dll
+F:\unity project\11.24\Temp\bin\Debug\UnityEditor.Graphs.dll
+F:\unity project\11.24\Temp\bin\Debug\UnityEngine.dll
+F:\unity project\11.24\Temp\bin\Debug\Vectrosity.dll
+F:\unity project\11.24\Temp\bin\Debug\Mono.Cecil.dll
+F:\unity project\11.24\Temp\bin\Debug\nunit.framework.dll
+F:\unity project\11.24\Temp\bin\Debug\Unity.DataContract.dll
+F:\unity project\11.24\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+F:\unity project\11.24\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
+F:\unity project\11.24\Temp\bin\Debug\Assembly-CSharp.pdb
+F:\unity project\11.24\obj\Debug\Assembly-CSharp-Editor-vs.csprojResolveAssemblyReference.cache
+F:\unity project\11.24\obj\Debug\Assembly-CSharp-Editor.dll
+F:\unity project\11.24\obj\Debug\Assembly-CSharp-Editor.pdb

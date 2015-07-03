@@ -1,0 +1,10 @@
+F:\unity project\2.15\Temp\UnityVS_bin\Debug\Assembly-CSharp-firstpass.dll
+F:\unity project\2.15\Temp\UnityVS_bin\Debug\Assembly-CSharp-firstpass.pdb
+F:\unity project\2.15\Temp\UnityVS_bin\Debug\UnityEditor.dll
+F:\unity project\2.15\Temp\UnityVS_bin\Debug\UnityEngine.dll
+F:\unity project\2.15\Temp\UnityVS_bin\Debug\Vectrosity.dll
+F:\unity project\2.15\Temp\UnityVS_bin\Debug\UnityEngine.xml
+F:\unity project\2.15\Temp\UnityVS_bin\Debug\UnityEditor.xml
+F:\unity project\2.15\obj\Debug\UnityVS.2.15.CSharp.Plugins.csprojResolveAssemblyReference.cache
+F:\unity project\2.15\obj\Debug\Assembly-CSharp-firstpass.dll
+F:\unity project\2.15\obj\Debug\Assembly-CSharp-firstpass.pdb
