@@ -312,13 +312,31 @@ public class GuideText : MonoBehaviour
                 uiLabel.text = "连线的水晶不能移动，重复连线可以取消连线";
                 SEWarning.audio.Play();
                 break;
-            case "AuraManager": uiLabel.text = AuraManager.Instance.auraText; this.page=1000; return;
-            case "EnemyAura":uiLabel.text= AuraManager.Instance.enemyAuraText;return;
+            case "AuraManager": 
+                LabeltextAsAura(AuraManager.Instance.auraText, AuraManager.Instance.GetAuraListCount()); 
+                this.page = 1000; 
+                return;
+            case "EnemyAura":
+                LabeltextAsAura(AuraManager.Instance.enemyAuraText, AuraManager.Instance.GetEnemyAuraListCount()); 
+                return;
             case "NeedEnergy": uiLabel.text = "能量不足！"; SEGuiding.audio.Play(); break;
             case "NeedPattern": uiLabel.text = "没有合适的魔法阵！"; SEGuiding.audio.Play(); break;
             case "NeedSymmetryPattern": uiLabel.text = "第二张需要另一个对称的魔法阵！"; SEGuiding.audio.Play(); break;
             //case "NeedEnergy": uiLabel.text = ""; SEGuiding.audio.Play(); break;
         }
+    }
+    void LabeltextAsAura(string auraText,int auraNum)
+    {
+        uiLabel.text = auraText;
+        if (auraNum >= 5)
+        {
+            uiLabel.fontSize = 35;
+        }
+        else
+        {
+            uiLabel.fontSize = 45;
+        }
+        return;
     }
     void Text(int page)
     {
@@ -333,15 +351,7 @@ public class GuideText : MonoBehaviour
             case 106: uiLabel.text = "You Win!\n\n恭喜你获得新卡，在[b]卡组调整[/b]中可以修改卡组"; return;
             case 1000:
             case 1001: 
-                uiLabel.text = AuraManager.Instance.auraText;
-                if(AuraManager.Instance.auraList.Count>=5)
-                {
-                    uiLabel.fontSize = 35;
-                }
-                else
-                {
-                    uiLabel.fontSize = 45;
-                }
+                LabeltextAsAura(AuraManager.Instance.auraText, AuraManager.Instance.GetAuraListCount());
                 return;
         }
         //Debug.Log(PageText.Length.ToString());

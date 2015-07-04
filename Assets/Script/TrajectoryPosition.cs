@@ -9,7 +9,7 @@ public class TrajectoryPosition : MonoBehaviour {
     public GameObject MyL_Trajectory_pos;
     public GameObject MyM_Trajectory_pos;
     public GameObject MyR_Trajectory_pos;
-    public int ID;
+    public TrajectoryType ID;
     public delegate void SetTrajectoryEvent();
     public event SetTrajectoryEvent SetTrajectory;
 	// Use this for initialization

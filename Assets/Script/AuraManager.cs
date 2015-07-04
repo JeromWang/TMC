@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class AuraManager : MonoBehaviour {
     public static AuraManager Instance;
-    public List<Card> auraList;
-    public List<Card> enemyAuraList;
+    List<Card> auraList=new List<Card>();
+    List<Card> enemyAuraList=new List<Card> ();
     public string auraText;
     public string enemyAuraText;
     public int costMinus = 0;
@@ -20,8 +20,29 @@ public class AuraManager : MonoBehaviour {
     public bool E02Enemy = false;
     public bool E28Heros = false;
     public bool E28Enemy = false;
-    public List<Card> auraStartTurnList=new List<Card>();
-	// Use this for initialization
+    public bool E24Heros = false;
+    public bool E26_LeftHeros = false;
+    public bool E26_RightHeros = false;
+    List<Card> auraStartTurnList=new List<Card>();
+
+    public int GetEnemyAuraListCount()
+    {
+        return enemyAuraList.Count;
+    }
+    public int GetAuraListCount()
+    {
+        return auraList.Count;
+    }
+    void ENumberInitial()
+    {
+        E02Heros = false;
+        E02Enemy = false;
+        E24Heros = false;
+        E28Heros = false;
+        E28Enemy = false;
+        E26_LeftHeros = false;
+        E26_RightHeros = false;
+    }
 	void Start () {
         AuraManager.Instance = this;
 	}
@@ -106,6 +127,8 @@ public class AuraManager : MonoBehaviour {
             case "E21":
                 enemyHealthPlus += 2;
                 break;
+            case "E24":
+                break;
             case "E26":
                 break;
             case "E28":
@@ -158,6 +181,8 @@ public class AuraManager : MonoBehaviour {
                 break;
             case "E21":
                 enemyHealthPlus -= 2;
+                break;
+            case "E24":
                 break;
             case "E26":
                 break;
@@ -219,11 +244,17 @@ public class AuraManager : MonoBehaviour {
             case "E21":
                 healthPlus += 2;
                 break;
+            case "E24":
+                E24Heros = true;
+                break;
             case "E26": 
-                string patternUsed=aura.PatternUsed.ToString();
-                foreach(AttackMagic attackMagic in AttackManager.Instance.attackMagicList)
+                if (aura.PatternUsed == 1)
                 {
-                    attackMagic.AddEffect("E26" +patternUsed , 1);
+                    E26_LeftHeros = true;
+                }
+                if (aura.PatternUsed==2)
+                {
+                    E26_RightHeros = true;
                 }
                 break;
             case "E28":
@@ -248,7 +279,7 @@ public class AuraManager : MonoBehaviour {
                     attackMagic.UpdateTexture();
                     if (attackMagic.GetEffectValue("Freedom") == 0 && E02Heros == false)
                     {
-                        if (attackMagic.trajectory == -1 && aura.PatternUsed == 1 || attackMagic.trajectory == 1 && aura.PatternUsed == 2)
+                        if (attackMagic.trajectory == TrajectoryType.Left && aura.PatternUsed == 1 || attackMagic.trajectory == TrajectoryType.Right && aura.PatternUsed == 2)
                         {
                             attackMagic.trajectory = 0;
                         }
@@ -299,14 +330,23 @@ public class AuraManager : MonoBehaviour {
             case "E21":
                 healthPlus -= 2;
                 break;
+            case "E24":
+                E24Heros = false;
+                break;
             case "E26": 
-                string patternUsed=aura.PatternUsed.ToString();
+                if (aura.PatternUsed == 1)
+                {
+                    E26_LeftHeros = false;
+                }
+                if (aura.PatternUsed == 2)
+                {
+                    E26_RightHeros = false;
+                }
                 foreach(AttackMagic attackMagic in AttackManager.Instance.attackMagicList)
                 {
-                    attackMagic.RemoveEffect("E26" +patternUsed);
                     if(attackMagic.GetEffectValue("Freedom")==0 && E02Heros==false)
                     {
-                        if(attackMagic.trajectory==-1 && aura.PatternUsed==1 ||attackMagic.trajectory==1 && aura.PatternUsed==2)
+                        if (attackMagic.trajectory == TrajectoryType.Left && aura.PatternUsed == 1 || attackMagic.trajectory == TrajectoryType.Right && aura.PatternUsed == 2)
                         {
                             attackMagic.trajectory = 0;
                         }
@@ -341,10 +381,8 @@ public class AuraManager : MonoBehaviour {
         largeAttackPlus = 0;
         enemySmallAttackPlus = 0;
         enemyLargeAttackPlus = 0;
-        E02Heros = false;
-        E02Enemy = false;
-        E28Heros = false;
-        E28Enemy = false;
+        ENumberInitial();
+
     }
     public void Restart()
     {

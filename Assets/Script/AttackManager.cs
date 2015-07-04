@@ -43,13 +43,6 @@ public class AttackManager: MonoBehaviour
 
         EnergyManager.Instance.StartTurn += this.AIAttack;
     }
-    //public void ChangePos()
-    //{
-    //    for (int i = 0; i < attackMagicList.Count - 1; i++)
-    //    {
-
-    //    }
-    //}
 	public void EndGame()
     {
         for(int i=attackMagicList.Count-1;i>=0;i--)
@@ -133,55 +126,55 @@ public class AttackManager: MonoBehaviour
             <=attackFreedom)
         {
             //Debug.Log("2");
-            SetFreedomTrajectory(-1);
+            SetFreedomTrajectory(TrajectoryType.Left);
         }
         else if ((hero.health + (ShieldManager.Instance.R_DefenseMagic != null ? ShieldManager.Instance.R_DefenseMagic.magicValue : 0))
             <= attackFreedom)
         {
             //Debug.Log("3");
-            SetFreedomTrajectory(1);
+            SetFreedomTrajectory(TrajectoryType.Right);
         }
         //不要主动去打盾
         else if (ShieldManager.Instance.M_DefenseMagic == null && ShieldManager.Instance.L_DefenseMagic != null && ShieldManager.Instance.R_DefenseMagic != null)
         {
             //Debug.Log("14");
-            SetFreedomTrajectory(0);
+            SetFreedomTrajectory(TrajectoryType.Middle);
         }
         else if (ShieldManager.Instance.M_DefenseMagic != null && ShieldManager.Instance.L_DefenseMagic == null && ShieldManager.Instance.R_DefenseMagic != null)
         {
             //Debug.Log("15");
-            SetFreedomTrajectory(-1);
+            SetFreedomTrajectory(TrajectoryType.Left);
         }
         else if (ShieldManager.Instance.M_DefenseMagic != null && ShieldManager.Instance.L_DefenseMagic != null && ShieldManager.Instance.R_DefenseMagic == null)
         {
             //Debug.Log("16");
-            SetFreedomTrajectory(1);
+            SetFreedomTrajectory(TrajectoryType.Right);
         }
         else if (ShieldManager.Instance.M_DefenseMagic == null && ShieldManager.Instance.L_DefenseMagic == null && ShieldManager.Instance.R_DefenseMagic != null)
         {
             //Debug.Log("17");
-            SetFreedomTrajectory(-1);
+            SetFreedomTrajectory(TrajectoryType.Left);
         }
         else if (ShieldManager.Instance.M_DefenseMagic == null && ShieldManager.Instance.L_DefenseMagic != null && ShieldManager.Instance.R_DefenseMagic == null)
         {
             //Debug.Log("18");
-            SetFreedomTrajectory(1);
+            SetFreedomTrajectory(TrajectoryType.Right);
         }
         //优先破刷新
         else if (ShieldManager.Instance.M_DefenseMagic != null && ShieldManager.Instance.M_DefenseMagic.HasEffect("Refresh") && (ShieldManager.Instance.M_DefenseMagic.MagicMax <= (attackFreedom + attackMiddle)))
         {
             //Debug.Log("4");
-            SetFreedomTrajectory(0);
+            SetFreedomTrajectory(TrajectoryType.Middle);
         }
         else if (ShieldManager.Instance.L_DefenseMagic != null && ShieldManager.Instance.L_DefenseMagic.HasEffect("Refresh") && (ShieldManager.Instance.L_DefenseMagic.MagicMax <= attackFreedom))
         {
             //Debug.Log("5");
-            SetFreedomTrajectory(-1);
+            SetFreedomTrajectory(TrajectoryType.Left);
         }
         else if (ShieldManager.Instance.R_DefenseMagic != null && ShieldManager.Instance.R_DefenseMagic.HasEffect("Refresh") && (ShieldManager.Instance.R_DefenseMagic.MagicMax <= attackFreedom))
         {
             //Debug.Log("6");
-            SetFreedomTrajectory(1);
+            SetFreedomTrajectory(TrajectoryType.Right);
         }
         else
         {
@@ -192,16 +185,16 @@ public class AttackManager: MonoBehaviour
                 {
                     for (; a.trajectory == 0; )
                     {
-                        a.trajectory = Random.Range(-1, 2);
-                        if (a.trajectory == 1 && ShieldManager.Instance.R_DefenseMagic != null)
+                        a.trajectory = (TrajectoryType)Random.Range(-1, 2);
+                        if (a.trajectory == TrajectoryType.Right && ShieldManager.Instance.R_DefenseMagic != null)
                         {
                             if (ShieldManager.Instance.L_DefenseMagic == null || ShieldManager.Instance.L_DefenseMagic != null && !ShieldManager.Instance.L_DefenseMagic.HasEffect("Refresh"))
-                                 a.trajectory = -1;
+                                 a.trajectory = TrajectoryType.Left;
                         }
-                        else if(a.trajectory == -1 && ShieldManager.Instance.L_DefenseMagic != null)
+                        else if (a.trajectory == TrajectoryType.Left && ShieldManager.Instance.L_DefenseMagic != null)
                         {
                             if (ShieldManager.Instance.R_DefenseMagic == null || ShieldManager.Instance.R_DefenseMagic != null && !ShieldManager.Instance.R_DefenseMagic.HasEffect("Refresh"))
-                            a.trajectory = 1;
+                                a.trajectory = TrajectoryType.Right;
                         }
                     }
                 }
@@ -209,7 +202,7 @@ public class AttackManager: MonoBehaviour
         }
 
     }
-    void SetFreedomTrajectory(int t)
+    void SetFreedomTrajectory(TrajectoryType t)
     {
         if(AuraManager.Instance.E02Enemy==true)
         {

@@ -118,7 +118,7 @@ public class Client : MonoBehaviour
     {
         networkView.RPC("EndRound", RPCMode.Others, Client.Instance.GetLocalIp());
     }
-    public void OnTrajectoryChange(int attackID, int trajectory)
+    public void OnTrajectoryChange(int attackID, TrajectoryType trajectory)
     {
         networkView.RPC("TrajectoryChange", RPCMode.Others, Client.Instance.GetLocalIp(), attackID, trajectory);
     }

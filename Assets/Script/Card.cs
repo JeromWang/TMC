@@ -403,13 +403,6 @@ public class Card : MonoBehaviour
             attackMagic.myWaitNum = AttackManager.Instance.WaitNum;
             AttackManager.Instance.AttackID++;
             attackMagic.attackID = AttackManager.Instance.AttackID;
-            foreach (Card c in AuraManager.Instance.auraList)
-            {
-                if (c.ID == "E26")
-                {
-                    attackMagic.AddEffect("E26" + c.PatternUsed.ToString(), 1);
-                }
-            }
         }
         else
         {
@@ -451,6 +444,17 @@ public class Card : MonoBehaviour
         }
         Destroy(obj, 5f);
     }
+    void AuraE24Return()
+    {
+        if (ID[0] != 'E')
+        {
+            EnergyManager.Instance.cardUsedTurn++;
+            if (AuraManager.Instance.E24Heros && EnergyManager.Instance.cardUsedTurn == 1)
+            {
+                AddEffect("ReturnOnce", 1);
+            }
+        }
+    }
     public IEnumerator Use()
     {
         // Debug.Log(ID);
@@ -473,17 +477,7 @@ public class Card : MonoBehaviour
         {
             #region isHeros
             EnergyManager.Instance.MyCardUse();//我的出牌事件
-            if(ID[0]!='E')
-            {
-                EnergyManager.Instance.cardUsedTurn++;
-                foreach (Card c in AuraManager.Instance.auraList)
-                {
-                    if (c.ID == "E24" && EnergyManager.Instance.cardUsedTurn==1)
-                    {
-                        AddEffect("ReturnOnce",1);
-                    }
-                }
-            }
+            AuraE24Return();
 
             EnergyManager.Instance.MinusEnergy(cost);//消耗能量
             if (ID[0] == 'C')

@@ -351,7 +351,7 @@ public class EnergyManager : MonoBehaviour
                 {
                     if (a.enemyAttackID.ToString() == enemyOperationID[enemyOperationIndex])
                     {
-                        a.trajectory = enemyTrajectoryID[enemyOperationIndex];
+                        a.trajectory = (TrajectoryType)enemyTrajectoryID[enemyOperationIndex];
                     }
                 }
             }

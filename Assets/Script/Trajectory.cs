@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Trajectory : MonoBehaviour
 {
-    public int ID;
+    public TrajectoryType ID;
     void OnMouseDown()
     {
         TrajectoryPosition.Instance.ID = this.ID;

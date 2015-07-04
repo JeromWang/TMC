@@ -13618,12 +13618,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 230770355}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4ac98256c2a3084c9da6bb495b7de13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: -1
+  ID: 1
 --- !u!64 &230770358
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -31324,7 +31324,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 676185827}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4ac98256c2a3084c9da6bb495b7de13, type: 3}
   m_Name: 
@@ -46108,7 +46108,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1043979128}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4ac98256c2a3084c9da6bb495b7de13, type: 3}
   m_Name: 
@@ -53992,7 +53992,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 1
   key: []
-  debugLevel: 8
+  debugLevel: 2
   ESC: {fileID: 1034202192}
   RoundLabel: {fileID: 138735439}
   ExplainLabel: {fileID: 586296027}
@@ -54104,8 +54104,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a75a0ae8d787754c86a4fd9f30be76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  auraList: []
-  enemyAuraList: []
   auraText: 
   enemyAuraText: 
   costMinus: 0
@@ -54120,7 +54118,9 @@ MonoBehaviour:
   E02Enemy: 0
   E28Heros: 0
   E28Enemy: 0
-  auraStartTurnList: []
+  E24Heros: 0
+  E26_LeftHeros: 0
+  E26_RightHeros: 0
 --- !u!1 &1395597218
 GameObject:
   m_ObjectHideFlags: 0

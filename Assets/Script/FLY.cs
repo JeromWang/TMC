@@ -6,7 +6,7 @@ public class FLY : MonoBehaviour
     //GameObject MainCamera;
     public GameObject Explode;
     public Vector3 RandPosition;
-    public int trajectory;
+    public TrajectoryType trajectory;
     public float rotate = 0f;
     Vector3 nextDestination;
     float a = (880.0f - 850.0f) / 2;//椭圆轨迹长轴
@@ -54,13 +54,13 @@ public class FLY : MonoBehaviour
             }
             if (isHeros)
             {
-                if (trajectory == 1) //if (transform.position.x > x_standard_m)
+                if (trajectory == TrajectoryType.Right) //if (transform.position.x > x_standard_m)
                 {
                     nextDestination.y = y;
                     nextDestination.z = a * ((1 + k) * ((t - time_to_prepare) * (t - time_to_prepare)) / (time * time) - k) + oz + v0 * (t - time_to_prepare);
                     nextDestination.x = b * Mathf.Sqrt(1 - Mathf.Pow((nextDestination.z-oz)/a, 2)) + ox;
                 }
-                else if (trajectory == -1)//if (transform.position.x < x_standard_m)
+                else if (trajectory == TrajectoryType.Left)//if (transform.position.x < x_standard_m)
                 {
                     nextDestination.y = y;
                     nextDestination.z = a * ((1 + k) * ((t - time_to_prepare) * (t - time_to_prepare)) / (time * time) - k) + oz + v0 * (t - time_to_prepare);
@@ -75,13 +75,13 @@ public class FLY : MonoBehaviour
             }
             else if (!isHeros)
             {
-                if (trajectory == 1)//if (transform.position.x > x_standard_m)
+                if (trajectory == TrajectoryType.Right)//if (transform.position.x > x_standard_m)
                 {
                     nextDestination.y = y;
                     nextDestination.z = -a * ((1 + k) * ((t - time_to_prepare) * (t - time_to_prepare)) / (time * time) - k) + oz - v0 * (t - time_to_prepare);
                     nextDestination.x = b * Mathf.Sqrt(1 - Mathf.Pow((nextDestination.z-oz)/a, 2)) + ox;
                 }
-                else if (trajectory == -1)//if (transform.position.x < x_standard_m)
+                else if (trajectory == TrajectoryType.Left)//if (transform.position.x < x_standard_m)
                 {
                     nextDestination.y = y;
                     nextDestination.z = -a * ((1 + k) * ((t - time_to_prepare) * (t - time_to_prepare)) / (time * time) - k) + oz - v0 * (t - time_to_prepare);
@@ -102,13 +102,13 @@ public class FLY : MonoBehaviour
             Vector3 neolocation;
             if (isHeros)
             {
-                if (trajectory == 1) //if (transform.position.x > x_standard_m)
+                if (trajectory == TrajectoryType.Right) //if (transform.position.x > x_standard_m)
                 {
                     neolocation.x = x_standard_r;
                     neolocation.y = y;
                     neolocation.z = z_standard_r;
                 }
-                else if (trajectory == -1)//if (transform.position.x < x_standard_m)
+                else if (trajectory == TrajectoryType.Left)//if (transform.position.x < x_standard_m)
                 {
                     neolocation.x = x_standard_l;
                     neolocation.y = y;
@@ -123,13 +123,13 @@ public class FLY : MonoBehaviour
             }
             else
             {
-                if (trajectory == 1)//if (transform.position.x > x_standard_m)
+                if (trajectory == TrajectoryType.Right)//if (transform.position.x > x_standard_m)
                 {
                     neolocation.x = x_standard_r;
                     neolocation.y = y;
                     neolocation.z = z_standard_r+2*(oz-z_standard_r);
                 }
-                else if (trajectory == -1)//if (transform.position.x < x_standard_m)
+                else if (trajectory == TrajectoryType.Left)//if (transform.position.x < x_standard_m)
                 {
                     neolocation.x = x_standard_l;
                     neolocation.y = y;

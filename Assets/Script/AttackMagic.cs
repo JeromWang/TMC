@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum TrajectoryType//enemy 的left和hero的一样，都是左边
+{
+    Left=-1,Middle=0,Right=1
+}
 public class AttackMagic : Magic
 {
     public GameObject Explode;
@@ -11,7 +15,7 @@ public class AttackMagic : Magic
     public int eWaitNum = 0;
     public static bool chooseTrajectory = false;
     public int waitToFire = -100;
-    public int trajectory = 0;
+    public TrajectoryType trajectory = TrajectoryType.Middle;
     public int attackID=-1;
     public int enemyAttackID=-1;
     public int magicValuePlus = 0;
@@ -152,11 +156,11 @@ public class AttackMagic : Magic
             TrajectoryPosition.Instance.ShowPosition(-1);
             TrajectoryPosition.Instance.ShowPosition(1);
         }
-        else if (Effect.ContainsKey("E261"))
+        else if (AuraManager.Instance.E26_LeftHeros)
         {
             TrajectoryPosition.Instance.ShowPosition(-1);
         }
-        else if (Effect.ContainsKey("E262"))
+        else if (AuraManager.Instance.E26_RightHeros)
         {
             TrajectoryPosition.Instance.ShowPosition(1);
         }
@@ -166,10 +170,12 @@ public class AttackMagic : Magic
     public void SetTrajectory()
     {
         //Debug.Log("SetTrajectory");
-        trajectory = TrajectoryPosition.Instance.ID;
+        trajectory = (TrajectoryType)TrajectoryPosition.Instance.ID;
         if (LevelManager.Instance.IsOnline)
         {
-            Client.Instance.OnTrajectoryChange(attackID, -trajectory);
+            int tempT=(int)trajectory;
+            tempT=-tempT;
+            Client.Instance.OnTrajectoryChange(attackID, (TrajectoryType)tempT);
         }
         TrajectoryPosition.Instance.HidePosition();
         TrajectoryPosition.Instance.SetTrajectory -= this.SetTrajectory;
@@ -440,7 +446,7 @@ public class AttackMagic : Magic
             }
             explainLabel.text += "等待:" + waitToFire.ToString();
             if (isHeros)
-                TrajectoryPosition.Instance.ShowMyTrajectory(trajectory);
+                TrajectoryPosition.Instance.ShowMyTrajectory((int)trajectory);
         }
     }
     new void OnMouseExit()
