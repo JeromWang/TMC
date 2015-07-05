@@ -20,8 +20,7 @@ public class DeckCard : MonoBehaviour {
               //  Debug.Log("no"); 
                 transform.localScale = new Vector3(1f,1f,1f);
                 transform.localPosition = transform.localPosition + new Vector3(0.1f, 0, 0);
-                Deck.Instance.Tile(Deck.Instance.CardZone);
-                Deck.Instance.Tile(Deck.Instance.PoolZone);
+                Deck.Instance.Tile();
                 
                 magnify = false;
             }

@@ -3,10 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Deck : MonoBehaviour {
+    public static Deck Instance;
     public GameObject card;
+
+    //用于显示位置和未保存时list的储存
     public Transform CardZone;
     public Transform PoolZone;
-    public static Deck Instance;
+
+
+    //用于初始化和保存
     List<string> PoolList = new List<string>();
     List<string> CardList = new List<string>();
     //List<string> DeckList = new List<string>();
@@ -28,6 +33,14 @@ public class Deck : MonoBehaviour {
             PoolList.Remove("S05");
             PoolList.Remove("S71");
             PoolList.Remove("S72");
+            if(LevelManager.Instance.level>7)
+            {
+                PoolList.Add("S71");
+            }
+            if (LevelManager.Instance.level > 8)
+            {
+                PoolList.Add("S72");
+            }
 
             PoolList.Add("C02");
 
@@ -128,11 +141,10 @@ public class Deck : MonoBehaviour {
         }
         StartCoroutine(ShowCardList());
         StartCoroutine(ShowCardPool());
-        UpdateNumberLabel();
 	}
     void UpdateNumberLabel()
     {
-        numberLabel.text = CardList.Count.ToString() + "/20";
+        numberLabel.text = CardZone.transform.childCount.ToString() + "/20";
         if (CanSave())
             numberLabel.color = Color.black;
         else
@@ -143,7 +155,7 @@ public class Deck : MonoBehaviour {
     }
     bool CanSave()
     {
-        if (CardList.Count == 20)
+        if (CardZone.transform.childCount == 20)
             return true;
         return false;
     }
@@ -181,6 +193,11 @@ public class Deck : MonoBehaviour {
     }
     void SaveDeck(string deckName)
     {
+        CardList.Clear();
+        foreach(Transform temp in CardZone.transform)
+        {
+            CardList.Add(temp.GetComponent<Card>().ID);
+        }
         CardList.Sort();
         string s = "";
         foreach(string cardName in CardList)
@@ -207,6 +224,7 @@ public class Deck : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
         }
         Tile(CardZone);
+        UpdateNumberLabel();
         
     }
     IEnumerator ShowCardPool()
@@ -218,14 +236,15 @@ public class Deck : MonoBehaviour {
         }
         Tile(PoolZone);
     }
-    public void Tile(Transform t)
+    void Tile(Transform t)
     {
+        //Debug.Log("Tile");
         int x = 0;
-       foreach(Transform temp in t.transform)
-       {
-           temp.position = x * (new Vector3(0f, 0f, -0.2f)) + t.position;
-           x++;
-       }
+        foreach (Transform temp in t.transform)
+        {
+            temp.position = x * (new Vector3(0f, 0f, -0.2f)) + t.position;
+            x++;
+        }
     }
     public void ChangeList(Transform t)
     {
@@ -234,36 +253,43 @@ public class Deck : MonoBehaviour {
        // Debug.Log(cardScript.ID);
         if(deckCard.inPool)
         {
-            foreach (string s in PoolList)
-            {
-                if (cardScript.ID == s)
-                {
-                    //Debug.Log("pool");
-                    PoolList.Remove(s);
-                    CardList.Add(s);
-                    t.parent = CardZone;
-                    break;
-                }
-            }
+            //foreach (string s in PoolList)
+            //{
+            //    if (cardScript.ID == s)
+            //    {
+            //        //Debug.Log("pool");
+            //        PoolList.Remove(s);
+            //            CardList.Add(s);
+            //        t.parent = CardZone;
+            //        break;
+            //    }
+            //}
+            t.parent = CardZone;
         }
         else
         {
-            foreach (string s in CardList)
-            {
-                if (cardScript.ID == s)
-                {
-                   // Debug.Log("card");
-                    CardList.Remove(s);
-                    PoolList.Add(s);
-                    t.parent = PoolZone;
-                    break;
-                }
-            }
+            //foreach (string s in CardList)
+            //{
+            //    if (cardScript.ID == s)
+            //    {
+            //       // Debug.Log("card");
+            //        CardList.Remove(s);
+            //        if(iniPool)//如果初始化完了
+            //            PoolList.Add(s);
+            //        t.parent = PoolZone;
+            //        break;
+            //    }
+            //}
+            t.parent = PoolZone;
         }
 
-        deckCard.inPool = !deckCard.inPool;
+        deckCard.inPool = !deckCard.inPool; 
+        Tile();
+        UpdateNumberLabel();
+    }
+    public void Tile()
+    {
         Tile(PoolZone);
         Tile(CardZone);
-        UpdateNumberLabel();
     }
 }

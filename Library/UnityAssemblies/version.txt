@@ -1,3 +1,3 @@
 4.5.1f3:1.9.9.0
-StandaloneWindows
+StandaloneOSXIntel
 D:/Unity/Data/Managed/UnityEditor.Graphs.dll

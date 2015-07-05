@@ -6,7 +6,7 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
     //public static bool Guiding = false;
-    public int level;
+    public int level=1;
     public List<string> key;
     public int debugLevel;
 
