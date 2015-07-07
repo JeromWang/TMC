@@ -11,6 +11,7 @@ public class GuideText : MonoBehaviour
     public int page;
     public GameObject backLight;
     public GameObject energyPlusLabel;
+    public GameObject attentionLabel;
     GameObject SEWarning;
     GameObject SEGuiding;
     bool startChangeLabel = true;
@@ -23,10 +24,10 @@ public class GuideText : MonoBehaviour
                              "         魔法教学III",//3
                              "          随堂小测",//4
                              "         简单的试炼",//5
-                             "   “我要开始认真啦！”",//6
-                             "        “打得不错”",//7
-                             "   “留在这关陪我玩吧”",//8
-                             "   “滚回去改卡组吧！”",//9
+                             "        “打得不错”",//6
+                             "   “我要开始认真啦！”",//7
+                             "   “滚回去改卡组吧！”",//8
+                             "   “留在这关陪我玩吧”",//9
                              " “你竟然能到这里？！”",//10
                              "      旗鼓相当的对手",//11
                              "     “对此我很抱歉”",//12
@@ -48,7 +49,7 @@ public class GuideText : MonoBehaviour
                             "法阵上最多只能有12颗水晶,之后可以调整水晶的位置",//7
                             "只有具有[b]弹道自由[/b]的法术可以选择弹道，其他法术只能从中路进攻",//8
                             //Level2：
-                            "上面有图案的牌，需要将法阵摆成相应图案才能发动，按照手牌[b]图案[/b]进行[b]连线：右键点击两颗水晶连线[/b]",//9
+                            "上面有图案的牌，需要将法阵摆成相应图案才能发动，[b]按照手牌图案摆放水晶[/b]",//9
                             "面板下方Round后面的数字表示当前的回合数，后面的★表示还能移动几颗水晶;斜杠前方为当前能量，斜杠后方为能量上限",//10
                             "任意点击[b]三个蓝色指示[/b]中的一个，防御魔法会在对应位置生成",//11
                             "魔法上的绿色数字表示它的防御力",//12
@@ -78,8 +79,9 @@ public class GuideText : MonoBehaviour
                             "[b]刷新[/b]：回合开始时该防御魔法恢复到原有的强度",//30
                             //Level 6
                             "将鼠标移到对手头像上上可以查看对手结界",//31
-                            "",//
-                            "",//
+                            //Level 2 补充4
+                            "[b]右键点击两颗水晶进行连线[/b]，以完成图案",//32
+                            "魔法阵上可以有多余的连线",//33
                             "",//
                             "[b]同一弹道的双方攻击魔法会在结算阶段相碰撞[/b]",//
                             "",//
@@ -403,5 +405,31 @@ public class GuideText : MonoBehaviour
     void EnergyPlusLabelHide()
     {
         energyPlusLabel.SetActive(false);
+    }
+    public void AttentionLabelHint()
+    {
+        //Debug.Log("AttentionLabel");
+        attentionLabel.SetActive(true);
+        Invoke("AttentionLabelHide", 15f);
+    }
+    void AttentionLabelHide()
+    {
+        attentionLabel.SetActive(false);
+    }
+    public void GuideLevel(int level,int returnText,string key)
+    {
+        if (LevelManager.Instance.level == level && LevelManager.Instance.key.Contains(key))
+        {
+            ReturnText(returnText);
+            LevelManager.Instance.key.Remove(key);
+        }
+    }
+    public void GuideLevel(int level,int round, int returnText, string key)
+    {
+        if (LevelManager.Instance.level == level && LevelManager.Instance.key.Contains(key)&&EnergyManager.Instance.roundCount==round)
+        {
+            ReturnText(returnText);
+            LevelManager.Instance.key.Remove(key);
+        }
     }
 }

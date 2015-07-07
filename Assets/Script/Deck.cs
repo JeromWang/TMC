@@ -47,11 +47,7 @@ public class Deck : MonoBehaviour {
 
             PoolList.Add("C05");
             PoolList.Add("C07");
-            //PoolList.Add("C10");
             PoolList.Add("C11");
-
-            //PoolList.Add("E01");
-
 
             if (LevelManager.Instance.level > 4)
             {

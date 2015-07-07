@@ -286,6 +286,7 @@ public class RayTest : MonoBehaviour
                         DeleteLine(l1, l2);
                         VectorLine.Destroy(ref temp1);
                         VectorLine.Destroy(ref temp2);
+                        GuideText.Instance.GuideLevel(2, 33, "RedundentLink");
                         //EnergyManager.Instance.MinusEnergy(-1);
                         //linkStop = true;
                     }

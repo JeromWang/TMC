@@ -23,6 +23,7 @@ public class EnergyManager : MonoBehaviour
     bool testMode = false;
     GameObject handZone;
     GameObject shaLou;
+  
  //   GameObject ESC;
     UILabel EnergyLabel;
     UILabel RoundLabel;
@@ -114,13 +115,22 @@ public class EnergyManager : MonoBehaviour
         i = (GameObject)Instantiate(startParticle, new Vector3(1000f, 0.1f, 881f), new Quaternion(1, 0, 0, 0));
         i.transform.localEulerAngles = new Vector3(0, 0, 0);
         Destroy(i, 5f);
+        if(LevelManager.Instance.level<3)
+        {
+            AttentionLabel();
+        }
     }
     void GameStart()
     {
         if (LevelManager.Instance.level > 3 || LevelManager.Instance.IsOnline|| LevelManager.Instance.level==0)
+        {
             StartGame();
+        }
         else
+        {
             CameraMoving.Instance.StartGame();
+        }
+            
         GuideText.Instance.StartGame();
 
         roundCount++;
@@ -178,25 +188,14 @@ public class EnergyManager : MonoBehaviour
         {
             GuideText.Instance.EnergyPlusLabelHint();
         }
-        if (LevelManager.Instance.level == 1 && LevelManager.Instance.key.Contains("AddEnergy"))
-        {
-            GuideText.Instance.ReturnText(2);
-            LevelManager.Instance.key.Remove("AddEnergy");
-        }
-        if (LevelManager.Instance.level == 1 && roundCount==2 && LevelManager.Instance.key.Contains("MouseDown"))
-        {
-            GuideText.Instance.ReturnText(22);
-            LevelManager.Instance.key.Remove("MouseDown");
-        }
+        GuideText.Instance.GuideLevel(1, 2, "AddEnergy");
+        GuideText.Instance.GuideLevel(1, 2, 22, "MouseDown");
+        GuideText.Instance.GuideLevel(2,32,"Link");
     }
     public bool MinusEnergy(int num)
     {
         //关卡判断
-        if (LevelManager.Instance.level == 2 && LevelManager.Instance.key.Contains("CostEnergy"))
-        {
-            GuideText.Instance.ReturnText(13);
-            LevelManager.Instance.key.Remove("CostEnergy");
-        }
+        GuideText.Instance.GuideLevel(2,13,"CostEnergy");
         if (num <= accessibleEnergy)
         {
             accessibleEnergy -= num;
@@ -258,6 +257,7 @@ public class EnergyManager : MonoBehaviour
                 win = true;
                 WinLose();
             }
+            #region other hidden buttons
             //if (GUILayout.Button("Show1"))
             //{
             //    explainPanel.SetActive(false);
@@ -277,6 +277,7 @@ public class EnergyManager : MonoBehaviour
             //    CameraMoving.Instance.Move(1);
             //    CameraMoving.Instance.isMoveWithSth = false;
             //}
+            #endregion
 
         }
     }
@@ -467,17 +468,18 @@ public class EnergyManager : MonoBehaviour
         }
         LevelManager.Instance.RoundLabelShow();
     }
+    void AttentionLabel()
+    {
+       // Debug.Log("AttentionLabel");
+        GuideText.Instance.AttentionLabelHint();
+    }
     public bool CrystalSee()
     {
         if (totalEnergy >= 6)
         {
             CrystalShow.Instance.ShowHide(false);
             //关卡判断
-            if (LevelManager.Instance.level == 1 && LevelManager.Instance.key.Contains("FullEnergy"))
-            {
-                GuideText.Instance.ReturnText(7);
-                LevelManager.Instance.key.Remove("FullEnergy");
-            }
+            GuideText.Instance.GuideLevel(1,7,"FullEnergy");
             return false;
         }
         else
@@ -489,31 +491,13 @@ public class EnergyManager : MonoBehaviour
     #region 教学关相关
     void Guide_startTurn()
     {
-        if (LevelManager.Instance.level == 1 && LevelManager.Instance.key.Contains("Crash") && roundCount == 3)
-        {
-            GuideText.Instance.ReturnText(5);
-            LevelManager.Instance.key.Remove("Crash");
-        }
-        if (LevelManager.Instance.level == 1 && roundCount == 2 && LevelManager.Instance.key.Contains("TurnRed"))
-        {
-            GuideText.Instance.ReturnText(21);
-            LevelManager.Instance.key.Remove("TurnRed");
-        }
-        if (LevelManager.Instance.level == 1 && roundCount == 4 && LevelManager.Instance.key.Contains("LeftRightAttack"))
-        {
-            GuideText.Instance.ReturnText(29);
-            LevelManager.Instance.key.Remove("LeftRightAttack");
-        }
-        if (LevelManager.Instance.level == 1 && LevelManager.Instance.key.Contains("OnlyFreedom") && roundCount == 5)
-        {
-            GuideText.Instance.ReturnText(8);
-            LevelManager.Instance.key.Remove("OnlyFreedom");
-        }
-        if (LevelManager.Instance.level == 2 && LevelManager.Instance.key.Contains("ExplainLabel") && roundCount == 2)
-        {
-            GuideText.Instance.ReturnText(10);
-            LevelManager.Instance.key.Remove("ExplainLabel");
-        }
+        GuideText.Instance.GuideLevel(1,3,5,"Crash");
+        GuideText.Instance.GuideLevel(1,2,21,"TurnRed");
+        GuideText.Instance.GuideLevel(1,4,29,"LeftRightAttack");
+        GuideText.Instance.GuideLevel(1,5,8,"OnlyFreedom");
+        GuideText.Instance.GuideLevel(2,2,10,"ExplainLabel");
+        GuideText.Instance.GuideLevel(2,5,"CardBack");
+        GuideText.Instance.GuideLevel(2,8,"Refresh");
         if (LevelManager.Instance.level == 2 && LevelManager.Instance.key.Contains("TopDownAura") && roundCount >= 3)
         {
             GuideText.Instance.ReturnText(23);
@@ -522,21 +506,15 @@ public class EnergyManager : MonoBehaviour
             LevelManager.Instance.pattern2.SetActive(true);
             hidePatternChose = true;
         }
-        if (LevelManager.Instance.level == 2 && LevelManager.Instance.key.Contains("CardBack") && roundCount == 5)
-        {
-            GuideText.Instance.ReturnText(24);
-            LevelManager.Instance.key.Remove("CardBack");
-        }
-        if (LevelManager.Instance.level == 2 && LevelManager.Instance.key.Contains("Refresh") && roundCount == 8)
-        {
-            GuideText.Instance.ReturnText(30);
-            LevelManager.Instance.key.Remove("Refresh");
-        }
         if (LevelManager.Instance.level == 3 && roundCount == 1)
         {
             GuideText.Instance.ReturnText(26);
         }
-        if (LevelManager.Instance.level == 6 && (roundCount == 4 || roundCount ==5 || roundCount == 6))
+        if (LevelManager.Instance.level == 6 && ( roundCount ==9 || roundCount == 10))
+        {
+            GuideText.Instance.ReturnText(31);
+        }
+        if (LevelManager.Instance.level == 7 && (roundCount == 3 || roundCount ==4 ))
         {
             GuideText.Instance.ReturnText(31);
         }
