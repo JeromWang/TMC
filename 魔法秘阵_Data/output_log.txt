@@ -1,0 +1,148 @@
+Initialize engine version: 4.5.1f3 (73cd57f80e3e)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 9.0c [nvumdshim.dll 9.18.13.4752]
+    Renderer: Intel(R) HD Graphics 4600
+    Vendor:   Intel
+    VRAM:     1024 MB (via DXGI)
+    Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=1 INTZ=1 RAWZ=0 NULL=1 RESZ=1 SlowINTZ=0
+Default GameObject Tag: Keng already registered
+ 
+(Filename:  Line: 66)
+
+Begin MonoManager ReloadAssembly
+Platform assembly: F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\Vectrosity.dll (this message is harmless)
+Loading F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\Vectrosity.dll into Unity Child Domain
+- Completed reload, in  0.049 seconds
+<RI> Initializing input.
+<RI> Input initialized.
+desktop: 1366x768 50Hz; virtual: 1366x768 at 0,0
+Platform assembly: F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\System.Xml.dll (this message is harmless)
+The tree Tree6_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Tree6_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Tree7_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Tree7_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree tree10_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree tree10_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree tree11_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree tree11_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree tree12_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree tree12_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Tree3A_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Tree3A_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Tree5A_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Tree5A_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Tree5B_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Tree5B_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Bush5 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Bush4 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Bush3 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Shrooms3 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Shrooms4 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Tree1C_LOD0 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Stamp1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Stamp2 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Stamp3 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Stamp4 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Stamp5 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Stamp12 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+The tree Stamp13 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 80)
+
+Platform assembly: F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\System.dll (this message is harmless)
+Platform assembly: F:\unity project\TMC\TMC\魔法秘阵_Data\Managed\Boo.Lang.dll (this message is harmless)

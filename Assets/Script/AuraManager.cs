@@ -67,6 +67,7 @@ public class AuraManager : MonoBehaviour {
     {
         //Debug.Log("AddAura");
         auraList.Add(aura);
+        CardBackLightHide();
         AuraAffect(aura);
         auraText+=AddAuraText(aura);
         GuideText.Instance.ReturnText(1001);//"AuraManager"
@@ -189,6 +190,14 @@ public class AuraManager : MonoBehaviour {
             case "E28":
                 E28Enemy = false;
                 break;
+        }
+    }
+    void CardBackLightHide()//手牌中相同ID的牌是否可用
+    {
+        foreach (Transform card in DrawCard.Instance.HandZone.transform)
+        {
+            Card cardScript = card.GetComponent<Card>();
+            cardScript.cardMoving.BacklightShowHide();
         }
     }
     void AuraAffect(Card aura)//新的结界卡生效

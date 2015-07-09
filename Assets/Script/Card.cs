@@ -701,28 +701,16 @@ public class Card : MonoBehaviour
         //}
 
 
-        #region 关卡判断
-        if (LevelManager.Instance.level == 1 && LevelManager.Instance.key.Contains("Freedom")&&ID=="S08")
+        #region 教学判断
+        GuideText.Instance.GuideLevel(1, 6, "Freedom", "S08", ID);
+        GuideText.Instance.GuideLevel(3, 11, "DefensePosition", "S67", ID);
+        GuideText.Instance.GuideLevel(3, 11, "DefensePosition", "S68", ID);
+        GuideText.Instance.GuideLevel(3, 16, "Prepare", "C02", ID);
+        if(ID=="C23" &&( LevelManager.Instance.level==4|| LevelManager.Instance.level==5))
         {
-            GuideText.Instance.ReturnText(6);
-            LevelManager.Instance.key.Remove("Freedom");
+            LevelManager.Instance.key.Add("Weaken");
         }
-        if (LevelManager.Instance.level == 3 && LevelManager.Instance.key.Contains("DefensePosition") && (ID == "S67" || ID == "S68"))
-        {
-            GuideText.Instance.ReturnText(11);
-            LevelManager.Instance.key.Remove("DefensePosition");
-        }
-        if (LevelManager.Instance.level == 3 && LevelManager.Instance.key.Contains("Pattern") && ID == "C07" )
-        {
-            GuideText.Instance.ReturnText(14);
-            LevelManager.Instance.key.Remove("Pattern");
-        }
-        if (LevelManager.Instance.level == 3 && LevelManager.Instance.key.Contains("Prepare") && ID == "C02")
-        {
-            GuideText.Instance.ReturnText(16);
-            LevelManager.Instance.key.Remove("Prepare");
-        }
-#endregion
+        #endregion
         if ((Effect.ContainsKey("Return") || Effect.ContainsKey("ReturnOnce")) && isHeros)
         {
             #region 回手

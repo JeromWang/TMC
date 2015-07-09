@@ -73,7 +73,7 @@ public class EnergyManager : MonoBehaviour
     bool enemyCardShowing = false;
 
     bool win = false;//胜负指示位
-    bool hidePatternChose = false;//教学关显示选择图案卡牌
+    //public bool hidePatternChose = false;//教学关显示选择图案卡牌
     void Awake()
     {
        // Debug.Log("Energy create");
@@ -171,12 +171,12 @@ public class EnergyManager : MonoBehaviour
         {
             LevelManager.Instance.ESC.SetActive(false);
         }
-        if(Input.GetMouseButtonDown(0)&&hidePatternChose)//教学关 PatternChose
-        {
-            hidePatternChose = false;
-            LevelManager.Instance.pattern1.SetActive(false);
-            LevelManager.Instance.pattern2.SetActive(false);
-        }
+        //if(Input.GetMouseButtonDown(0)&&hidePatternChose)//教学关 PatternChose
+        //{
+        //    hidePatternChose = false;
+        //    LevelManager.Instance.pattern1.SetActive(false);
+        //    LevelManager.Instance.pattern2.SetActive(false);
+        //}
     }
     public void PlusEnergy(int num)
     {
@@ -229,10 +229,6 @@ public class EnergyManager : MonoBehaviour
             //GUI.Label(new Rect(20, 210, 120, 20), "AccessibleCrystal:");
             //GUI.Label(new Rect(150, 210, 50, 20), accessibleCrystal.ToString());
 
-            if (GUILayout.Button("Moving"))
-            {
-                //CameraMoving.Instance.MoveTo();
-            }
             if (GUILayout.Button("MAX"))
             {
                 totalEnergy = 20;
@@ -495,21 +491,13 @@ public class EnergyManager : MonoBehaviour
         GuideText.Instance.GuideLevel(1,2,21,"TurnRed");
         GuideText.Instance.GuideLevel(1,4,29,"LeftRightAttack");
         GuideText.Instance.GuideLevel(1,5,8,"OnlyFreedom");
+        GuideText.Instance.GuideLevel(1, 6, 35, "Interesting");
         GuideText.Instance.GuideLevel(2,2,10,"ExplainLabel");
-        GuideText.Instance.GuideLevel(2,5,"CardBack");
-        GuideText.Instance.GuideLevel(2,8,"Refresh");
-        if (LevelManager.Instance.level == 2 && LevelManager.Instance.key.Contains("TopDownAura") && roundCount >= 3)
-        {
-            GuideText.Instance.ReturnText(23);
-            LevelManager.Instance.key.Remove("TopDownAura");
-            LevelManager.Instance.pattern1.SetActive(true);
-            LevelManager.Instance.pattern2.SetActive(true);
-            hidePatternChose = true;
-        }
-        if (LevelManager.Instance.level == 3 && roundCount == 1)
-        {
-            GuideText.Instance.ReturnText(26);
-        }
+        GuideText.Instance.GuideLevel(2,5,24,"CardBack");
+        GuideText.Instance.GuideLevel(2,8,30,"Refresh");
+        GuideText.Instance.GuideLevel(2, 23, "TopDownAura");
+        GuideText.Instance.GuideLevel(4,30, "Weaken");
+        GuideText.Instance.GuideLevel(5, 30, "Weaken");
         if (LevelManager.Instance.level == 6 && ( roundCount ==9 || roundCount == 10))
         {
             GuideText.Instance.ReturnText(31);

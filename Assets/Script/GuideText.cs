@@ -36,7 +36,8 @@ public class GuideText : MonoBehaviour
                              "     能到这关不错啊",//15
                              "   最后一关(后面没了)",//16
                              "      都说了后面没了",//17
-                             "",//15
+                             "         后面真没了",//18
+                             "",//
                          };
     string[] PageText = { "",//0
                             //Level1：
@@ -44,30 +45,31 @@ public class GuideText : MonoBehaviour
                             "法阵每回合可以增加两颗水晶，每两个水晶提供一点能量上限。现在，点击选择手牌，再次点击使用", //2
                             "[b]黄色的法阵[/b]就是卡牌[b]魔法飞弹[/b]所召唤出来的[b]攻击法阵[/b]，[b]红色数字1[/b]表示了魔法的[b]攻击力为1[/b]，[b]它会在下回合末发射[/b]" ,//3
                             "点击右侧沙漏可以结束回合",//4
-                            "[b]攻击魔法碰撞时双方的攻击力互相抵消，比如攻击力3的魔法与攻击力2的魔法碰撞后，会剩下一个攻击力1的魔法[/b]",//5
+                            "[b]攻击魔法碰撞时,双方的攻击力互相抵消。比如攻击力3的魔法与攻击力2的魔法碰撞后，会剩下一个攻击力1的魔法[/b]",//5
                             "点击生成的黄色法术",//6
                             "法阵上最多只能有12颗水晶,之后可以调整水晶的位置",//7
-                            "只有具有[b]弹道自由[/b]的法术可以选择弹道，其他法术只能从中路进攻",//8
+                            "只有具有[b]弹道自由[/b]的法术可以选择弹道，[b]它的攻击法阵与普通魔法的图案不同[/b]。普通法术默认从中路进攻",//8
                             //Level2：
                             "上面有图案的牌，需要将法阵摆成相应图案才能发动，[b]按照手牌图案摆放水晶[/b]",//9
                             "面板下方Round后面的数字表示当前的回合数，后面的★表示还能移动几颗水晶;斜杠前方为当前能量，斜杠后方为能量上限",//10
                             "任意点击[b]三个蓝色指示[/b]中的一个，防御魔法会在对应位置生成",//11
                             "魔法上的绿色数字表示它的防御力",//12
                             "每次连线会消耗一点能量",//13
-                            "带阵型的卡牌使用后阵型将变成卡牌右侧的形状",//14 ！！
-                            "攻击魔法的[b]【等待】[/b]表示其离飞出去还有多久",//15
-                            "[b]【准备X】[/b]：召唤时间额外增加X回合\n\n攻击魔上的[b]【等待】[/b]表示其离飞出去还有多久",//16
-                            "每回合开始时，你会得到一张牌；水晶也会重新提供能量。",//17
+                            //Level 3
+                            "两个阵型的卡牌使用后，魔法阵将[b]从卡牌左侧的形状变成右侧的形状[/b]",//14
+                            "",//15
+                            "你使用的【三重轰击】具有【准备1】的属性\n     [b]【准备X】[/b]：召唤时间额外增加X回合\n攻击魔上的[b]【等待】[/b]表示其离飞出去还有多久",//16
+                            "",//17
                             //Level 1 补充
                             "用左键拖动两颗水晶到法阵上任意的点",//18
                             "点击[b]红色的弹道[/b]选择魔法的攻击路线，默认从中路攻击。",//19
-                            "将鼠标移到攻击魔法上可以查看说明，以及弹道",//20 
-                            "[b]攻击魔法需要一回合的时间来完成召唤[/b]，法阵[b]变为红色[/b]表示它会在这回合结束时飞出",//21
+                            "将鼠标移到攻击魔法上可以查看说明，以及弹道。",//20 
+                            "攻击法阵[b]变为红色[/b]表示它会在这回合结束时飞出",//21
                             "向后滚动鼠标中键可以回到原视角",//22
                             //Level 2 补充
-                            "[b]【上下对称】[/b]：摆出的图案与牌上图案上下对称均可使用。[b]第二张同名结界必须用未使用的对称图案发动。[/b]\n（右侧卡牌的图案就是左侧的对称图案）",//23
-                            "[b]【回手】[/b]：使用该牌后，下回合开始时卡牌回到手上",//24  按照手牌[b]左侧的图案[/b]进行连线：右键点击两颗水晶连线
-                            "结界卡使用后，其法阵只要不被破坏，就能持续生效；如果被法阵破坏，该结界卡会在下一回合回到手上",//25
+                            "【动荡阵列】具有【上下对称】的属性。\n[b]【上下对称】[/b]：摆出的图案与牌上图案上下对称均可使用。[b]第二张同名结界必须用未使用的对称图案发动。[/b]",//23
+                            "【先知轰击】具有【回手】效果\n[b]【回手】[/b]：使用该牌后，下回合开始时该卡牌会回到手上",//24  
+                            "结界卡使用后，其法阵只要不被破坏，就能[b]持续生效[/b]；如果被法阵破坏，该结界卡会在下一回合回到手上",//25
                             //Level3 补充
                             "上面有两个图案的牌，需要将法阵摆成[b]左侧图案[/b]才能发动",//26 
                             //Level 2补充2
@@ -76,21 +78,22 @@ public class GuideText : MonoBehaviour
                             //Level1 补充2
                             "有的魔法可以从[b]左侧、右侧[/b]进攻",//29
                             //Level 2补充3
-                            "[b]刷新[/b]：回合开始时该防御魔法恢复到原有的强度",//30
+                            "对手使用的【持久壁垒】具有【刷新】效果\n[b]刷新[/b]：回合开始时该防御魔法恢复到原有的强度",//30
                             //Level 6
                             "将鼠标移到对手头像上上可以查看对手结界",//31
                             //Level 2 补充4
                             "[b]右键点击两颗水晶进行连线[/b]，以完成图案",//32
-                            "魔法阵上可以有多余的连线",//33
+                            "魔法阵上可以有多余的连线,被破坏的结界会在下回合回到手上",//33
+                            //
+                            "[b]新的防御魔法会覆盖旧的防御魔法[/b]",//34
+                            "用鼠标移到任何你感兴趣的物体上，以查看说明",//35
+                            "对手使用的【法术偏转】有[b]削弱1[/b]效果：每次受到攻击减少1\n其他效果说明可以从【ESC】->【特效说明】中查看",//36
                             "",//
-                            "[b]同一弹道的双方攻击魔法会在结算阶段相碰撞[/b]",//
                             "",//
-                            "记得加入新的水晶和连线，然后结束回合",//
-                            "法阵上最多只能有12颗水晶，这回合之后就不用再加入水晶了",//
-                            "对手的血量等于或小于0时，你获得胜利",//
-                            "同时，记得不要让你的血量小于等于0，不然你就输了",//
-                            "你可以在ESC菜单中的特效说明里看到剩下的帮助",//41
-                            "你还没向法阵中放水晶",//
+                            "",//
+                            "",//
+                            "",//41
+                            "",//
                             // "",//
                             "",//
                             "",//
@@ -102,7 +105,7 @@ public class GuideText : MonoBehaviour
                             "[b]强化X[/b]：注入能量于该魔法中，以提高防御力，每点魔法增加X点防御力，右击该魔法触发",//
                             "[b]聚能X[/b]：将能量聚集于魔法中，以提升攻击力，每点魔法增加X点攻击力，右击该魔法触发",//
                             "[b]刷新[/b]：回合开始时该防御魔法恢复到原有的强度",//
-                            "[b]回手[/b]：使用该牌后，下回合开始时卡牌回到手上",//
+                            "[b]回手[/b]：使用该牌后，下回合开始时该卡牌会回到手上",//
                             "[b]弹道自由[/b]：可以任意选择弹道",//
                             "[b]准备X[/b]：释放后需要额外等待X回合",//
                             "[b]左右对称[/b]：摆出的图案与牌上图案左右对称均可使用。当一个结界已经生效时，第二张同名结界必须用对称的图案发动",//
@@ -123,18 +126,23 @@ public class GuideText : MonoBehaviour
         backLight.SetActive(false);
         energyPlusLabel.SetActive(false);
     }
-    public void StartGame()
+    void FirstPage()
     {
         //教学关
-        switch(LevelManager.Instance.level)
+        switch (LevelManager.Instance.level)
         {
-            case 1:page=1;break;
-            case 2:page=9;break;
+            case 1: page = 1; break;
+            case 2: page = 9; break;
             case 3: page = 26; break;
             default: page = 0; break;
         }
+    }
+    public void StartGame()
+    {
 
-        uiLabel =  transform.FindChild("ExplainPanel/ExplainLabel").GetComponent<UILabel>();
+        FirstPage();
+        uiLabel = transform.FindChild("ExplainPanel/ExplainLabel").GetComponent<UILabel>();
+        SetFontNormal();
         for (int i = effectStart; i <= effectEnd; i++)
         {
             PageText[i] += nextString;
@@ -278,7 +286,21 @@ public class GuideText : MonoBehaviour
                     uiLabel.text = "[b]          Level  " + level.ToString() + "\n\n";
                 }
                 //Debug.Log("leveltext");
-                return;  
+                return;
+            case "WaitRoundEnd":
+                uiLabel.text = "[b]这个魔法会在本回合末发射[/b]";
+                Invoke("ReturnText", 3f);
+                SEGuiding.audio.Play();
+                return;
+            case "WaitOneRound":
+                uiLabel.text = "[b]这个魔法会在下回合末发射[/b]";
+                Invoke("ReturnText", 3f);
+                SEGuiding.audio.Play();
+                return;
+            case "DefaultMiddle":
+                uiLabel.text = "没有弹道自由的魔法默认从中路攻击";
+                SEGuiding.audio.Play();
+                return;
             case "AtkOutOfRange":
                 uiLabel.text = "场上的攻击魔法不能超过12个";
                 Invoke("AtkOutOfRange", 0.3f);
@@ -323,20 +345,31 @@ public class GuideText : MonoBehaviour
                 return;
             case "NeedEnergy": uiLabel.text = "能量不足！"; SEGuiding.audio.Play(); break;
             case "NeedPattern": uiLabel.text = "没有合适的魔法阵！"; SEGuiding.audio.Play(); break;
-            case "NeedSymmetryPattern": uiLabel.text = "第二张需要另一个对称的魔法阵！"; SEGuiding.audio.Play(); break;
+            case "NeedSymmetryPattern": 
+                uiLabel.text = "第二张需要另一个对称的魔法阵！"; 
+                SEGuiding.audio.Play();
+                break;
             //case "NeedEnergy": uiLabel.text = ""; SEGuiding.audio.Play(); break;
         }
+    }
+    void  SetFontSmall()
+    {
+        uiLabel.fontSize = 35;
+    }
+    void SetFontNormal()
+    {
+        uiLabel.fontSize = 45;
     }
     void LabeltextAsAura(string auraText,int auraNum)
     {
         uiLabel.text = auraText;
         if (auraNum >= 5)
         {
-            uiLabel.fontSize = 35;
+            SetFontSmall();
         }
         else
         {
-            uiLabel.fontSize = 45;
+            SetFontNormal();
         }
         return;
     }
@@ -429,6 +462,14 @@ public class GuideText : MonoBehaviour
         if (LevelManager.Instance.level == level && LevelManager.Instance.key.Contains(key)&&EnergyManager.Instance.roundCount==round)
         {
             ReturnText(returnText);
+            LevelManager.Instance.key.Remove(key);
+        }
+    }
+    public  void GuideLevel(int level,int returnText,string key,string requireID,string cardID)
+    {
+        if (LevelManager.Instance.level == level && LevelManager.Instance.key.Contains(key) && requireID == cardID)
+        {
+            GuideText.Instance.ReturnText(returnText);
             LevelManager.Instance.key.Remove(key);
         }
     }

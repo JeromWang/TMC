@@ -127,6 +127,7 @@ public class LevelManager : MonoBehaviour
                 key.Add("OnlyFreedom");
                 key.Add("MouseOver");
                 key.Add("MouseDown");
+                key.Add("Interesting");
                 DrawCard.Instance.GetCardList("Level" );
                 DrawCard.Instance.GetEnemyCardList("EnemyLevel" );
                 break;
@@ -155,8 +156,10 @@ public class LevelManager : MonoBehaviour
                 key.Add("Defense");
                 key.Add("DefensePosition");
                 key.Add("Pattern");
+                key.Add("Pattern2");
                 key.Add("WaitToFire");
                 key.Add("Prepare");
+                key.Add("RedundentLink");
                 DrawCard.Instance.GetCardList("Level");
                 DrawCard.Instance.GetEnemyCardList("EnemyLevel");
                 break;

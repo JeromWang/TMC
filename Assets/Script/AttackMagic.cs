@@ -164,8 +164,41 @@ public class AttackMagic : Magic
         {
             TrajectoryPosition.Instance.ShowPosition(1);
         }
+        else
+        {
+            Guide_OnMouseDown();
+        }
         TrajectoryPosition.Instance.SetTrajectory += this.SetTrajectory;
         chooseTrajectory = true;
+    }
+    bool DefaultMiddle()
+    {
+        if (Effect.ContainsKey("Freedom") || AuraManager.Instance.E02Heros==true
+            ||AuraManager.Instance.E26_LeftHeros ||AuraManager.Instance.E26_RightHeros)
+        {
+            return false;
+        }
+        return true;
+    }
+    void Guide_OnMouseDown()
+    {
+        if (LevelManager.Instance.level == 1)
+        {
+            if(waitToFire==1)
+            {
+                GuideText.Instance.ReturnText("WaitOneRound");
+                return;
+            }
+            if(waitToFire==0)
+            {
+                GuideText.Instance.ReturnText("WaitRoundEnd");
+                return;
+            }
+        }
+        else
+        {
+            GuideText.Instance.ReturnText("DefaultMiddle");
+        }
     }
     public void SetTrajectory()
     {
@@ -457,9 +490,15 @@ public class AttackMagic : Magic
             TrajectoryPosition.Instance.HidePosition();
             TrajectoryPosition.Instance.HideMyPosition();
         }
+        if(chooseTrajectory && DefaultMiddle())
+        {
+            Guide_OnMouseDown();
+        }
     }
     void OnMouseDown()
     {
+        if (!isHeros)
+            return;
         if (chooseTrajectory == false && !EnergyManager.Instance.myTurnsEnd)
         {
             this.GetTrajectory();

@@ -97,22 +97,33 @@ public class ShieldManager : MonoBehaviour {
         pos = position;
         rot = rotation;
         GameObject Shield=SetPostion();
+        
         switch (ID)
         {
             case -1:
+                Guide_ReplaceExplain(ref L_Shield);
                 NewShield(Shield, ref L_Shield);
                 L_DefenseMagic = Shield.GetComponent<DefenseMagic>();
                 break;
-            case 0: 
+            case 0:
+                Guide_ReplaceExplain(ref M_Shield);
                 NewShield(Shield, ref M_Shield);
                 M_DefenseMagic = Shield.GetComponent<DefenseMagic>();
                 break;
-            case 1: 
+            case 1:
+                Guide_ReplaceExplain(ref R_Shield);
                 NewShield(Shield, ref R_Shield); 
                 R_DefenseMagic = Shield.GetComponent<DefenseMagic>();
                 break;
         }
-        
+    }
+    void Guide_ReplaceExplain(ref GameObject OldShield)
+    {
+        if ((LevelManager.Instance.level == 2 || LevelManager.Instance.level == 3 || LevelManager.Instance.level == 4)
+            && OldShield!=null )
+        {
+            GuideText.Instance.ReturnText(34);
+        }
     }
 	// Update is called once per frame
 	void Update () {

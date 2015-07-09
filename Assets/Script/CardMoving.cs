@@ -111,11 +111,22 @@ public class CardMoving : MonoBehaviour
                     drawCard.clearUpHand();
                     GuideText.Instance.ReturnText(ac.ToString());
                     changeText = false;
+                    if(ac==Accessible.NeedSymmetryPattern)
+                    {
+                        LevelManager.Instance.pattern2.SetActive(true);
+                        PatternChose p2 = LevelManager.Instance.pattern2.GetComponent<PatternChose>();
+                        p2.CardCopy(cardScript);
+                        p2.canUse = false;
+                        Invoke("PatternChoseHide", 2f);
+                    }
                 }
             }
         }
     }
-    
+    void PatternChoseHide()
+    {
+        LevelManager.Instance.pattern2.SetActive(false);
+    }
     void Magnify()//查看效果 放大，向前向上移动
     {
         rotationTemp = transform.rotation;
@@ -182,6 +193,7 @@ public class CardMoving : MonoBehaviour
         if (cardScript.IsAccessible()==Accessible.OK && isHeros || showBacklight)
         {
             backlight.SetActive(true); //Debug.Log("BacklightShowHide True");
+            Guide_BacklightShowHide();
         }
         else
         {
@@ -207,5 +219,18 @@ public class CardMoving : MonoBehaviour
         EnergyManager.Instance.ChangeEnergy -= this.BacklightShowHide;
         CameraMoving.Instance.cardMoving = false;
         Destroy(this);
+    }
+    void Guide_BacklightShowHide()
+    {
+        if (LevelManager.Instance.level == 3 && LevelManager.Instance.key.Contains("Pattern") && cardScript.ID == "C07")
+        {
+            GuideText.Instance.ReturnText(14);
+            LevelManager.Instance.key.Remove("Pattern");
+        }
+        if (LevelManager.Instance.level == 3 && LevelManager.Instance.key.Contains("Pattern2") && cardScript.ID == "C02")
+        {
+            GuideText.Instance.ReturnText(14);
+            LevelManager.Instance.key.Remove("Pattern2");
+        }
     }
 }
