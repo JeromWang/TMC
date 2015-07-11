@@ -642,31 +642,7 @@ public class Card : MonoBehaviour
                 }
                 else
                 {
-                    if (ShieldManager.Instance.EM_Shield == null)
-                    {
-                        ShieldManager.Instance.EnermyShield(EnemyShield(0), 0);
-                    }
-                    else if (ShieldManager.Instance.EL_Shield == null && ShieldManager.Instance.ER_Shield == null)
-                    {
-                        int r = Random.Range(-1, 2);
-                        for(;r==0;)
-                        {
-                            r = Random.Range(-1, 2);
-                        }
-                        ShieldManager.Instance.EnermyShield(EnemyShield(r), r);
-                    }
-                    else if(ShieldManager.Instance.EL_Shield == null)
-                    {
-                        ShieldManager.Instance.EnermyShield(EnemyShield(-1), -1);
-                    }
-                    else if (ShieldManager.Instance.ER_Shield == null)
-                    {
-                        ShieldManager.Instance.EnermyShield(EnemyShield(1), 1);
-                    }
-                    else
-                    {
-                        ShieldManager.Instance.EnermyShield(EnemyShield(0), 0);
-                    }
+                    CreateEnemyDefence();
                 }
             }
             #endregion
@@ -728,6 +704,34 @@ public class Card : MonoBehaviour
                 Destroy();//摧毁卡牌
         }
         
+    }
+    void CreateEnemyDefence()
+    {
+        if (ShieldManager.Instance.EM_Shield == null)
+        {
+            ShieldManager.Instance.EnermyShield(EnemyShield(0), 0);
+        }
+        else if (ShieldManager.Instance.EL_Shield == null && ShieldManager.Instance.ER_Shield == null)
+        {
+            int r = Random.Range(-1, 2);
+            for (; r == 0; )
+            {
+                r = Random.Range(-1, 2);
+            }
+            ShieldManager.Instance.EnermyShield(EnemyShield(r), r);
+        }
+        else if (ShieldManager.Instance.EL_Shield == null)
+        {
+            ShieldManager.Instance.EnermyShield(EnemyShield(-1), -1);
+        }
+        else if (ShieldManager.Instance.ER_Shield == null)
+        {
+            ShieldManager.Instance.EnermyShield(EnemyShield(1), 1);
+        }
+        else
+        {
+            ShieldManager.Instance.EnermyShield(EnemyShield(0), 0);
+        }
     }
     void CreateAura()
     {

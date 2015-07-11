@@ -283,7 +283,7 @@ public class AttackMagic : Magic
         if (Effect.ContainsKey("Cohension"))
         {
             Fire.transform.position += new Vector3(0, 1.65f, 0);
-            Debug.Log("up");
+            //Debug.Log("up");
         }
         if (isHeros)
             gameObject.layer = 10;

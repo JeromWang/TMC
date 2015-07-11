@@ -94,10 +94,6 @@ public class AuraManager : MonoBehaviour {
                 {
                     attackMagic.UpdateTexture();
                 }
-                if (!LevelManager.Instance.IsOnline)
-                {
-                    AttackManager.Instance.AIAttack();
-                }
                 break;
             case "E03":
                 enemyLargeAttackPlus += 3;

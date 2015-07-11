@@ -1,6 +1,6 @@
 ﻿<?xMSl version="1.0" encoding="utf-8"?>
 <Database>
-  <Version value="7.9"></Version>
+  <Version value="7.7"></Version>
   <Spell>
     <Card ID="S00">
       <CardName type="text" value="英雄技能"/>

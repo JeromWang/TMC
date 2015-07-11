@@ -18,13 +18,11 @@ public class AttackManager: MonoBehaviour
     public bool[] EnermyWaitPos ; //{ false, false, false, false, false, false, false, false, false, false, false, false };
     public List<AttackMagic> attackMagicList =new List<AttackMagic>();
     public List<AttackMagic> enemyAttackMagicList = new List<AttackMagic>();
-    Hero hero;
 	// Use this for initialization
 	void Start () {
         AttackManager.Instance = this;
         EnemyAttackID = 0;
         AttackID = 0;
-        hero = GameObject.Find("Hero").GetComponent<Hero>();
 	}
     public void Restart()
     {
@@ -41,7 +39,6 @@ public class AttackManager: MonoBehaviour
         EnermySetNum = 0;
         EnermyWaitNum = -1;
 
-        EnergyManager.Instance.StartTurn += this.AIAttack;
     }
 	public void EndGame()
     {
@@ -73,136 +70,99 @@ public class AttackManager: MonoBehaviour
         }
         return true;
     }
-    public void AIAttack()
+    public int CaculateAttackMiddle()
     {
-        //Debug.Log("Attack");
-        //如果可以斩杀，就尽量斩杀
-        //不要主动去打盾
-        //否则有刷新盾的优先打爆
-        //没有刷新盾或不能打爆，优先造成血量伤害
-        //都不能打爆的也绝不打刷新盾
-        int attackMiddle = 0,attackFreedom=0;
-        int attackHeros = 0;
+        int attackMiddle = 0;
         foreach (AttackMagic a in enemyAttackMagicList)
         {
-            if (a.waitToFire <= 1 )
+            if (a.waitToFire <= 1)
             {
-                if( a.HasEffect("Freedom"))
-                {
-                    attackFreedom += a.magicValue;
-                }
-                else
+                if (!a.HasEffect("Freedom"))
                 {
                     attackMiddle += a.magicValue;
                 }
             }
         }
+        return attackMiddle;
+    }
+    public int CaculateAttackFreedom()
+    {
+        int attackFreedom = 0;
+        foreach (AttackMagic a in enemyAttackMagicList)
+        {
+            if (a.waitToFire <= 1)
+            {
+                if (a.HasEffect("Freedom"))
+                {
+                    attackFreedom += a.magicValue;
+                }
+            }
+        }
+        return attackFreedom;
+    }
+    public int HerosMiddle()
+    {
+        int attackMiddle = 0;
         foreach (AttackMagic a in attackMagicList)
         {
             if (a.waitToFire <= 1)
             {
-                attackHeros += a.magicValue;
-            }
-        }
-        if(AuraManager.Instance.E02Enemy==true)
-        {
-            attackFreedom += attackMiddle;
-            attackMiddle = 0;
-        }
-        if (attackFreedom == 0)
-        {
-            //Debug.Log("0");
-            return;
-        }
-            
-        //如果中心防御和血量的和<= 斩杀
-        if (hero.health + (ShieldManager.Instance.M_DefenseMagic!=null?ShieldManager.Instance.M_DefenseMagic.magicValue:0)+attackHeros
-            <=(attackMiddle+attackFreedom))
-        {
-            //Debug.Log("1");
-            SetFreedomTrajectory(0);
-        }
-        else if((hero.health+ (ShieldManager.Instance.L_DefenseMagic!=null?ShieldManager.Instance.L_DefenseMagic.magicValue:0))
-            <=attackFreedom)
-        {
-            //Debug.Log("2");
-            SetFreedomTrajectory(TrajectoryType.Left);
-        }
-        else if ((hero.health + (ShieldManager.Instance.R_DefenseMagic != null ? ShieldManager.Instance.R_DefenseMagic.magicValue : 0))
-            <= attackFreedom)
-        {
-            //Debug.Log("3");
-            SetFreedomTrajectory(TrajectoryType.Right);
-        }
-        //不要主动去打盾
-        else if (ShieldManager.Instance.M_DefenseMagic == null && ShieldManager.Instance.L_DefenseMagic != null && ShieldManager.Instance.R_DefenseMagic != null)
-        {
-            //Debug.Log("14");
-            SetFreedomTrajectory(TrajectoryType.Middle);
-        }
-        else if (ShieldManager.Instance.M_DefenseMagic != null && ShieldManager.Instance.L_DefenseMagic == null && ShieldManager.Instance.R_DefenseMagic != null)
-        {
-            //Debug.Log("15");
-            SetFreedomTrajectory(TrajectoryType.Left);
-        }
-        else if (ShieldManager.Instance.M_DefenseMagic != null && ShieldManager.Instance.L_DefenseMagic != null && ShieldManager.Instance.R_DefenseMagic == null)
-        {
-            //Debug.Log("16");
-            SetFreedomTrajectory(TrajectoryType.Right);
-        }
-        else if (ShieldManager.Instance.M_DefenseMagic == null && ShieldManager.Instance.L_DefenseMagic == null && ShieldManager.Instance.R_DefenseMagic != null)
-        {
-            //Debug.Log("17");
-            SetFreedomTrajectory(TrajectoryType.Left);
-        }
-        else if (ShieldManager.Instance.M_DefenseMagic == null && ShieldManager.Instance.L_DefenseMagic != null && ShieldManager.Instance.R_DefenseMagic == null)
-        {
-            //Debug.Log("18");
-            SetFreedomTrajectory(TrajectoryType.Right);
-        }
-        //优先破刷新
-        else if (ShieldManager.Instance.M_DefenseMagic != null && ShieldManager.Instance.M_DefenseMagic.HasEffect("Refresh") && (ShieldManager.Instance.M_DefenseMagic.MagicMax <= (attackFreedom + attackMiddle)))
-        {
-            //Debug.Log("4");
-            SetFreedomTrajectory(TrajectoryType.Middle);
-        }
-        else if (ShieldManager.Instance.L_DefenseMagic != null && ShieldManager.Instance.L_DefenseMagic.HasEffect("Refresh") && (ShieldManager.Instance.L_DefenseMagic.MagicMax <= attackFreedom))
-        {
-            //Debug.Log("5");
-            SetFreedomTrajectory(TrajectoryType.Left);
-        }
-        else if (ShieldManager.Instance.R_DefenseMagic != null && ShieldManager.Instance.R_DefenseMagic.HasEffect("Refresh") && (ShieldManager.Instance.R_DefenseMagic.MagicMax <= attackFreedom))
-        {
-            //Debug.Log("6");
-            SetFreedomTrajectory(TrajectoryType.Right);
-        }
-        else
-        {
-            //Debug.Log("7");
-            foreach (AttackMagic a in enemyAttackMagicList)
-            {
-                if (a.waitToFire <= 1 && a.HasEffect("Freedom") || AuraManager.Instance.E02Enemy==true)
+                if (!a.HasEffect("Freedom"))
                 {
-                    for (; a.trajectory == 0; )
-                    {
-                        a.trajectory = (TrajectoryType)Random.Range(-1, 2);
-                        if (a.trajectory == TrajectoryType.Right && ShieldManager.Instance.R_DefenseMagic != null)
-                        {
-                            if (ShieldManager.Instance.L_DefenseMagic == null || ShieldManager.Instance.L_DefenseMagic != null && !ShieldManager.Instance.L_DefenseMagic.HasEffect("Refresh"))
-                                 a.trajectory = TrajectoryType.Left;
-                        }
-                        else if (a.trajectory == TrajectoryType.Left && ShieldManager.Instance.L_DefenseMagic != null)
-                        {
-                            if (ShieldManager.Instance.R_DefenseMagic == null || ShieldManager.Instance.R_DefenseMagic != null && !ShieldManager.Instance.R_DefenseMagic.HasEffect("Refresh"))
-                                a.trajectory = TrajectoryType.Right;
-                        }
-                    }
+                    attackMiddle += a.magicValue;
                 }
             }
         }
-
+        return attackMiddle;
     }
-    void SetFreedomTrajectory(TrajectoryType t)
+    public int HerosFreedom()
+    {
+        int attackFreedom = 0;
+        foreach (AttackMagic a in attackMagicList)
+        {
+            if (a.waitToFire <= 1)
+            {
+                if (a.HasEffect("Freedom"))
+                {
+                    attackFreedom += a.magicValue;
+                }
+            }
+        }
+        return attackFreedom;
+    }
+    public List<AttackMagic> GetFireList()
+    {
+        List<AttackMagic> atkList = new List<AttackMagic>();
+        foreach (AttackMagic a in enemyAttackMagicList)
+        {
+            if (a.waitToFire <= 1)
+            {
+                atkList.Add(a);
+            }
+        }
+        return atkList;
+    }
+    public List<AttackMagic> GetFreedomList()
+    {
+        List<AttackMagic> atkList = new List<AttackMagic>();
+        foreach (AttackMagic a in enemyAttackMagicList)
+        {
+            if (a.waitToFire <= 1)
+            {
+                if (a.HasEffect("Freedom"))
+                {
+                    atkList.Add(a);
+                }
+            }
+        }
+        return atkList;
+    }
+    
+    public void SetFreedomTrajectory(TrajectoryType t,AttackMagic atk)
+    {
+        atk.trajectory = t;
+    }
+    public void SetFreedomTrajectory(TrajectoryType t, List<AttackMagic> enemyAttackMagicList)
     {
         if(AuraManager.Instance.E02Enemy==true)
         {

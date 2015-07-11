@@ -18,6 +18,7 @@ public class DrawCard : MonoBehaviour
     //public Transform NewCardShow;
     public Transform NewCardList;
     static int DeckMax = 20;//卡组上限
+    int noCard = 0;
     int childcount;
     int EnemyListNum = 0;
     List<string> CardList = new List<string>();
@@ -56,6 +57,7 @@ public class DrawCard : MonoBehaviour
         }
         residue = CardList.Count;
     }
+    
     public void GetEnemyRoundList(int round)
     {
         //Debug.Log("GetEnemyRoundList");
@@ -213,11 +215,16 @@ public class DrawCard : MonoBehaviour
         }
         else
         {
-            hero.damage = 2;
+            hero.damage = NoCardDamage();
             GuideText.Instance.ReturnText("NoCard");
             EnergyManager.Instance.WinLose();
             clearUpHand(1);
         }
+    }
+    int NoCardDamage()
+    {
+        noCard++;
+        return noCard;
     }
     void getID(Transform c, bool isHeros,bool heroPower=false)
     {

@@ -73,6 +73,7 @@ public class EnergyManager : MonoBehaviour
     bool enemyCardShowing = false;
 
     bool win = false;//胜负指示位
+    string lv = "1";//OnGUI
     //public bool hidePatternChose = false;//教学关显示选择图案卡牌
     void Awake()
     {
@@ -253,6 +254,13 @@ public class EnergyManager : MonoBehaviour
                 win = true;
                 WinLose();
             }
+            GUILayout.Label("Level:");
+            lv = GUILayout.TextField(lv, 15);
+            if (GUILayout.Button("Jump"))
+            {
+                LevelManager.Instance.level = int.Parse(lv);
+                GuideText.Instance.ButtonDown(11);
+            }
             #region other hidden buttons
             //if (GUILayout.Button("Show1"))
             //{
@@ -325,6 +333,10 @@ public class EnergyManager : MonoBehaviour
             CardMoving cardScript = DrawCard.Instance.EnemyList.GetChild(i).GetComponent<CardMoving>();
             cardScript.BeDestroy();
             Destroy(DrawCard.Instance.EnemyList.GetChild(i).gameObject);
+        }
+        if(!LevelManager.Instance.IsOnline)
+        {
+            AI.Instance.AIFreedomChooseWay();
         }
         if(AttackManager.Instance.SetFireTime()!=0)
             FireGo();
