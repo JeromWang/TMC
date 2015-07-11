@@ -14,6 +14,7 @@ public class EnergyManager : MonoBehaviour
     public int totalEnergy;//总水晶能量
     public bool unmatchedEnergy;//单独水晶能量
     public int accessibleEnergy;//可用能量
+    int eAccessibleEnergy;
     public int roundCount;//回合数
     public int accessibleCrystal;//可用水晶数
     public int cameraFlag;//相机指示
@@ -209,6 +210,22 @@ public class EnergyManager : MonoBehaviour
             return false;
         }
 
+    }
+    public bool EEnergyAccessible(int num)
+    {
+        return eAccessibleEnergy >= num;
+    }
+    public bool EMinusEnergy(int num)
+    {
+        if (num <= eAccessibleEnergy)
+        {
+            eAccessibleEnergy -= num;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     void OnGUI()

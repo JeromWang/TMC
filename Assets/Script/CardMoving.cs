@@ -91,7 +91,7 @@ public class CardMoving : MonoBehaviour
             else//第二次单击
             {
                 //使用卡牌
-                Accessible ac=cardScript.IsAccessible();
+                Accessible ac=cardScript.IsAccessible(isHeros);
                 if (ac==Accessible.OK)//可以使用？
                 {
                     //choosed = !choosed;
@@ -190,7 +190,7 @@ public class CardMoving : MonoBehaviour
     public void BacklightShowHide()
     {
         //Debug.Log("BacklightShowHide"+" "+transform.name);
-        if (cardScript.IsAccessible()==Accessible.OK && isHeros || showBacklight)
+        if (cardScript.IsAccessible(isHeros)==Accessible.OK && isHeros || showBacklight)
         {
             backlight.SetActive(true); //Debug.Log("BacklightShowHide True");
             Guide_BacklightShowHide();

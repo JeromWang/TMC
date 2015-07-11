@@ -16,18 +16,23 @@ public enum AIStyle
     Conservative,//保守，后期，尽力护脸
     YZAM//月之暗面
 }
+
 public class AI : MonoBehaviour {
 
     public static AI Instance;
-    public AIType aiType=AIType.CardList;
+    public Transform EnemyHand;
+    public AIType aiType=AIType.WeakAI;
     public AIStyle aiStyle = AIStyle.CrazyDog;
 
     Hero hero, enemyHero;
+    List<Card> accessibleCardList = new List<Card>();
+    List<Line> lineList = new List<Line>();
+    List<AttackMagic> freedomList = new List<AttackMagic>();//EnemyFreedomList
     int attackMiddle ;
     int attackFreedom ;
     int herosMiddle ;
     int herosFreedom ;
-    List<AttackMagic> freedomList = new List<AttackMagic>();//EnemyFreedomList
+
     int L_Shield =  0;
     int M_Shield =  0;
     int R_Shield =  0;
@@ -53,6 +58,37 @@ public class AI : MonoBehaviour {
 	void Update () {
 	
 	}
+    void UpdateAccessibleCardList()
+    {
+        accessibleCardList.Clear();
+        Accessible ac;
+        Card cardScript;
+        foreach(Transform card in EnemyHand)
+        {
+            cardScript = card.GetComponent<Card>();
+            ac = cardScript.IsAccessible(false);
+            if(ac==Accessible.OK)
+            {
+                accessibleCardList.Add(cardScript);
+            }
+        }
+    }
+    public void AddLineList(Line line)
+    {
+        lineList.Add(line);
+    }
+    void EnemyDrawLine()
+    {
+        if (lineList.Count <= 0)
+            return;
+        if (EnergyManager.Instance.EEnergyAccessible(1) == false)
+            return;
+        if(MagicCircleMananger.Instance.EDrawLine(lineList[0]))
+        {
+            lineList.RemoveAt(0);
+            EnergyManager.Instance.EMinusEnergy(1);
+        }
+    }
     public void ReStart()
     {
         EnergyManager.Instance.StartTurn += this.GetHerosInformation;

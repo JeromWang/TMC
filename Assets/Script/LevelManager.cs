@@ -380,7 +380,30 @@ public class LevelManager : MonoBehaviour
                 DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//17
                 DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//18
                 break;
-          
+            case LevelType.YZAM_1:
+                //月之暗面[1]
+                AI.Instance.aiType = AIType.WeakAI;
+                DrawCard.Instance.EnemyRoundList.Add("");//1
+                DrawCard.Instance.EnemyRoundList.Add("");//2
+                DrawCard.Instance.EnemyRoundList.Add("S67");//3
+                DrawCard.Instance.EnemyRoundList.Add("S73");//4
+                DrawCard.Instance.EnemyRoundList.Add("S67E28");//5
+                DrawCard.Instance.EnemyRoundList.Add("E03S68");//6
+                DrawCard.Instance.EnemyRoundList.Add("S75");//7
+                DrawCard.Instance.EnemyRoundList.Add("S76");//8
+                DrawCard.Instance.EnemyRoundList.Add("S75");//9
+                DrawCard.Instance.EnemyRoundList.Add("S76");//10
+                DrawCard.Instance.EnemyRoundList.Add("S72");//11
+                DrawCard.Instance.EnemyRoundList.Add("S75S00");//12
+                DrawCard.Instance.EnemyRoundList.Add("S00S70");//13
+                DrawCard.Instance.EnemyRoundList.Add("S00S70");//14
+                DrawCard.Instance.EnemyRoundList.Add("S71");//15
+                DrawCard.Instance.EnemyRoundList.Add("S72");//16
+                DrawCard.Instance.EnemyRoundList.Add("S68S68S00");//17
+                DrawCard.Instance.EnemyRoundList.Add("S72");//18
+                DrawCard.Instance.EnemyRoundList.Add("S00");//19
+
+                break;
             case LevelType.YZAM_2:
                 //月之暗面[2]
                 AI.Instance.aiStyle = AIStyle.Berserker;
@@ -404,30 +427,7 @@ public class LevelManager : MonoBehaviour
                 DrawCard.Instance.EnemyRoundList.Add("S68S68S00");//17
                 DrawCard.Instance.EnemyRoundList.Add("S00");//18
                 break;
-            case LevelType.YZAM_1:
-                //月之暗面[1]
-                AI.Instance.aiType = AIType.RoundList;
-                DrawCard.Instance.EnemyRoundList.Add("");//1
-                DrawCard.Instance.EnemyRoundList.Add("");//2
-                DrawCard.Instance.EnemyRoundList.Add("S67");//3
-                DrawCard.Instance.EnemyRoundList.Add("S73");//4
-                DrawCard.Instance.EnemyRoundList.Add("S67E28");//5
-                DrawCard.Instance.EnemyRoundList.Add("E03S68");//6
-                DrawCard.Instance.EnemyRoundList.Add("S75");//7
-                DrawCard.Instance.EnemyRoundList.Add("S76");//8
-                DrawCard.Instance.EnemyRoundList.Add("S75");//9
-                DrawCard.Instance.EnemyRoundList.Add("S76");//10
-                DrawCard.Instance.EnemyRoundList.Add("S72");//11
-                DrawCard.Instance.EnemyRoundList.Add("S75S00");//12
-                DrawCard.Instance.EnemyRoundList.Add("S00S70");//13
-                DrawCard.Instance.EnemyRoundList.Add("S00S70");//14
-                DrawCard.Instance.EnemyRoundList.Add("S71");//15
-                DrawCard.Instance.EnemyRoundList.Add("S72");//16
-                DrawCard.Instance.EnemyRoundList.Add("S68S68S00");//17
-                DrawCard.Instance.EnemyRoundList.Add("S72");//18
-                DrawCard.Instance.EnemyRoundList.Add("S00");//19
-
-                break;
+           
             case LevelType.Heal:
                 AI.Instance.aiType = AIType.RoundList;
                 DrawCard.Instance.EnemyRoundList.Add("");//1
@@ -530,6 +530,10 @@ public class LevelManager : MonoBehaviour
                 SetLevel(Random.Range(8, 18));
                 break;
         }
+    }
+    void AddLineList(int x1,int y1,int x2,int y2)
+    {
+        AI.Instance.AddLineList(new Line(x1, y1, x2, y2));
     }
     public void RoundLabelShow()
     {

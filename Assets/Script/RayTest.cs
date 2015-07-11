@@ -10,7 +10,7 @@ public class RayTest : MonoBehaviour
 
     Vector3[] linePoints;
     private int index;
-    int l1, l2, l3;
+    Point l1, l2, l3;
     VectorLine[,] line = new VectorLine[43, 43], line2 = new VectorLine[43, 43];
     VectorLine temp1, temp2;
     Vector3 screenSpace;
@@ -55,7 +55,11 @@ public class RayTest : MonoBehaviour
         VectorLine.Destroy(ref line[y, x]);
         VectorLine.Destroy(ref line2[y, x]);
     }
-    public void DeleteLine(int x, int y)
+    public void DeleteLine(Point p1,Point p2)
+    {
+        DeleteLine(p1.GetUni(), p2.GetUni());
+    }
+    void DeleteLine(int x, int y)
     {
         DestroyVectorLine(x, y);
         MagicCircleMananger.Instance.LineFalse(x, y);
@@ -131,7 +135,7 @@ public class RayTest : MonoBehaviour
     }
     void Start()
     {
-        l1 = l2 = l3 = 0;
+        l1 = l2 = l3 = null;
         RayTest.Instance = this;
         draw = false;
         //linkStop = true;
@@ -177,7 +181,8 @@ public class RayTest : MonoBehaviour
                             EnergyManager.Instance.totalEnergy--;
                             EnergyManager.Instance.CrystalSee();
                         }
-                        l3 = 5 * kx + ky;
+                        l3 = new Point(kx, ky);
+                        Point tempPoint;
                         for (int n = 0; n < 43; n++)
                             if (n != l3)
                                 if (MagicCircleMananger.Instance.GetLine(l3, n)&&MagicCircleMananger.Instance.IsOperable(l3,n))
@@ -221,7 +226,7 @@ public class RayTest : MonoBehaviour
                     ky = MagicCircleMananger.Instance.getKy(z);
                     if (kx != -1)
                     {
-                        l1 = 5 * kx + ky;
+                        l1 = new Point( kx , ky);
                         draw = true;
                         //EnergyManager.Instance.MinusEnergy(1);
                     }
@@ -252,14 +257,14 @@ public class RayTest : MonoBehaviour
                     x = MagicCircleMananger.Instance.getx3(linePoints[1].x);
                 kx = MagicCircleMananger.Instance.getKx(x);
                 ky = MagicCircleMananger.Instance.getKy(z);
-                l2 = 5 * kx + ky;
+                l2 = new Point(kx , ky);
                 if (l2 == l1)//连自己=>取消连线
                 {
                     VectorLine.Destroy(ref temp1);
                     VectorLine.Destroy(ref temp2);
                     //EnergyManager.Instance.MinusEnergy(-1);
                 }
-                else if (MagicCircleMananger.Instance.IsOperable(l1, l2))
+                else if (MagicCircleMananger.Instance.IsOperable(new Line(l1,l2)))
                 {
                     if (kx != -1 && !MagicCircleMananger.Instance.GetLine(l1, l2) && MagicCircleMananger.Instance.GetLineSwitch(l1 / 5, l1 % 5, l2 / 5, l2 % 5))//画线
                     {
@@ -268,8 +273,8 @@ public class RayTest : MonoBehaviour
                         {
                             temp1.Draw3D();
                             temp2.Draw3D();
-                            line[l1, l2] = temp1; line2[l1, l2] = temp2;
-                            MagicCircleMananger.Instance.LineTrue(l1, l2);
+                            line[l1.GetUni(), l2.GetUni()] = temp1; line2[l1.GetUni(), l2.GetUni()] = temp2;
+                            MagicCircleMananger.Instance.LineTrue(l1.GetUni(), l2.GetUni(), MagicCircleMananger.Instance.line, MagicCircleMananger.Instance.linekeng);
                             EnergyManager.Instance.MinusEnergy(1);
                         }
                         else
@@ -279,7 +284,7 @@ public class RayTest : MonoBehaviour
                             GuideText.Instance.ReturnText("LinkNeedEnergy");
                         }
                     }
-                    else if (MagicCircleMananger.Instance.GetLine(l1, l2))//删线
+                    else if (MagicCircleMananger.Instance.GetLine(l1.GetUni(), l2.GetUni(), MagicCircleMananger.Instance.line))//删线
                     {
 
                         // Debug.Log("delete");

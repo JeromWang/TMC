@@ -312,55 +312,72 @@ public class Card : MonoBehaviour
         return line;
 
     }
-    public Accessible IsAccessible()//是否可以施放  
+    Accessible AuraAccessible(bool[,] line)
     {
-        if (EnergyManager.Instance.accessibleEnergy < cost)
+        int type = AuraManager.Instance.GetCardPatternUsed(ID);//0:没有使用的样式
+        if (PatternNumber > 1)
+        {
+            if (patternTrue(Pattern_2,line) && type != 2)
+            {
+                PatternUsed = 2;
+                return Accessible.OK;
+            }
+            if (patternTrue(Pattern_1,line) && type != 1)
+            {
+                PatternUsed = 1;
+                return Accessible.OK;
+            }
+            if (type == 0)
+                return Accessible.NeedPattern;
+
+            return Accessible.NeedSymmetryPattern;
+        }
+        if (patternTrue(Pattern_1,line) && type != 1)
+        {
+            PatternUsed = 1;
+            return Accessible.OK;
+        }
+        return Accessible.NeedPattern;
+    }
+    Accessible ConvertAccessible(bool[,] line)
+    {
+        if (PatternNumber > 1)
+        {
+            if (patternTrue(Pattern_2,line))
+            {
+                PatternUsed = 2;
+                return Accessible.OK;
+            }
+
+        }
+        if (patternTrue(Pattern_1,line))
+        {
+            PatternUsed = 1;
+            return Accessible.OK;
+        }
+        return Accessible.NeedPattern;
+    }
+    public Accessible IsAccessible(bool isHeros)//是否可以施放  
+    {
+        if (EnergyManager.Instance.accessibleEnergy < cost && isHeros)
+            return Accessible.NeedEnergy;
+        if (EnergyManager.Instance.EEnergyAccessible(cost)==false && !isHeros)
             return Accessible.NeedEnergy;
          if (ID[0] == 'E')//结界
          {
-             int type = AuraManager.Instance.GetCardPatternUsed(ID);//0:没有使用的样式
-             if (PatternNumber > 1)
-             {
-                 if (patternTrue(Pattern_2)&& type!=2)
-                 {
-                     PatternUsed = 2;
-                     return Accessible.OK;
-                 }
-                 if (patternTrue(Pattern_1) && type != 1)
-                 {
-                     PatternUsed = 1;
-                     return Accessible.OK;
-                 }
-                 if (type == 0)
-                     return Accessible.NeedPattern;
-
-                 return Accessible.NeedSymmetryPattern;
-             }
-             if (patternTrue(Pattern_1) && type!=1)
-             {
-                 PatternUsed = 1;
-                 return Accessible.OK;
-             }
-             return Accessible.NeedPattern;
+             if (isHeros)
+                 return AuraAccessible(MagicCircleMananger.Instance.line);
+             else
+                 return AuraAccessible(MagicCircleMananger.Instance.eline);
          }
-        else
+        //变换卡
          {
-             if (PatternNumber > 1)
-             {
-                 if (patternTrue(Pattern_2))
-                 {
-                     PatternUsed = 2;
-                     return Accessible.OK;
-                 }
-
-             }
-             if (patternTrue(Pattern_1))
-             {
-                 PatternUsed = 1;
-                 return Accessible.OK;
-             }
+             if (isHeros)
+                 return ConvertAccessible(MagicCircleMananger.Instance.line);
+             else
+                 return ConvertAccessible(MagicCircleMananger.Instance.eline);
          }
-         return Accessible.NeedPattern;
+         
     }
    
     public void CreateDefenceMagic()
@@ -930,10 +947,16 @@ public class Card : MonoBehaviour
     #region Pattern 相关
     public bool patternTrue(int[][] Pattern)
     {
+        Point point1, point2;
         for (int i = 0; i < Pattern.GetLength(0); i++)
         {
+            point1 = new Point(Pattern[i][0], Pattern[i][1]);
+            point2 = new Point(Pattern[i][2], Pattern[i][3]);
             //Debug.Log(Pattern[i][0].ToString() + "+" + Pattern[i][1].ToString() + "+" + Pattern[i][2].ToString() + "+" + Pattern[i][3].ToString());
-            if (!MagicCircleMananger.Instance.GetLine(MagicCircleMananger.Instance.xy2unidimensional(Pattern[i][0], Pattern[i][1]), MagicCircleMananger.Instance.xy2unidimensional(Pattern[i][2], Pattern[i][3])))
+            if (!MagicCircleMananger.Instance.GetLine(
+                point1.GetUni(), 
+                point2.GetUni(),
+                line))
             {
                 return false;
             }
@@ -942,23 +965,28 @@ public class Card : MonoBehaviour
     }
     void patternDel(List<int[]> Pattern)
     {
+        Point point1, point2;
         for (int i = 0; i < Pattern.Count; i++)
         {
+            point1 = new Point(Pattern[i][0], Pattern[i][1]);
+            point2 = new Point(Pattern[i][2], Pattern[i][3]);
             //Debug.Log("pattenDel" + Pattern[i][0].ToString() + "+" + Pattern[i][1].ToString() + "+" + Pattern[i][2].ToString() + "+" + Pattern[i][3].ToString());
-            RayTest.Instance.DeleteLine(MagicCircleMananger.Instance.xy2unidimensional(Pattern[i][0], Pattern[i][1]),
-                MagicCircleMananger.Instance.xy2unidimensional(Pattern[i][2], Pattern[i][3]));
+            RayTest.Instance.DeleteLine( point1,point2);
         }
     }
     void patternCreate(List<int[]> Pattern)
     {
+        Point point1, point2;
         for (int i = 0; i < Pattern.Count; i++)
         {
-            if (!MagicCircleMananger.Instance.GetLine(MagicCircleMananger.Instance.xy2unidimensional(Pattern[i][0], Pattern[i][1]),
-                MagicCircleMananger.Instance.xy2unidimensional(Pattern[i][2], Pattern[i][3])))
+            point1 = new Point(Pattern[i][0], Pattern[i][1]);
+            point2 = new Point(Pattern[i][2], Pattern[i][3]);
+            if (!MagicCircleMananger.Instance.GetLine(
+                point1.GetUni(),point2.GetUni(),
+                MagicCircleMananger.Instance.line))
             {
                 //Debug.Log("pattenCreate"+Pattern[i][0].ToString() + "+" + Pattern[i][1].ToString() + "+" + Pattern[i][2].ToString() + "+" + Pattern[i][3].ToString());
-                RayTest.Instance.AddLine(MagicCircleMananger.Instance.xy2unidimensional(Pattern[i][0], Pattern[i][1]),
-                    MagicCircleMananger.Instance.xy2unidimensional(Pattern[i][2], Pattern[i][3]));
+                RayTest.Instance.AddLine(point1.GetUni(), point2.GetUni());
 
             }
         }

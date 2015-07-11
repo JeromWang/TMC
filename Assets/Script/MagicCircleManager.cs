@@ -2,6 +2,49 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public class Point
+{
+    int x, y;
+    int uni;//一维表示法
+    public Point(int x1,int y1)
+    {
+        x = x1;
+        y = y1;
+        uni = 5 * x + y;
+    }
+    public Point(int uni1)
+    {
+        uni = uni1;
+        x = uni / 5;
+        y = uni % 5;
+    }
+    public int GetUni()
+    {
+        return uni;
+    }
+    public int GetX()
+    {
+        return x;
+    }
+    public int GetY()
+    {
+        return y;
+    }
+}
+public class Line
+{
+    public Point point1, point2;
+    public Line(Point p1,Point p2)
+    {
+        point1 = p1;
+        point2 = p2;
+    }
+    public Line (int x1,int y1,int x2,int y2)
+    {
+        point1 = new Point(x1, y1);
+        point2 = new Point(x2, y2);
+    }
+}
 public class MagicCircleMananger : MonoBehaviour
 {
     public static MagicCircleMananger Instance;
@@ -15,13 +58,23 @@ public class MagicCircleMananger : MonoBehaviour
     public int[,] linekeng = new int[9, 5];//法阵点上面线的条数
     public bool[,] line = new bool[43, 43]; //魔法连线是否存在的bool数组
 
-    public int LineTrueDepth;//递归函数的层数
-    public int LineFalseDepth;//递归函数的层数
+    bool[,] ekeng = new bool[9, 5];//法阵里面的点
+    int[,] elinekeng = new int[9, 5];
+    public bool[,] eline = new bool[43, 43]; //魔法连线是否存在的bool数组
+
+    int LineTrueDepth;//递归函数的层数
+    int LineFalseDepth;//递归函数的层数
     public float[] rowKey = new float[5];//标准点阵列坐标
     public float[] lineKey = new float[9];//标准点阵行坐标
 
     public float StartCoordinate = 1006f;//起始坐标
-    public GameObject[] level2Hide=new GameObject[6];
+    public GameObject[] level2Hide=new GameObject[6];//第二关需要被隐藏的点
+
+    const float startRowKey = 850f;//中心位置
+    const float startLineKey = 1000f;//中心位置
+    const float scale = 0.08f;//转换比例
+    const float rowGap = 13f;
+    const float lineGap = 7.5f;
     
     /// <summary>
     /// Awake this instance.
@@ -30,11 +83,7 @@ public class MagicCircleMananger : MonoBehaviour
     {
         MagicCircleMananger.Instance = this;
     }
-    // Use this for initialization
-    /// <summary>
-    /// 对所有数组以及行列坐标进行了初始化
-    /// </summary>
-    void Start()
+    void Initialize()
     {
         for (int i = 0; i < 9; i++)
             for (int j = 0; j < 5; j++)
@@ -48,42 +97,55 @@ public class MagicCircleMananger : MonoBehaviour
                 line[i, j] = false;
             line[i, i] = true;
         }
-        rowKey[0] = 850 - 2 * 13 * 0.08f;
-        rowKey[1] = 850 - 13 * 0.08f;
-        rowKey[2] = 850;
-        rowKey[3] = 850 + 13 * 0.08f;
-        rowKey[4] = 850 + 2 * 13 * 0.08f;
-        lineKey[0] = 1000 - 4 * 7.5f * 0.08f;
-        lineKey[1] = 1000 - 3 * 7.5f * 0.08f;
-        lineKey[2] = 1000 - 2 * 7.5f * 0.08f;
-        lineKey[3] = 1000 - 7.5f * 0.08f;
-        lineKey[4] = 1000f;
-        lineKey[5] = 1000 + 7.5f * 0.08f; ;
-        lineKey[6] = 1000 + 2 * 7.5f * 0.08f;
-        lineKey[7] = 1000 + 3 * 7.5f * 0.08f;
-        lineKey[8] = 1000 + 4 * 7.5f * 0.08f;
-        //CameraInUse = 1;
+    }
+    void IniKeyPos()
+    {
+        rowKey[0] = startRowKey - 2 * rowGap * scale;
+        rowKey[1] = startRowKey - rowGap * scale;
+        rowKey[2] = startRowKey;
+        rowKey[3] = startRowKey + rowGap * scale;
+        rowKey[4] = startRowKey + 2 * rowGap * scale;
+        lineKey[0] = startLineKey - 4 * lineGap * scale;
+        lineKey[1] = startLineKey - 3 * lineGap * scale;
+        lineKey[2] = startLineKey - 2 * lineGap * scale;
+        lineKey[3] = startLineKey - lineGap * scale;
+        lineKey[4] = startLineKey;
+        lineKey[5] = startLineKey + lineGap * scale; ;
+        lineKey[6] = startLineKey + 2 * lineGap * scale;
+        lineKey[7] = startLineKey + 3 * lineGap * scale;
+        lineKey[8] = startLineKey + 4 * lineGap * scale;
+    }
+    void Level2Start()
+    {
+        linekeng[3, 3] = 1;
+        linekeng[5, 3] = 1;
+        linekeng[2, 2] = 1;
+        linekeng[6, 2] = 1;
+        linekeng[3, 1] = 1;
+        linekeng[5, 1] = 1;
+
+        level2Hide[0] = GameObject.Find("Keng1/1/3.1");
+        level2Hide[1] = GameObject.Find("Keng1/1/5.1");
+        level2Hide[2] = GameObject.Find("Keng1/2/2.2");
+        level2Hide[3] = GameObject.Find("Keng1/2/6.2");
+        level2Hide[4] = GameObject.Find("Keng1/3/5.3");
+        level2Hide[5] = GameObject.Find("Keng1/3/3.3");
+        for (int i = 0; i < 6; i++)
+        {
+            level2Hide[i].SetActive(false);
+        }
+    }
+
+    void Start()
+    {
+        Initialize();
+        IniKeyPos();
         LineTrueDepth = 0;
         LineFalseDepth = 0;
+        
         if(LevelManager.Instance.level==2)
         {
-            linekeng[3, 3] =1;
-            linekeng[5, 3] = 1;
-            linekeng[2, 2] = 1;
-            linekeng[6, 2] = 1;
-            linekeng[3, 1] = 1;
-            linekeng[5, 1] = 1;
-
-            level2Hide[0]=GameObject.Find("Keng1/1/3.1");
-            level2Hide[1] = GameObject.Find("Keng1/1/5.1");
-            level2Hide[2] = GameObject.Find("Keng1/2/2.2");
-            level2Hide[3] = GameObject.Find("Keng1/2/6.2");
-            level2Hide[4] = GameObject.Find("Keng1/3/5.3");
-            level2Hide[5] = GameObject.Find("Keng1/3/3.3");
-            for(int i=0;i<6;i++)
-            {
-                level2Hide[i].SetActive(false);
-            }
+            Level2Start();
         }
     }
     public void Level2End()
@@ -93,25 +155,19 @@ public class MagicCircleMananger : MonoBehaviour
             level2Hide[i].SetActive(true);
         }
     }
-    /// <summary>
-    /// 将二维的xy转换为一维的
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public int xy2unidimensional(int x, int y)
+    public bool EDrawLine(Line line)
     {
-        return 5 * x + y;
+        if (ekeng[line.point1.GetX(), line.point1.GetY()] == false)
+            return false;
+        if (ekeng[line.point2.GetX(), line.point2.GetY()] == false)
+            return false;
+        LineTrue(line.point1.GetUni(), line.point2.GetUni(), eline,elinekeng);
+        return true;
     }
+   
     /// <summary>
     /// 将Line(x,y)置为True
     /// </summary>
-    /// <param name='x'>
-    /// X.
-    /// </param>
-    /// <param name='y'>
-    /// Y.
-    /// </param>
     public void LineTrue(int x, int y)
     {
         LineTrueDepth++;
@@ -173,12 +229,6 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 将Line(x,y)置为False
     /// </summary>
-    /// <param name='x'>
-    /// X.
-    /// </param>
-    /// <param name='y'>
-    /// Y.
-    /// </param>
     public void LineFalse(int x, int y)
     {
         if (GetLine(x, y))
@@ -327,12 +377,6 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 将Keng(x,y)置为True
     /// </summary>
-    /// <param name='x'>
-    /// X.
-    /// </param>
-    /// <param name='y'>
-    /// Y.
-    /// </param>
     public void KengTrue(int x, int y)
     {
         keng[x, y] = true;
@@ -340,38 +384,16 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 将Keng(x,y)置为False
     /// </summary>
-    /// <param name='x'>
-    /// X.
-    /// </param>
-    /// <param name='y'>
-    /// Y.
-    /// </param>
     public void KengFalse(int x, int y)
     {
         keng[x, y] = false;
     }
-    /// <summary>
     /// Keng(x,y)上线段数增加
-    /// </summary>
-    /// <param name='x'>
-    /// X.
-    /// </param>
-    /// <param name='y'>
-    /// Y.
-    /// </param>
     public void LineKengPlus(int x, int y)
     {
         linekeng[x, y]++;
     }
-    /// <summary>
     /// Keng(x,y)上线段数减少
-    /// </summary>
-    /// <param name='x'>
-    /// X.
-    /// </param>
-    /// <param name='y'>
-    /// Y.
-    /// </param>
     public void LineKengMinus(int x, int y)
     {
         if (linekeng[x, y] > 0)
@@ -382,18 +404,12 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 检测线段xy是否可操作
     /// </summary>
-    /// <param name='x'>
-    /// X.
-    /// </param>
-    /// <param name='y'>
-    /// Y.
-    /// </param>
     public bool IsOperable(int x, int y)
     {
-        int x1 = x / 5;
-        int y1 = x % 5;
-        int x2 = y / 5;
-        int y2 = y % 5;
+        int x1 = line.point1.GetX();
+        int y1 = line.point1.GetY();
+        int x2 = line.point2.GetX();
+        int y2 = line.point2.GetY();
         double k = (double)(Mathf.Abs(y1 - y2)) / (double)(Mathf.Abs(x1 - x2));
         if (x1 == x2)
         {
@@ -476,12 +492,6 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 取得Line(x,y)的值
     /// </summary>
-    /// <param name='x'>
-    /// X.
-    /// </param>
-    /// <param name='y'>
-    /// Y.
-    /// </param>
     public bool GetLine(int x, int y)
     {
         return line[x, y];
@@ -502,12 +512,6 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 取得LineKeng(x,y)的值
     /// </summary>
-    /// <param name='x'>
-    /// X.
-    /// </param>
-    /// <param name='y'>
-    /// Y.
-    /// </param>
     public bool GetLineKeng(int x, int y)
     {
         ////Debug.Log("Keng["+x+","+y+"]" + linekeng[x,y]);
@@ -615,12 +619,6 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 关闭(l1,l2)上面的坑
     /// </summary>
-    /// <param name='l1'>
-    /// L1.
-    /// </param>
-    /// <param name='l2'>
-    /// L2.
-    /// </param>
     public void LineKengClose(int l1, int l2)
     {
         int x1 = l1 / 5;
@@ -683,12 +681,6 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 打开(l1,l2)上面的坑
     /// </summary>
-    /// <param name='l1'>
-    /// L1.
-    /// </param>
-    /// <param name='l2'>
-    /// L2.
-    /// </param>
     public void LineKengOpen(int l1, int l2)
     {
         int x1 = l1 / 5;
@@ -759,9 +751,6 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 根据传入的列坐标返回标准列坐标实现吸附
     /// </summary>
-    /// <param name='z'>
-    /// Z.
-    /// </param>
     public float getz(float z)
     {
         if (z > ((rowKey[4] + rowKey[3]) / 2))
@@ -778,9 +767,6 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 根据传入的行坐标返回标准行坐标实现吸附1
     /// </summary>
-    /// <param name='x'>
-    /// X.
-    /// </param>
     public float getx1(float x)
     {
         if (x == StartCoordinate)
@@ -802,9 +788,6 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 根据传入的行坐标返回标准行坐标实现吸附2
     /// </summary>
-    /// <param name='x'>
-    /// X.
-    /// </param>
     public float getx2(float x)
     {
         if (x == StartCoordinate)
@@ -822,9 +805,6 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 根据传入的行坐标返回标准行坐标实现吸附3
     /// </summary>
-    /// <param name='x'>
-    /// X.
-    /// </param>
     public float getx3(float x)
     {
         if (x == StartCoordinate)
@@ -844,12 +824,6 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 根据传入的标准行坐标返回行号
     /// </summary>
-    /// <returns>
-    /// The kx.
-    /// </returns>
-    /// <param name='x'>
-    /// X.
-    /// </param>
     public int getKx(float x)
     {
         if (x == lineKey[8]) return 8;
@@ -866,12 +840,6 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 根据传入的标准列坐标返回列号
     /// </summary>
-    /// <returns>
-    /// The ky.
-    /// </returns>
-    /// <param name='y'>
-    /// Y.
-    /// </param>
     public int getKy(float y)
     {
         if (y == rowKey[4]) return 4;
@@ -880,11 +848,6 @@ public class MagicCircleMananger : MonoBehaviour
         else if (y == rowKey[1]) return 1;
         else if (y == rowKey[0]) return 0;
         else return -1;
-
-    }
-    // Update is called once per frame
-    void Update()
-    {
 
     }
 }
