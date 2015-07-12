@@ -60,8 +60,8 @@ public class DrawCard : MonoBehaviour
     
     public void GetEnemyRoundList(int round)
     {
-        //Debug.Log("GetEnemyRoundList");
-        string s="";
+        Debug.Log("GetEnemyRoundList");
+        string s = "";
         if (EnemyRoundList.Count < round)
         {
             s = EnemyRoundList[EnemyRoundList.Count - 1];
@@ -70,7 +70,7 @@ public class DrawCard : MonoBehaviour
         {
             s = EnemyRoundList[round - 1];
         }
-        //Debug.Log(s);
+        Debug.Log(s);
         for(int i=0;i<s.Length;i=i+3)
         {
             EnergyManager.Instance.enemyOperationID.Add(s.Substring(i , 3));
@@ -274,7 +274,13 @@ public class DrawCard : MonoBehaviour
                     //Debug.Log("对面使用了" + cardScript.ID);
                     return;
                 }
-                
+                if (AI.Instance.aiType == AIType.WeakAI)
+                {
+                    //Debug.Log("AIType.RoundList");
+                    cardScript.ID = EnergyManager.Instance.enemyOperationID[EnergyManager.Instance.enemyOperationIndex];
+                    //Debug.Log("对面使用了" + cardScript.ID);
+                    return;
+                }
             }
             else//联机
             {

@@ -30,6 +30,20 @@ public class Point
     {
         return y;
     }
+    public static bool operator ==(Point p1,Point p2)
+    {
+        if((p1 as object)!=null && (p2 as object)!=null)
+        {
+            return p1.GetUni() == p2.GetUni();
+        }
+        if ((p1 as object) == null && (p2 as object) == null)
+            return true;
+        return false;
+    }
+    public static bool operator !=(Point p1, Point p2)
+    {
+        return !(p1 == p2);
+    }
 }
 public class Line
 {
@@ -44,10 +58,24 @@ public class Line
         point1 = new Point(x1, y1);
         point2 = new Point(x2, y2);
     }
+    public static bool operator ==(Line l1, Line l2)
+    {
+        if ((l1 as object) != null && (l2 as object) != null)
+        {
+            return l1.point1.GetUni() == l2.point1.GetUni() && l1.point2.GetUni() == l2.point2.GetUni()
+                || l1.point1.GetUni() == l2.point2.GetUni() && l1.point2.GetUni() == l2.point1.GetUni();
+        }
+        if ((l1 as object) == null && (l2 as object) == null)
+            return true;
+        return false;
+    }
+    public static bool operator !=(Line l1, Line l2)
+    {
+        return !(l1 == l2);
+    }
 }
 public class MagicCircleMananger : MonoBehaviour
 {
-    public static MagicCircleMananger Instance;
 
 	//public int CameraInUse;//当前启用的摄像机
 
@@ -58,17 +86,12 @@ public class MagicCircleMananger : MonoBehaviour
     public int[,] linekeng = new int[9, 5];//法阵点上面线的条数
     public bool[,] line = new bool[43, 43]; //魔法连线是否存在的bool数组
 
-    bool[,] ekeng = new bool[9, 5];//法阵里面的点
-    int[,] elinekeng = new int[9, 5];
-    public bool[,] eline = new bool[43, 43]; //魔法连线是否存在的bool数组
-
     int LineTrueDepth;//递归函数的层数
     int LineFalseDepth;//递归函数的层数
     public float[] rowKey = new float[5];//标准点阵列坐标
     public float[] lineKey = new float[9];//标准点阵行坐标
 
     public float StartCoordinate = 1006f;//起始坐标
-    public GameObject[] level2Hide=new GameObject[6];//第二关需要被隐藏的点
 
     const float startRowKey = 850f;//中心位置
     const float startLineKey = 1000f;//中心位置
@@ -76,13 +99,6 @@ public class MagicCircleMananger : MonoBehaviour
     const float rowGap = 13f;
     const float lineGap = 7.5f;
     
-    /// <summary>
-    /// Awake this instance.
-    /// </summary>
-    public void Awake()
-    {
-        MagicCircleMananger.Instance = this;
-    }
     void Initialize()
     {
         for (int i = 0; i < 9; i++)
@@ -115,63 +131,109 @@ public class MagicCircleMananger : MonoBehaviour
         lineKey[7] = startLineKey + 3 * lineGap * scale;
         lineKey[8] = startLineKey + 4 * lineGap * scale;
     }
-    void Level2Start()
+    
+    public virtual void Destroy()
     {
-        linekeng[3, 3] = 1;
-        linekeng[5, 3] = 1;
-        linekeng[2, 2] = 1;
-        linekeng[6, 2] = 1;
-        linekeng[3, 1] = 1;
-        linekeng[5, 1] = 1;
-
-        level2Hide[0] = GameObject.Find("Keng1/1/3.1");
-        level2Hide[1] = GameObject.Find("Keng1/1/5.1");
-        level2Hide[2] = GameObject.Find("Keng1/2/2.2");
-        level2Hide[3] = GameObject.Find("Keng1/2/6.2");
-        level2Hide[4] = GameObject.Find("Keng1/3/5.3");
-        level2Hide[5] = GameObject.Find("Keng1/3/3.3");
-        for (int i = 0; i < 6; i++)
-        {
-            level2Hide[i].SetActive(false);
-        }
+        Destroy(this);
     }
-
-    void Start()
+    protected void Start()
     {
         Initialize();
         IniKeyPos();
         LineTrueDepth = 0;
         LineFalseDepth = 0;
         
-        if(LevelManager.Instance.level==2)
-        {
-            Level2Start();
-        }
-    }
-    public void Level2End()
-    {
-        for (int i = 0; i < 6; i++)
-        {
-            level2Hide[i].SetActive(true);
-        }
     }
     public bool EDrawLine(Line line)
     {
-        if (ekeng[line.point1.GetX(), line.point1.GetY()] == false)
+        if (keng[line.point1.GetX(), line.point1.GetY()] == false)
             return false;
-        if (ekeng[line.point2.GetX(), line.point2.GetY()] == false)
+        if (keng[line.point2.GetX(), line.point2.GetY()] == false)
             return false;
-        LineTrue(line.point1.GetUni(), line.point2.GetUni(), eline,elinekeng);
+        LineTrue(line.point1.GetUni(), line.point2.GetUni());
         return true;
     }
-   
+    //在RayTest里还有一个副本，那个专门删3d线的
+    public void DeleteLine(int x, int y)
+    {
+        LineFalse(x, y);
+        int x1 = x / 5;
+        int y1 = x % 5;
+        int x2 = y / 5;
+        int y2 = y % 5;
+        double k = (double)(Mathf.Abs(y1 - y2)) / (double)(Mathf.Abs(x1 - x2));
+        if (x1 == x2)
+        {
+            if (Mathf.Abs(y1 - y2) == 4)
+            {
+                DeleteLine((5 * x1 + (y1 + y2) / 2), x);
+                DeleteLine((5 * x1 + (y1 + y2) / 2), y);
+            }
+        }
+        else if (y1 == y2)
+        {
+            if (Mathf.Abs(x1 - x2) == 4)
+            {
+                DeleteLine((5 * (x1 + (x2 - x1) / 2) + y1), x);
+                DeleteLine((5 * (x1 + (x2 - x1) / 2) + y1), y);
+            }
+            else if (Mathf.Abs(x1 - x2) == 6)
+            {
+                DeleteLine((5 * (x1 + (x2 - x1) / 3) + y1), x);
+                DeleteLine((5 * (x1 + (x2 - x1) / 3) + y1), y);
+                DeleteLine((5 * (x1 + (x2 - x1) * 2 / 3) + y1), x);
+                DeleteLine((5 * (x1 + (x2 - x1) * 2 / 3) + y1), y);
+            }
+            else if (Mathf.Abs(x1 - x2) == 8)
+            {
+                DeleteLine((5 * (x1 + (x2 - x1) / 4) + y1), x);
+                DeleteLine((5 * (x1 + (x2 - x1) / 4) + y1), y);
+                DeleteLine((5 * (x1 + (x2 - x1) / 2) + y1), x);
+                DeleteLine((5 * (x1 + (x2 - x1) / 2) + y1), y);
+                DeleteLine((5 * (x1 + (x2 - x1) * 3 / 4) + y1), x);
+                DeleteLine((5 * (x1 + (x2 - x1) * 3 / 4) + y1), y);
+            }
+        }
+        else if (k == 1)
+        {
+            if (Mathf.Abs(x1 - x2) == 2)
+            {
+                DeleteLine((5 * (x1 + (x2 - x1) / 2) + (y1 + (y2 - y1) / 2)), x);
+                DeleteLine((5 * (x1 + (x2 - x1) / 2) + (y1 + (y2 - y1) / 2)), y);
+            }
+            else if (Mathf.Abs(x1 - x2) == 3)
+            {
+                DeleteLine((5 * (x1 + (x2 - x1) / 3) + (y1 + (y2 - y1) / 3)), x);
+                DeleteLine((5 * (x1 + (x2 - x1) / 3) + (y1 + (y2 - y1) / 3)), y);
+                DeleteLine((5 * (x1 + (x2 - x1) * 2 / 3) + (y1 + (y2 - y1) * 2 / 3)), x);
+                DeleteLine((5 * (x1 + (x2 - x1) * 2 / 3) + (y1 + (y2 - y1) * 2 / 3)), y);
+            }
+            else if (Mathf.Abs(x1 - x2) == 4)
+            {
+                DeleteLine((5 * (x1 + (x2 - x1) / 4) + (y1 + (y2 - y1) / 4)), x);
+                DeleteLine((5 * (x1 + (x2 - x1) / 4) + (y1 + (y2 - y1) / 4)), y);
+                DeleteLine((5 * (x1 + (x2 - x1) / 2) + (y1 + (y2 - y1) / 2)), x);
+                DeleteLine((5 * (x1 + (x2 - x1) / 2) + (y1 + (y2 - y1) / 2)), y);
+                DeleteLine((5 * (x1 + (x2 - x1) * 3 / 4) + (y1 + (y2 - y1) * 3 / 4)), x);
+                DeleteLine((5 * (x1 + (x2 - x1) * 3 / 4) + (y1 + (y2 - y1) * 3 / 4)), y);
+            }
+        }
+        else if (k == (double)1 / (double)3)
+        {
+            if (Mathf.Abs(y1 - y2) == 2)
+            {
+                DeleteLine((5 * (x1 + (x2 - x1) / 2) + (y1 + (y2 - y1) / 2)), x);
+                DeleteLine((5 * (x1 + (x2 - x1) / 2) + (y1 + (y2 - y1) / 2)), y);
+            }
+        }
+    }
     /// <summary>
     /// 将Line(x,y)置为True
     /// </summary>
     public void LineTrue(int x, int y)
     {
         LineTrueDepth++;
-        if (!GetLine(x, y))
+        if (!GetLine(new Point(x), new Point(y)))
         {
             line[x, y] = true;
             line[y, x] = true;
@@ -231,7 +293,7 @@ public class MagicCircleMananger : MonoBehaviour
     /// </summary>
     public void LineFalse(int x, int y)
     {
-        if (GetLine(x, y))
+        if (GetLine(new Point(x),new Point(y)))
         {
             line[x, y] = false;
             line[y, x] = false;
@@ -311,7 +373,7 @@ public class MagicCircleMananger : MonoBehaviour
     }
     public void LineFalse_Powerup(int x, int y)
     {
-        if (GetLine(x, y))
+        if (GetLine(new Point(x), new Point(y)))
         {
             line[x, y] = false;
             line[y, x] = false;
@@ -404,7 +466,7 @@ public class MagicCircleMananger : MonoBehaviour
     /// <summary>
     /// 检测线段xy是否可操作
     /// </summary>
-    public bool IsOperable(int x, int y)
+    public bool IsOperable(Line line)
     {
         int x1 = line.point1.GetX();
         int y1 = line.point1.GetY();
@@ -488,14 +550,15 @@ public class MagicCircleMananger : MonoBehaviour
             else
                 return false;
         }
-    }
+    } 
     /// <summary>
     /// 取得Line(x,y)的值
     /// </summary>
-    public bool GetLine(int x, int y)
+    public bool GetLine(Point p1,Point p2)
     {
-        return line[x, y];
+        return line[p1.GetUni(), p2.GetUni()];
     }
+   
     /// <summary>
     /// 取得Keng(x,y)的值
     /// </summary>

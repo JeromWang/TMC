@@ -126,7 +126,9 @@ public class Move : MonoBehaviour
 
     void adsorption()
     {//吸附效果
-        float x = 0, z = 0; int kx = -1, ky = -1, kx0 = -1, ky0 = -1, l = 0;
+        float x = 0, z = 0; 
+        int kx = -1, ky = -1, kx0 = -1, ky0 = -1;
+        Point l = new Point(0);
         bool s = false;
         //在法阵范围之外
         if (transform.position.x < 996.5f || transform.position.x > 1003.5f || transform.position.z < 847 || transform.position.z > 853)
@@ -141,34 +143,39 @@ public class Move : MonoBehaviour
             return;
         }
 
-        z = MagicCircleMananger.Instance.getz(transform.position.z);
-        if (z == MagicCircleMananger.Instance.rowKey[2])
-            x = MagicCircleMananger.Instance.getx1(transform.position.x);
-        else if (z == MagicCircleMananger.Instance.rowKey[4] || z == MagicCircleMananger.Instance.rowKey[0])
-            x = MagicCircleMananger.Instance.getx2(transform.position.x);
+        z = EnergyManager.Instance.HeroMagicCircle.getz(transform.position.z);
+        if (z == EnergyManager.Instance.HeroMagicCircle.rowKey[2])
+            x = EnergyManager.Instance.HeroMagicCircle.getx1(transform.position.x);
+        else if (z == EnergyManager.Instance.HeroMagicCircle.rowKey[4] || z == EnergyManager.Instance.HeroMagicCircle.rowKey[0])
+            x = EnergyManager.Instance.HeroMagicCircle.getx2(transform.position.x);
         else
-            x = MagicCircleMananger.Instance.getx3(transform.position.x);
+            x = EnergyManager.Instance.HeroMagicCircle.getx3(transform.position.x);
 
-        kx = MagicCircleMananger.Instance.getKx(x);
-        ky = MagicCircleMananger.Instance.getKy(z);
-        kx0 = MagicCircleMananger.Instance.getKx(lastVector.x);
-        ky0 = MagicCircleMananger.Instance.getKy(lastVector.z);
+        kx = EnergyManager.Instance.HeroMagicCircle.getKx(x);
+        ky = EnergyManager.Instance.HeroMagicCircle.getKy(z);
+        kx0 = EnergyManager.Instance.HeroMagicCircle.getKx(lastVector.x);
+        ky0 = EnergyManager.Instance.HeroMagicCircle.getKy(lastVector.z);
         //Debug.Log("x"+kx);
         //Debug.Log("y"+ky);
         s = false;
         if (kx0 != -1)
-            l = 5 * kx0 + ky0;
+            l = new Point(kx0,ky0);
         //是否连着线
+        Point tempPoint;
         for (int n = 0; n < 43; n++)
-            if (n != l)
-                if (MagicCircleMananger.Instance.GetLine(l, n))
+        {
+            tempPoint = new Point(n);
+            if (tempPoint != l)
+                if (EnergyManager.Instance.HeroMagicCircle.GetLine(l, tempPoint))
                 {
                     s = true;
                     GuideText.Instance.ReturnText("LinkedCrystalCannotMove");
                     break;
                 }
+        }
+            
         //
-        if (MagicCircleMananger.Instance.GetLineKeng(kx, ky))
+        if (EnergyManager.Instance.HeroMagicCircle.GetLineKeng(kx, ky))
         {
             if (lastVector == originalVector)
             {
@@ -201,11 +208,11 @@ public class Move : MonoBehaviour
         transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         if (kx0 != -1)
         {
-            MagicCircleMananger.Instance.KengFalse(kx0, ky0);
-            MagicCircleMananger.Instance.LineKengMinus(kx0, ky0);
+            EnergyManager.Instance.HeroMagicCircle.KengFalse(kx0, ky0);
+            EnergyManager.Instance.HeroMagicCircle.LineKengMinus(kx0, ky0);
         }
-        MagicCircleMananger.Instance.KengTrue(kx, ky);
-        MagicCircleMananger.Instance.LineKengPlus(kx, ky);
+        EnergyManager.Instance.HeroMagicCircle.KengTrue(kx, ky);
+        EnergyManager.Instance.HeroMagicCircle.LineKengPlus(kx, ky);
         EnergyManager.Instance.accessibleCrystal--;
         if(lastVector==originalVector)
         {

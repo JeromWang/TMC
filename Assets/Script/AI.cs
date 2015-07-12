@@ -6,7 +6,8 @@ public enum AIType
 {
     CardList,//读入整局使用的list
     RoundList,//读入每回合使用的list
-    WeakAI//会主动放盾
+    WeakAI,//会主动放盾,按着给定的画线序列画线
+    StrongAI
 }
 public enum AIStyle
 {
@@ -83,7 +84,7 @@ public class AI : MonoBehaviour {
             return;
         if (EnergyManager.Instance.EEnergyAccessible(1) == false)
             return;
-        if(MagicCircleMananger.Instance.EDrawLine(lineList[0]))
+        if (EnergyManager.Instance.EnemyMagicCircle.EDrawLine(lineList[0]))
         {
             lineList.RemoveAt(0);
             EnergyManager.Instance.EMinusEnergy(1);

@@ -45,7 +45,7 @@ public class CardMoving : MonoBehaviour
         // Debug.Log("CardMovinng Start");
         explainLabel = GameObject.Find("ExplainLabel").GetComponent<UILabel>();
 
-        MagicCircleMananger.Instance.ChangeLine += this.BacklightShowHide;
+        EnergyManager.Instance.HeroMagicCircle.ChangeLine += this.BacklightShowHide;
         EnergyManager.Instance.ChangeEnergy += this.BacklightShowHide;
         Parent = transform.parent; 
         BacklightShowHide();
@@ -215,7 +215,7 @@ public class CardMoving : MonoBehaviour
     }
     public void BeDestroy()
     {
-        MagicCircleMananger.Instance.ChangeLine -= this.BacklightShowHide;
+        EnergyManager.Instance.HeroMagicCircle.ChangeLine -= this.BacklightShowHide;
         EnergyManager.Instance.ChangeEnergy -= this.BacklightShowHide;
         CameraMoving.Instance.cardMoving = false;
         Destroy(this);

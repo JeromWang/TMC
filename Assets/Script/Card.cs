@@ -312,17 +312,17 @@ public class Card : MonoBehaviour
         return line;
 
     }
-    Accessible AuraAccessible(bool[,] line)
+    Accessible AuraAccessible()
     {
         int type = AuraManager.Instance.GetCardPatternUsed(ID);//0:没有使用的样式
         if (PatternNumber > 1)
         {
-            if (patternTrue(Pattern_2,line) && type != 2)
+            if (patternTrue(Pattern_2) && type != 2)
             {
                 PatternUsed = 2;
                 return Accessible.OK;
             }
-            if (patternTrue(Pattern_1,line) && type != 1)
+            if (patternTrue(Pattern_1) && type != 1)
             {
                 PatternUsed = 1;
                 return Accessible.OK;
@@ -332,7 +332,7 @@ public class Card : MonoBehaviour
 
             return Accessible.NeedSymmetryPattern;
         }
-        if (patternTrue(Pattern_1,line) && type != 1)
+        if (patternTrue(Pattern_1) && type != 1)
         {
             PatternUsed = 1;
             return Accessible.OK;
@@ -343,14 +343,14 @@ public class Card : MonoBehaviour
     {
         if (PatternNumber > 1)
         {
-            if (patternTrue(Pattern_2,line))
+            if (patternTrue(Pattern_2))
             {
                 PatternUsed = 2;
                 return Accessible.OK;
             }
 
         }
-        if (patternTrue(Pattern_1,line))
+        if (patternTrue(Pattern_1))
         {
             PatternUsed = 1;
             return Accessible.OK;
@@ -365,17 +365,14 @@ public class Card : MonoBehaviour
             return Accessible.NeedEnergy;
          if (ID[0] == 'E')//结界
          {
-             if (isHeros)
-                 return AuraAccessible(MagicCircleMananger.Instance.line);
-             else
-                 return AuraAccessible(MagicCircleMananger.Instance.eline);
+             return AuraAccessible();
          }
         //变换卡
          {
              if (isHeros)
-                 return ConvertAccessible(MagicCircleMananger.Instance.line);
+                 return ConvertAccessible(EnergyManager.Instance.HeroMagicCircle.line);
              else
-                 return ConvertAccessible(MagicCircleMananger.Instance.eline);
+                 return ConvertAccessible(EnergyManager.Instance.EnemyMagicCircle.line);
          }
          
     }
@@ -474,7 +471,7 @@ public class Card : MonoBehaviour
     }
     public IEnumerator Use()
     {
-        // Debug.Log(ID);
+        //Debug.Log("Card:"+ID);
         #region 结界动画
         if (ID[0] == 'C')
         {
@@ -618,6 +615,11 @@ public class Card : MonoBehaviour
         else
         {
             EnergyManager.Instance.EnemyCardUse();//对手的出牌事件
+            if(AI.Instance.aiType==AIType.WeakAI)
+            {
+                EnergyManager.Instance.EMinusEnergy(cost);
+                //Debug.Log("weeak");
+            }
             if(typeText=="结界")
             {
                 CreateAura();
@@ -953,13 +955,10 @@ public class Card : MonoBehaviour
             point1 = new Point(Pattern[i][0], Pattern[i][1]);
             point2 = new Point(Pattern[i][2], Pattern[i][3]);
             //Debug.Log(Pattern[i][0].ToString() + "+" + Pattern[i][1].ToString() + "+" + Pattern[i][2].ToString() + "+" + Pattern[i][3].ToString());
-            if (!MagicCircleMananger.Instance.GetLine(
-                point1.GetUni(), 
-                point2.GetUni(),
-                line))
-            {
+            if (isHeros && !EnergyManager.Instance.HeroMagicCircle.GetLine(point1, point2))
                 return false;
-            }
+            if (!isHeros && !EnergyManager.Instance.EnemyMagicCircle.GetLine(point1, point2))
+                return false;
         }
         return true;
     }
@@ -971,7 +970,10 @@ public class Card : MonoBehaviour
             point1 = new Point(Pattern[i][0], Pattern[i][1]);
             point2 = new Point(Pattern[i][2], Pattern[i][3]);
             //Debug.Log("pattenDel" + Pattern[i][0].ToString() + "+" + Pattern[i][1].ToString() + "+" + Pattern[i][2].ToString() + "+" + Pattern[i][3].ToString());
-            RayTest.Instance.DeleteLine( point1,point2);
+            if (isHeros)
+                RayTest.Instance.DeleteLine(point1, point2);
+            else
+                EnergyManager.Instance.EnemyMagicCircle.DeleteLine(point1.GetUni(), point2.GetUni());
         }
     }
     void patternCreate(List<int[]> Pattern)
@@ -981,13 +983,15 @@ public class Card : MonoBehaviour
         {
             point1 = new Point(Pattern[i][0], Pattern[i][1]);
             point2 = new Point(Pattern[i][2], Pattern[i][3]);
-            if (!MagicCircleMananger.Instance.GetLine(
-                point1.GetUni(),point2.GetUni(),
-                MagicCircleMananger.Instance.line))
+            if ( isHeros &&!EnergyManager.Instance.HeroMagicCircle.GetLine(point1, point2))
             {
                 //Debug.Log("pattenCreate"+Pattern[i][0].ToString() + "+" + Pattern[i][1].ToString() + "+" + Pattern[i][2].ToString() + "+" + Pattern[i][3].ToString());
                 RayTest.Instance.AddLine(point1.GetUni(), point2.GetUni());
 
+            }
+            if(!isHeros && !EnergyManager.Instance.EnemyMagicCircle.GetLine(point1,point2))
+            {
+                EnergyManager.Instance.EnemyMagicCircle.LineTrue(point1.GetUni(), point2.GetUni());
             }
         }
     }

@@ -35,7 +35,7 @@ public class CameraMoving : MonoBehaviour
     }
     public void CameraMovingEvent()
     {
-        MagicCircleMananger.Instance.ChangeLine += this.ChangeLine;
+        EnergyManager.Instance.HeroMagicCircle.ChangeLine += this.Null;
         EnergyManager.Instance.ChangeEnergy += this.ChangeEnergy;
         EnergyManager.Instance.StartGame += this.StartGame;
         EnergyManager.Instance.StartTurn += this.StartTurn;
@@ -59,8 +59,6 @@ public class CameraMoving : MonoBehaviour
     {
 
     }
-    public void ChangeLine()
-    { }
     public void ChangeEnergy()
     { }
     public void StartTurn()

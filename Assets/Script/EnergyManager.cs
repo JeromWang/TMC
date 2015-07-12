@@ -10,6 +10,7 @@ public enum Operation
 public class EnergyManager : MonoBehaviour
 {
     public static EnergyManager Instance;
+    public MagicCircleMananger HeroMagicCircle, EnemyMagicCircle;
     public GameObject StartMenu;
     public int totalEnergy;//总水晶能量
     public bool unmatchedEnergy;//单独水晶能量
@@ -82,11 +83,22 @@ public class EnergyManager : MonoBehaviour
         EnergyManager.Instance = this;
         hero = GameObject.Find("Hero").GetComponent<Hero>();
         enemyHero = GameObject.Find("EnemyHero").GetComponent<Hero>();
+        HeroMagicCircle = GameObject.Find("Hero").AddComponent<HeroMagicCircle>();
+        EnemyMagicCircle = GameObject.Find("EnemyHero").AddComponent<EnemyMagicCircle>();
+        StartMenu = GameObject.Find("StartPanel");
+        handZone = transform.FindChild("HandZone").gameObject;
+        shaLou = transform.FindChild("ShaLou").gameObject;
+        EnergyLabel = GameObject.Find("EnergyLabel").GetComponent<UILabel>();
+        RoundLabel = GameObject.Find("RoundLabel").GetComponent<UILabel>();
 
     }
     // Use this for initialization
     void Start()
     {
+        AttackManager.Instance.Restart();
+        AuraManager.Instance.Restart(); 
+        AI.Instance.ReStart();
+        Move.Restart();
         totalEnergy = 0;
         accessibleEnergy = 0;
         unmatchedEnergy = false;
@@ -95,11 +107,6 @@ public class EnergyManager : MonoBehaviour
         enemyOperationID=new List<string>();
         enemyTrajectoryID = new List<int>();
         operation = new List<Operation>();
-        StartMenu = GameObject.Find("StartPanel");
-        handZone = transform.FindChild("HandZone").gameObject;
-        shaLou = transform.FindChild("ShaLou").gameObject;
-        EnergyLabel = GameObject.Find("EnergyLabel").GetComponent<UILabel>();
-        RoundLabel = GameObject.Find("RoundLabel").GetComponent<UILabel>();
       //  ESC = LevelManager.Instance.ESC;
         CameraMoving.Instance.CameraMovingEvent();
         GuideText.Instance.HideLabel();
@@ -139,7 +146,12 @@ public class EnergyManager : MonoBehaviour
         AuraManager.Instance.AuraStartTurnEffect();
         StartTurn();
     }
-
+    public void Destroy()
+    {
+        HeroMagicCircle.Destroy();
+        EnemyMagicCircle.Destroy();
+        Destroy(this);
+    }
     void Update()
     {
         //if (Time.frameCount % 50 == 0)
@@ -316,6 +328,12 @@ public class EnergyManager : MonoBehaviour
             DrawCard.Instance.GetEnemyRoundList(roundCount);
             StartCoroutine(Online_End());
         }
+        if(AI.Instance.aiType==AIType.WeakAI)
+        {
+            //Debug.Log("weak");
+            DrawCard.Instance.GetEnemyRoundList(roundCount);//之后换成AI来生成list
+            StartCoroutine(Online_End());
+        }
     }
     public IEnumerator End()
     {
@@ -476,13 +494,14 @@ public class EnergyManager : MonoBehaviour
         myTurnsEnd = false;
         enemyTurnsEnd = false;
         cardUsedTurn = 0;
-        if (!WinLose())//失败直接退出
+        if (!WinLose())//没失败继续，失败直接退出
         {
             roundCount++;
             AuraManager.Instance.AuraStartTurnEffect();
             StartTurn();
             accessibleCrystal = 2;
             accessibleEnergy = totalEnergy;
+            eAccessibleEnergy = roundCount>6?6:roundCount;
             ChangeEnergy();
             myTurnsEnd = false;
 

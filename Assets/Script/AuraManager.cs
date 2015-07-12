@@ -391,7 +391,7 @@ public class AuraManager : MonoBehaviour {
     }
     public void Restart()
     {
-        MagicCircleMananger.Instance.ChangeLine += this.AuraSustain;
+        EnergyManager.Instance.HeroMagicCircle.ChangeLine += this.AuraSustain;
     }
     public void AuraStartTurnEffect()
     {

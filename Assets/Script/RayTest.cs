@@ -33,7 +33,12 @@ public class RayTest : MonoBehaviour
         int x1 = (x - y1) / 5;
         return new Vector3((float)(997.6 + x1 * 0.6), 0.1f, (float)(847.9 + y1 * 1.05));
     }
-    public void AddLine(int x, int y)
+    public void AddLine(int x,int y)
+    {
+        EnergyManager.Instance.HeroMagicCircle.LineTrue(x, y); 
+        Add3DLine(x, y);
+    }
+    public void Add3DLine(int x, int y)
     {
         //Debug.Log(x.ToString() + " " + y.ToString());
         //Debug.Log(linePoints[0].ToString());
@@ -46,7 +51,6 @@ public class RayTest : MonoBehaviour
         line[x, y].Draw3DAuto();
         line2[x, y].Draw3DAuto();
         //Debug.Log(line[x, y].ToString());
-        MagicCircleMananger.Instance.LineTrue(x, y);
     }
     void DestroyVectorLine(int x, int y)
     {
@@ -62,7 +66,7 @@ public class RayTest : MonoBehaviour
     void DeleteLine(int x, int y)
     {
         DestroyVectorLine(x, y);
-        MagicCircleMananger.Instance.LineFalse(x, y);
+        EnergyManager.Instance.HeroMagicCircle.LineFalse(x, y);
         int x1 = x / 5;
         int y1 = x % 5;
         int x2 = y / 5;
@@ -145,52 +149,59 @@ public class RayTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(2))//删除水晶
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//从摄像机发出到点击坐标的射线
-            RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo))
-            {
-                Debug.DrawLine(ray.origin, hitInfo.point);//划出射线，只有在scene视图中才能看到
-                GameObject gameObj = hitInfo.collider.gameObject;
-                //Debug.Log("click object tag is "+gameObj.tag );
-                if (gameObj.tag == "Crystal")//当射线碰撞目标为Crystal类型的物品
-                {
-                    float x = 0, z = 0;
-                    int kx = -1, ky = -1;
-                    z = MagicCircleMananger.Instance.getz(gameObj.transform.position.z);
-                    if (z == MagicCircleMananger.Instance.rowKey[2])
-                        x = MagicCircleMananger.Instance.getx1(gameObj.transform.position.x);
-                    else if (z == MagicCircleMananger.Instance.rowKey[0] || z == MagicCircleMananger.Instance.rowKey[4])
-                        x = MagicCircleMananger.Instance.getx2(gameObj.transform.position.x);
-                    else
-                        x = MagicCircleMananger.Instance.getx3(gameObj.transform.position.x);
-                    kx = MagicCircleMananger.Instance.getKx(x);
-                    ky = MagicCircleMananger.Instance.getKy(z);
-                    if (kx != -1)
-                    {
-                        MagicCircleMananger.Instance.KengFalse(kx, ky);
-                        MagicCircleMananger.Instance.LineKengMinus(kx, ky);
-                        Destroy(gameObj);
-                        draw = false;
-                        if (EnergyManager.Instance.unmatchedEnergy)
-                            EnergyManager.Instance.unmatchedEnergy = false;
-                        else
-                        {
-                            EnergyManager.Instance.unmatchedEnergy = true;
-                            EnergyManager.Instance.totalEnergy--;
-                            EnergyManager.Instance.CrystalSee();
-                        }
-                        l3 = new Point(kx, ky);
-                        Point tempPoint;
-                        for (int n = 0; n < 43; n++)
-                            if (n != l3)
-                                if (MagicCircleMananger.Instance.GetLine(l3, n)&&MagicCircleMananger.Instance.IsOperable(l3,n))
-                                    DeleteLine(l3, n);
-                    }
-                }
-            }
-        }
+        #region 注释掉的 删除水晶
+        //if (Input.GetMouseButtonDown(2))//删除水晶
+        //{
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//从摄像机发出到点击坐标的射线
+        //    RaycastHit hitInfo;
+        //    if (Physics.Raycast(ray, out hitInfo))
+        //    {
+        //        Debug.DrawLine(ray.origin, hitInfo.point);//划出射线，只有在scene视图中才能看到
+        //        GameObject gameObj = hitInfo.collider.gameObject;
+        //        //Debug.Log("click object tag is "+gameObj.tag );
+        //        if (gameObj.tag == "Crystal")//当射线碰撞目标为Crystal类型的物品
+        //        {
+        //            float x = 0, z = 0;
+        //            int kx = -1, ky = -1;
+        //            z = MagicCircleMananger.Instance.getz(gameObj.transform.position.z);
+        //            if (z == MagicCircleMananger.Instance.rowKey[2])
+        //                x = MagicCircleMananger.Instance.getx1(gameObj.transform.position.x);
+        //            else if (z == MagicCircleMananger.Instance.rowKey[0] || z == MagicCircleMananger.Instance.rowKey[4])
+        //                x = MagicCircleMananger.Instance.getx2(gameObj.transform.position.x);
+        //            else
+        //                x = MagicCircleMananger.Instance.getx3(gameObj.transform.position.x);
+        //            kx = MagicCircleMananger.Instance.getKx(x);
+        //            ky = MagicCircleMananger.Instance.getKy(z);
+        //            if (kx != -1)
+        //            {
+        //                MagicCircleMananger.Instance.KengFalse(kx, ky);
+        //                MagicCircleMananger.Instance.LineKengMinus(kx, ky);
+        //                Destroy(gameObj);
+        //                draw = false;
+        //                if (EnergyManager.Instance.unmatchedEnergy)
+        //                    EnergyManager.Instance.unmatchedEnergy = false;
+        //                else
+        //                {
+        //                    EnergyManager.Instance.unmatchedEnergy = true;
+        //                    EnergyManager.Instance.totalEnergy--;
+        //                    EnergyManager.Instance.CrystalSee();
+        //                }
+        //                l3 = new Point(kx, ky);
+        //                Point tempPoint;
+        //                for (int n = 0; n < 43; n++)
+        //                {
+        //                    tempPoint = new Point(n);
+        //                    if (tempPoint != l3)
+        //                        if (MagicCircleMananger.Instance.GetLine(l3,tempPoint) 
+        //                            && MagicCircleMananger.Instance.IsOperable(new Line(l3, tempPoint)))
+        //                            DeleteLine(l3,tempPoint);
+        //                }
+                            
+        //            }
+        //        }
+        //    }
+        //}
+        #endregion
         Link();
         //crystal = null;
     }
@@ -215,15 +226,15 @@ public class RayTest : MonoBehaviour
                     float x = 0, z = 0; int kx = -1, ky = -1;
                     linePoints = new Vector3[2];
                     linePoints[0] = crystal.transform.position;
-                    z = MagicCircleMananger.Instance.getz(linePoints[0].z);
-                    if (z == MagicCircleMananger.Instance.rowKey[2])
-                        x = MagicCircleMananger.Instance.getx1(linePoints[0].x);
-                    else if (z == MagicCircleMananger.Instance.rowKey[0] || z == MagicCircleMananger.Instance.rowKey[4])
-                        x = MagicCircleMananger.Instance.getx2(linePoints[0].x);
+                    z = EnergyManager.Instance.HeroMagicCircle.getz(linePoints[0].z);
+                    if (z == EnergyManager.Instance.HeroMagicCircle.rowKey[2])
+                        x = EnergyManager.Instance.HeroMagicCircle.getx1(linePoints[0].x);
+                    else if (z == EnergyManager.Instance.HeroMagicCircle.rowKey[0] || z == EnergyManager.Instance.HeroMagicCircle.rowKey[4])
+                        x = EnergyManager.Instance.HeroMagicCircle.getx2(linePoints[0].x);
                     else
-                        x = MagicCircleMananger.Instance.getx3(linePoints[0].x);
-                    kx = MagicCircleMananger.Instance.getKx(x);
-                    ky = MagicCircleMananger.Instance.getKy(z);
+                        x = EnergyManager.Instance.HeroMagicCircle.getx3(linePoints[0].x);
+                    kx = EnergyManager.Instance.HeroMagicCircle.getKx(x);
+                    ky = EnergyManager.Instance.HeroMagicCircle.getKy(z);
                     if (kx != -1)
                     {
                         l1 = new Point( kx , ky);
@@ -248,15 +259,15 @@ public class RayTest : MonoBehaviour
                 #region
                 float x = 0, z = 0; int kx = -1, ky = -1;
                 linePoints[1] = crystal.transform.position;
-                z = MagicCircleMananger.Instance.getz(linePoints[1].z);
-                if (z == MagicCircleMananger.Instance.rowKey[2])
-                    x = MagicCircleMananger.Instance.getx1(linePoints[1].x);
-                else if (z == MagicCircleMananger.Instance.rowKey[0] || z == MagicCircleMananger.Instance.rowKey[4])
-                    x = MagicCircleMananger.Instance.getx2(linePoints[1].x);
+                z = EnergyManager.Instance.HeroMagicCircle.getz(linePoints[1].z);
+                if (z == EnergyManager.Instance.HeroMagicCircle.rowKey[2])
+                    x = EnergyManager.Instance.HeroMagicCircle.getx1(linePoints[1].x);
+                else if (z == EnergyManager.Instance.HeroMagicCircle.rowKey[0] || z == EnergyManager.Instance.HeroMagicCircle.rowKey[4])
+                    x = EnergyManager.Instance.HeroMagicCircle.getx2(linePoints[1].x);
                 else
-                    x = MagicCircleMananger.Instance.getx3(linePoints[1].x);
-                kx = MagicCircleMananger.Instance.getKx(x);
-                ky = MagicCircleMananger.Instance.getKy(z);
+                    x = EnergyManager.Instance.HeroMagicCircle.getx3(linePoints[1].x);
+                kx = EnergyManager.Instance.HeroMagicCircle.getKx(x);
+                ky = EnergyManager.Instance.HeroMagicCircle.getKy(z);
                 l2 = new Point(kx , ky);
                 if (l2 == l1)//连自己=>取消连线
                 {
@@ -264,9 +275,9 @@ public class RayTest : MonoBehaviour
                     VectorLine.Destroy(ref temp2);
                     //EnergyManager.Instance.MinusEnergy(-1);
                 }
-                else if (MagicCircleMananger.Instance.IsOperable(new Line(l1,l2)))
+                else if (EnergyManager.Instance.HeroMagicCircle.IsOperable(new Line(l1,l2)))
                 {
-                    if (kx != -1 && !MagicCircleMananger.Instance.GetLine(l1, l2) && MagicCircleMananger.Instance.GetLineSwitch(l1 / 5, l1 % 5, l2 / 5, l2 % 5))//画线
+                    if (kx != -1 && !EnergyManager.Instance.HeroMagicCircle.GetLine(l1, l2) && EnergyManager.Instance.HeroMagicCircle.GetLineSwitch(l1.GetX(), l1.GetY(), l2.GetX(), l2.GetY()))//画线
                     {
                         //AddLine(l1, l2);
                         if (EnergyManager.Instance.accessibleEnergy>0)
@@ -274,7 +285,7 @@ public class RayTest : MonoBehaviour
                             temp1.Draw3D();
                             temp2.Draw3D();
                             line[l1.GetUni(), l2.GetUni()] = temp1; line2[l1.GetUni(), l2.GetUni()] = temp2;
-                            MagicCircleMananger.Instance.LineTrue(l1.GetUni(), l2.GetUni(), MagicCircleMananger.Instance.line, MagicCircleMananger.Instance.linekeng);
+                            EnergyManager.Instance.HeroMagicCircle.LineTrue(l1.GetUni(), l2.GetUni());
                             EnergyManager.Instance.MinusEnergy(1);
                         }
                         else
@@ -284,7 +295,7 @@ public class RayTest : MonoBehaviour
                             GuideText.Instance.ReturnText("LinkNeedEnergy");
                         }
                     }
-                    else if (MagicCircleMananger.Instance.GetLine(l1.GetUni(), l2.GetUni(), MagicCircleMananger.Instance.line))//删线
+                    else if (EnergyManager.Instance.HeroMagicCircle.GetLine(l1, l2))//删线
                     {
 
                         // Debug.Log("delete");

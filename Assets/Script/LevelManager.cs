@@ -113,6 +113,7 @@ public class LevelManager : MonoBehaviour
     }
     void SetLevel(LevelType levelType)
     {
+        DrawCard.Instance.GetCardList("啦啦啦");
         switch(levelType)
         {
             case LevelType.TuitionI:
@@ -148,6 +149,7 @@ public class LevelManager : MonoBehaviour
                 key.Add("MouseDown");
                 key.Add("Interesting");
                 DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+                DrawCard.Instance.GetCardList("Level");
                 break;
             case LevelType.TuitionII:
                 PlayerPrefs.SetString("Level", "S08S08S08S08S08S08S08S08S08S02S13S07S13E02E10S14E10E01S06E01");//E01 E01 E03 E10 E10 E06 
@@ -177,6 +179,7 @@ public class LevelManager : MonoBehaviour
                 key.Add("Refresh");
                 key.Add("RedundentLink");
                 DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+                DrawCard.Instance.GetCardList("Level");
                 break;
             case LevelType.TuitionIII:
                 PlayerPrefs.SetString("Level", "S08S08S08S08S08S08S08S08S08S68C02S07S75C07S10S08C02S67S67C07");
@@ -203,6 +206,7 @@ public class LevelManager : MonoBehaviour
                 key.Add("Prepare");
                 key.Add("RedundentLink");
                 DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+                DrawCard.Instance.GetCardList("Level");
                 break;
             case LevelType.EasyI:
                 AI.Instance.aiType = AIType.CardList;
@@ -382,7 +386,7 @@ public class LevelManager : MonoBehaviour
                 break;
             case LevelType.YZAM_1:
                 //月之暗面[1]
-                AI.Instance.aiType = AIType.WeakAI;
+                AI.Instance.aiType = AIType.RoundList;
                 DrawCard.Instance.EnemyRoundList.Add("");//1
                 DrawCard.Instance.EnemyRoundList.Add("");//2
                 DrawCard.Instance.EnemyRoundList.Add("S67");//3
@@ -407,7 +411,7 @@ public class LevelManager : MonoBehaviour
             case LevelType.YZAM_2:
                 //月之暗面[2]
                 AI.Instance.aiStyle = AIStyle.Berserker;
-                AI.Instance.aiType = AIType.RoundList;
+                AI.Instance.aiType = AIType.WeakAI;
                 DrawCard.Instance.EnemyRoundList.Add("S67");//1
                 DrawCard.Instance.EnemyRoundList.Add("S67");//2
                 DrawCard.Instance.EnemyRoundList.Add("S01");//3
@@ -458,7 +462,6 @@ public class LevelManager : MonoBehaviour
         key.Clear();
         SetNewCard(level);
         GuideText.Instance.ReturnText("LevelText");
-        DrawCard.Instance.GetCardList("啦啦啦");
         AI.Instance.aiStyle = AIStyle.CrazyDog;
         switch(level)
         {
@@ -553,17 +556,12 @@ public class LevelManager : MonoBehaviour
         enemyHero.Restart();
         ExplainLabel.SetActive(true);
         shalou.SetActive(true);
-        gameObject.AddComponent<MagicCircleMananger>();
         gameObject.AddComponent<EnergyManager>();
         gameObject.AddComponent<DrawCard>();
 
         if (!LevelManager.Instance.IsOnline)
             SetLevel(level);
         GameObject.Find("ShaLou").AddComponent<SandClock>();
-        AttackManager.Instance.Restart();
-        AI.Instance.ReStart();
-        AuraManager.Instance.Restart();
-        Move.Restart();
         CameraMoving.Instance.Move(0);
     }
     public void EndGame()
@@ -571,12 +569,7 @@ public class LevelManager : MonoBehaviour
         //        Debug.Log("EndGame");
         CameraMoving.Instance.EndGame();
         RayTest.Instance.EndGame();
-        if(level==2)
-        {
-            gameObject.GetComponent<MagicCircleMananger>().Level2End();
-        }
-        Destroy(gameObject.GetComponent<MagicCircleMananger>());
-        Destroy(gameObject.GetComponent<EnergyManager>());
+        gameObject.GetComponent<EnergyManager>().Destroy();
         DrawCard.Instance.EndGame();
         Destroy(gameObject.GetComponent<DrawCard>());
         Destroy(transform.FindChild("ShaLou").GetComponent<SandClock>());
