@@ -28,6 +28,7 @@ public class AI : MonoBehaviour {
     Hero hero, enemyHero;
     List<Card> accessibleCardList = new List<Card>();
     List<Line> lineList = new List<Line>();
+    List<Point> kengList = new List<Point>();
     List<AttackMagic> freedomList = new List<AttackMagic>();//EnemyFreedomList
     int attackMiddle ;
     int attackFreedom ;
@@ -74,21 +75,72 @@ public class AI : MonoBehaviour {
             }
         }
     }
-    public void AddLineList(Line line)
+    public void ReadLineList(List<Line> list)
     {
-        lineList.Add(line);
+        lineList = list;
     }
-    void EnemyDrawLine()
+    public void ReadKengList(List<Point> list)
+    {
+        kengList = list;
+    }
+    public void AIDrawCard()
+    {
+        if (aiType != AIType.WeakAI)
+            return;
+        //抽牌+卡牌实体化
+        if (EnergyManager.Instance.roundCount == 1)
+            for (int i = 0; i < 3; i++)
+                DrawCard.Instance.EnemyDraw(i);
+        DrawCard.Instance.EnemyDraw(EnergyManager.Instance.roundCount + 2);
+    }
+    public void AIOperation()
+    {
+        
+        //放水晶
+        if(EnergyManager.Instance.roundCount<=6)
+        {
+            int round=EnergyManager.Instance.roundCount;
+            EnergyManager.Instance.EnemyMagicCircle.KengTrue(kengList[round * 2 - 2]);
+            EnergyManager.Instance.EnemyMagicCircle.KengTrue(kengList[round * 2-1]);
+        }
+        //if(herosMiddle)
+        for (; EnemyDrawLine(); ) ;//把所有能量都拿来画线
+        //使用牌后如果没有回手就摧毁
+        //使用可以用的结界
+        Card card;
+        for (int i = EnemyHand.childCount-1; i >= 0;i-- )
+        {
+            card = EnemyHand.GetChild(i).GetComponent<Card>();
+            if(card.IsAccessible(false)==Accessible.OK && card.GetCardType()==CardType.aura)
+            {
+                DrawCard.Instance.Cast(card.ID, 0);
+                card.Destroy();
+            }
+        }
+    }
+    public void EndGame()
+    {
+        foreach (Transform card in EnemyHand.transform)
+        {
+            card.GetComponent<Card>().Destroy();
+        }
+    }
+    bool DrawPattern() { return true; }//对于一个输入的pattern尝试它的每一条边可不可以画
+    bool EnemyDrawLine()
     {
         if (lineList.Count <= 0)
-            return;
+            return false;
         if (EnergyManager.Instance.EEnergyAccessible(1) == false)
-            return;
+            return false;
         if (EnergyManager.Instance.EnemyMagicCircle.EDrawLine(lineList[0]))
         {
             lineList.RemoveAt(0);
             EnergyManager.Instance.EMinusEnergy(1);
+            //Debug.Log("EnemyDrawLine 3");
+            return true;
         }
+        //Debug.Log("EnemyDrawLine 4");
+        return false;
     }
     public void ReStart()
     {

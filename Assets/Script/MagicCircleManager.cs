@@ -79,8 +79,6 @@ public class MagicCircleMananger : MonoBehaviour
 
 	//public int CameraInUse;//当前启用的摄像机
 
-    public delegate void ChangeLineEvent();
-    public event ChangeLineEvent ChangeLine;
 	
     public bool[,] keng = new bool[9, 5];//法阵里面的点
     public int[,] linekeng = new int[9, 5];//法阵点上面线的条数
@@ -143,15 +141,6 @@ public class MagicCircleMananger : MonoBehaviour
         LineTrueDepth = 0;
         LineFalseDepth = 0;
         
-    }
-    public bool EDrawLine(Line line)
-    {
-        if (keng[line.point1.GetX(), line.point1.GetY()] == false)
-            return false;
-        if (keng[line.point2.GetX(), line.point2.GetY()] == false)
-            return false;
-        LineTrue(line.point1.GetUni(), line.point2.GetUni());
-        return true;
     }
     //在RayTest里还有一个副本，那个专门删3d线的
     public void DeleteLine(int x, int y)
@@ -285,8 +274,12 @@ public class MagicCircleMananger : MonoBehaviour
                 }
             }
         if (LineTrueDepth == 1)
-            ChangeLine();
+            LineChange();
         LineTrueDepth--;
+    }
+    void LineChange()
+    {
+
     }
     /// <summary>
     /// 将Line(x,y)置为False
@@ -369,7 +362,7 @@ public class MagicCircleMananger : MonoBehaviour
             }
         }
         LineFalse_Powerup(x, y);
-        ChangeLine();
+        LineChange();
     }
     public void LineFalse_Powerup(int x, int y)
     {
@@ -442,6 +435,10 @@ public class MagicCircleMananger : MonoBehaviour
     public void KengTrue(int x, int y)
     {
         keng[x, y] = true;
+    }
+    public void KengTrue(Point p)
+    {
+        keng[p.GetX(), p.GetY()] = true;
     }
     /// <summary>
     /// 将Keng(x,y)置为False

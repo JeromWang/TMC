@@ -430,6 +430,37 @@ public class LevelManager : MonoBehaviour
                 DrawCard.Instance.EnemyRoundList.Add("S72");//16
                 DrawCard.Instance.EnemyRoundList.Add("S68S68S00");//17
                 DrawCard.Instance.EnemyRoundList.Add("S00");//18
+                List<Line> line = new List<Line>();
+                line.Add(new Line(4,4,4,2));
+                line.Add(new Line(3,3,4,2));
+                line.Add(new Line(5,3,4,2));
+                line.Add(new Line(4,2,4,0));
+                line.Add(new Line(1,1,4,0));
+                line.Add(new Line(0,2,1,1));
+                line.Add(new Line(7,1,4,0));
+                line.Add(new Line(8,2,7,1));
+                AI.Instance.ReadLineList(line);
+
+                List<Point> keng = new List<Point>();
+                keng.Add(new Point(4,4));
+                keng.Add(new Point(4,2));
+                keng.Add(new Point(3,3));
+                keng.Add(new Point(5,3));
+                keng.Add(new Point(4,0));
+                keng.Add(new Point(1,1));
+                keng.Add(new Point(0,2));
+                keng.Add(new Point(7,1));
+                keng.Add(new Point(8,2));
+                keng.Add(new Point(2, 4));
+                keng.Add(new Point(6, 4));
+                keng.Add(new Point(7, 3));
+                AI.Instance.ReadKengList(keng);
+                //keng.Add(new Point());
+                //keng.Add(new Point());
+                //这边是从头读，cardlist是从尾读
+                PlayerPrefs.SetString("EnemyLevel", "E28C04S71S74S08C02C04S08S10C05S70S15C03E04C05S16C03S16S08S04");
+                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+            //line.Add(new Line());
                 break;
            
             case LevelType.Heal:
@@ -534,10 +565,14 @@ public class LevelManager : MonoBehaviour
                 break;
         }
     }
-    void AddLineList(int x1,int y1,int x2,int y2)
-    {
-        AI.Instance.AddLineList(new Line(x1, y1, x2, y2));
-    }
+    //void AddLineList(int x1,int y1,int x2,int y2)
+    //{
+    //    AI.Instance.AddLineList(new Line(x1, y1, x2, y2));
+    //}
+    //void AddKengList(int x,int y)
+    //{
+    //    AI.Instance.AddKengList(new Point(x,y));
+    //}
     public void RoundLabelShow()
     {
         RoundLabel.SetActive(true);

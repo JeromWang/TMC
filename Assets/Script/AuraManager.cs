@@ -46,6 +46,10 @@ public class AuraManager : MonoBehaviour {
 	void Start () {
         AuraManager.Instance = this;
 	}
+    public int EGetCardPatternUsed(string ID)
+    {
+        return 0;
+    }
     public int GetCardPatternUsed(string ID)
     {
         foreach(Card card in auraList)

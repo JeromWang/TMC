@@ -4,6 +4,13 @@ using System.Collections;
 public class HeroMagicCircle : MagicCircleMananger {
 
     GameObject[] level2Hide = new GameObject[6];//第二关需要被隐藏的点
+
+    public delegate void ChangeLineEvent();
+    public event ChangeLineEvent ChangeLine;
+    void LineChange()
+    {
+        ChangeLine();
+    }
     void Start()
     {
         base.Start();

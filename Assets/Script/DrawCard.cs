@@ -60,7 +60,7 @@ public class DrawCard : MonoBehaviour
     
     public void GetEnemyRoundList(int round)
     {
-        Debug.Log("GetEnemyRoundList");
+        //Debug.Log("GetEnemyRoundList");
         string s = "";
         if (EnemyRoundList.Count < round)
         {
@@ -70,14 +70,17 @@ public class DrawCard : MonoBehaviour
         {
             s = EnemyRoundList[round - 1];
         }
-        Debug.Log(s);
+        //Debug.Log(s);
         for(int i=0;i<s.Length;i=i+3)
         {
-            EnergyManager.Instance.enemyOperationID.Add(s.Substring(i , 3));
-            EnergyManager.Instance.operation.Add(Operation.Cast);
-
-            EnergyManager.Instance.enemyTrajectoryID.Add(0);
+            Cast(s.Substring(i, 3), 0);
         }
+    }
+    public void Cast(string cardID,int TrajectoryID)
+    {
+        EnergyManager.Instance.enemyOperationID.Add(cardID);
+        EnergyManager.Instance.operation.Add(Operation.Cast);
+        EnergyManager.Instance.enemyTrajectoryID.Add(TrajectoryID);
     }
     public void GetEnemyCardList(string deckName)
     {
@@ -168,20 +171,29 @@ public class DrawCard : MonoBehaviour
     }
     public IEnumerator EnemyShowCard()
     {
-        if (!LevelManager.Instance.IsOnline &&  (enemyResidue > 0 ||AI.Instance.aiType==AIType.RoundList)|| LevelManager.Instance.IsOnline  )
+        if (!LevelManager.Instance.IsOnline &&
+            (enemyResidue > 0 || AI.Instance.aiType == AIType.RoundList || AI.Instance.aiType == AIType.WeakAI)
+            || LevelManager.Instance.IsOnline)
         {
             GameObject c = (GameObject)Instantiate(cardObject, EnemyHand.position, EnemyHand.rotation);
-            getID(c.transform, false);
-            EnemyListNum++;
-            iTween.MoveTo(c.gameObject, ECardShow.position, 0.5f);
-            iTween.RotateTo(c.gameObject, new Vector3(-50f, 0f, 0f), 1f);
-            iTween.MoveTo(c.gameObject, iTween.Hash("position", EnemyList.position + (EnemyListNum - 1) * new Vector3(0.18f, 0, 0), "delay", 2));
-            c.transform.parent = EnemyList;
+            Card card=c.gameObject.AddComponent<Card>();
+            card.ID = getID(c.transform, false);
+            card.isHeros = false;
+            c.gameObject.AddComponent<CardMoving>();
+            EShowCardPerform(c);
             Card cardScript = c.GetComponent<Card>();
             yield return new WaitForSeconds(1f);
             StartCoroutine(cardScript.Use());
             //Debug.Log("escEnd");
         }
+    }
+    void EShowCardPerform(GameObject c)
+    {
+        EnemyListNum++;
+        iTween.MoveTo(c.gameObject, ECardShow.position, 0.5f);
+        iTween.RotateTo(c.gameObject, new Vector3(-50f, 0f, 0f), 1f);
+        iTween.MoveTo(c.gameObject, iTween.Hash("position", EnemyList.position + (EnemyListNum - 1) * new Vector3(0.18f, 0, 0), "delay", 2));
+        c.transform.parent = EnemyList;
     }
     public IEnumerator ShowNewCard()
     {
@@ -202,12 +214,25 @@ public class DrawCard : MonoBehaviour
         iTween.RotateTo(c.gameObject, new Vector3(-50f, 0f, 0f), 1f);
         c.transform.parent = NewCardList;
     }
-    public void draw(bool heroPower = false)
+    public void EnemyDraw(int index)//weakAI使用
+    {
+        if (index > EnemyCardList.Count)
+            return;
+        GameObject c = (GameObject)Instantiate(cardObject, mycarddeap.position, transform.rotation);
+        c.gameObject.AddComponent<Card>().ID = EnemyCardList[index];
+        c.gameObject.AddComponent<CardMoving>();
+        c.transform.parent = AI.Instance.EnemyHand;
+    }
+    public void HeroDraw(bool heroPower = false)
     {
         if (residue > 0)
         {
             GameObject c = (GameObject)Instantiate(cardObject, mycarddeap.position, transform.rotation);
-            getID(c.transform,true,heroPower);
+
+            Card card=c.gameObject.AddComponent<Card>();
+            card.ID=getID(c.transform,true,heroPower);
+            card.isHeros = true;
+            c.gameObject.AddComponent<CardMoving>();
             c.transform.parent = HandZone;
             childcount = HandZone.childCount;
             c.transform.Rotate(-90f, 180f, 180f);
@@ -226,18 +251,15 @@ public class DrawCard : MonoBehaviour
         noCard++;
         return noCard;
     }
-    void getID(Transform c, bool isHeros,bool heroPower=false)
+    string getID(Transform c, bool isHeros,bool heroPower=false)
     {
-        Card cardScript = c.gameObject.AddComponent<Card>();
-        c.gameObject.AddComponent<CardMoving>();
-        cardScript.isHeros = isHeros;
         if (heroPower)
         {
-            cardScript.ID = "S00";
-            return;
+            return "S00";
         }
             
         int index;
+        string ID;
         if (isHeros)
         {
             if (LevelManager.Instance.level<=3 && !LevelManager.Instance.IsOnline || LevelManager.Instance.level==0)//教学关&&不是在线对战
@@ -249,10 +271,10 @@ public class DrawCard : MonoBehaviour
                 index = Random.Range(0, residue);
             }
              
-            cardScript.ID = CardList[index];//传递卡牌ID
+            ID = CardList[index];//传递卡牌ID
             CardList.RemoveAt(index);
             residue--;
-            return;
+            return ID;
         }
         else
         {
@@ -262,44 +284,46 @@ public class DrawCard : MonoBehaviour
                 if(AI.Instance.aiType==AIType.CardList)
                 {
                     index = enemyResidue - 1;
-                    cardScript.ID = EnemyCardList[index];//传递卡牌ID
+                    ID = EnemyCardList[index];//传递卡牌ID
                     EnemyCardList.RemoveAt(index);
                     enemyResidue--;
-                    return ;
+                    return ID;
                 }
                 if(AI.Instance.aiType==AIType.RoundList)
                 {
                     //Debug.Log("AIType.RoundList");
-                    cardScript.ID = EnergyManager.Instance.enemyOperationID[EnergyManager.Instance.enemyOperationIndex];
+                    ID = EnergyManager.Instance.enemyOperationID[EnergyManager.Instance.enemyOperationIndex];
                     //Debug.Log("对面使用了" + cardScript.ID);
-                    return;
+                    return ID;
                 }
                 if (AI.Instance.aiType == AIType.WeakAI)
                 {
                     //Debug.Log("AIType.RoundList");
-                    cardScript.ID = EnergyManager.Instance.enemyOperationID[EnergyManager.Instance.enemyOperationIndex];
+                    ID = EnergyManager.Instance.enemyOperationID[EnergyManager.Instance.enemyOperationIndex];
                     //Debug.Log("对面使用了" + cardScript.ID);
-                    return;
+                    return ID;
                 }
             }
             else//联机
             {
-                cardScript.ID = EnergyManager.Instance.enemyOperationID[EnergyManager.Instance.enemyOperationIndex];
+                ID = EnergyManager.Instance.enemyOperationID[EnergyManager.Instance.enemyOperationIndex];
                 //Debug.Log("对面使用了"+cardScript.ID);
+                return ID;
             }
         }
+        return "";
     }
     public void StartTurn()
     {
-        draw();
+        HeroDraw();
         EnemyListNum = 0;
     }
     public void StartGame()
     {
         if (LevelManager.Instance.level > 3 || LevelManager.Instance.IsOnline)
-            draw(true);//英雄技能卡
+            HeroDraw(true);//英雄技能卡
         for (int i = 0; i < 3; i++)
-            draw();
+            HeroDraw();
     }
     public void EndGame()
     {

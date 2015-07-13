@@ -10,7 +10,8 @@ public enum Operation
 public class EnergyManager : MonoBehaviour
 {
     public static EnergyManager Instance;
-    public MagicCircleMananger HeroMagicCircle, EnemyMagicCircle;
+    public HeroMagicCircle HeroMagicCircle;
+    public EnemyMagicCircle EnemyMagicCircle;
     public GameObject StartMenu;
     public int totalEnergy;//总水晶能量
     public bool unmatchedEnergy;//单独水晶能量
@@ -32,7 +33,7 @@ public class EnergyManager : MonoBehaviour
     Hero hero, enemyHero;
     public List<string> enemyOperationID;
     public List<Operation> operation;
-    public List<int> enemyTrajectoryID;
+    public List<int> enemyTrajectoryID;//aura和defence是0
     public int enemyOperationIndex;//为了确定当前是对方用的第几张牌
 
     public bool esc = false;
@@ -142,14 +143,14 @@ public class EnergyManager : MonoBehaviour
             
         GuideText.Instance.StartGame();
 
-        roundCount++;
-        AuraManager.Instance.AuraStartTurnEffect();
         StartTurn();
+        StartCoroutine(startTurn());
     }
     public void Destroy()
     {
         HeroMagicCircle.Destroy();
         EnemyMagicCircle.Destroy();
+        AI.Instance.EndGame();
         Destroy(this);
     }
     void Update()
@@ -254,7 +255,7 @@ public class EnergyManager : MonoBehaviour
         {
             if (GUILayout.Button("抽牌"))
             {
-                DrawCard.Instance.draw();
+                DrawCard.Instance.HeroDraw();
             }
             //GUI.Label(new Rect(20, 210, 120, 20), "AccessibleCrystal:");
             //GUI.Label(new Rect(150, 210, 50, 20), accessibleCrystal.ToString());
@@ -331,7 +332,8 @@ public class EnergyManager : MonoBehaviour
         if(AI.Instance.aiType==AIType.WeakAI)
         {
             //Debug.Log("weak");
-            DrawCard.Instance.GetEnemyRoundList(roundCount);//之后换成AI来生成list
+            //DrawCard.Instance.GetEnemyRoundList(roundCount);//之后换成AI来生成list
+            AI.Instance.AIOperation();
             StartCoroutine(Online_End());
         }
     }
@@ -482,11 +484,16 @@ public class EnergyManager : MonoBehaviour
     
     IEnumerator startTurn()
     {
+        bool waitFireDestroy = false;
         for (; !AttackManager.Instance.AllFireDestroy(); )
         {
+            waitFireDestroy = true;
             yield return new WaitForSeconds(0.1f);
         }
-        yield return new WaitForSeconds(1.2f);
+        if(waitFireDestroy)
+        {
+            yield return new WaitForSeconds(1.2f);
+        }
         operation.Clear();
         enemyOperationID.Clear();
         enemyOperationIndex = 0;
@@ -505,12 +512,16 @@ public class EnergyManager : MonoBehaviour
             ChangeEnergy();
             myTurnsEnd = false;
 
+            AI.Instance.AIDrawCard();
             //教学关卡判断
             Guide_startTurn();
             yield return new WaitForSeconds(0.5f);
             changeEnergy();
         }
-        LevelManager.Instance.RoundLabelShow();
+        if(LevelManager.Instance.level!=1)
+        {
+            LevelManager.Instance.RoundLabelShow();
+        }
     }
     void AttentionLabel()
     {

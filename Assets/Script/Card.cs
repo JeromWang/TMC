@@ -7,6 +7,10 @@ public enum Accessible//卡牌是否可以使用
 {
     OK,NeedEnergy,NeedPattern,NeedSymmetryPattern
 }
+public enum CardType
+{
+    error,attack,defence,aura,heal
+}
 public class Card : MonoBehaviour
 {
     public bool isHeros;
@@ -282,6 +286,19 @@ public class Card : MonoBehaviour
                 (transform.FindChild("Texture").GetComponent<UITexture>()).mainTexture = (Texture)Resources.Load("CardTexture/"+ID);
             }
         }
+
+    }
+    public CardType GetCardType()
+    {
+        if (typeText == "攻击")
+            return CardType.attack;
+        if (typeText == "防御")
+            return CardType.defence;
+        if (typeText == "结界")
+            return CardType.aura;
+        if (typeText == "治疗")
+            return CardType.heal;
+        return CardType.error;
     }
     public void Return()
     {
@@ -314,7 +331,8 @@ public class Card : MonoBehaviour
     }
     Accessible AuraAccessible()
     {
-        int type = AuraManager.Instance.GetCardPatternUsed(ID);//0:没有使用的样式
+        int type = isHeros?
+            AuraManager.Instance.GetCardPatternUsed(ID):AuraManager.Instance.EGetCardPatternUsed(ID);//0:没有使用的样式
         if (PatternNumber > 1)
         {
             if (patternTrue(Pattern_2) && type != 2)
@@ -335,6 +353,7 @@ public class Card : MonoBehaviour
         if (patternTrue(Pattern_1) && type != 1)
         {
             PatternUsed = 1;
+            //Debug.Log(" AuraAccessible 2");
             return Accessible.OK;
         }
         return Accessible.NeedPattern;
@@ -549,6 +568,8 @@ public class Card : MonoBehaviour
                             
                         }
                     }
+                    if (LevelManager.Instance.IsOnline)
+                        Client.Instance.OnCastAura(ID);
                 #endregion
                 }
                 else// 教学关 第二关
@@ -633,7 +654,7 @@ public class Card : MonoBehaviour
             if (isHeros)
             {
                 if (LevelManager.Instance.IsOnline)
-                    Client.Instance.OnCast(ID);
+                    Client.Instance.OnCastAttack(ID);
             }
             for (int i = 1; i <= number; i++)//生成火球实体
             {
@@ -947,6 +968,27 @@ public class Card : MonoBehaviour
     }
     #endregion
     #region Pattern 相关
+    public bool EGetLine2Draw(int Pattern2Draw)
+    {
+        if (Pattern2Draw == 1)
+            return EGetLine2Draw(Pattern_1);
+        if (Pattern2Draw == 2)
+            return EGetLine2Draw(Pattern_2);
+        return false;
+    }
+    bool EGetLine2Draw(int [][] Pattern)
+    {
+        Line line;
+        for (int i = 0; i < Pattern.GetLength(0); i++)
+        {
+            line=new Line(Pattern[i][0], Pattern[i][1],Pattern[i][2], Pattern[i][3]);
+            if(EnergyManager.Instance.EnemyMagicCircle.EDrawLine(line)==true)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     public bool patternTrue(int[][] Pattern)
     {
         Point point1, point2;

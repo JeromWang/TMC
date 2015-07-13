@@ -123,9 +123,13 @@ public class Client : MonoBehaviour
         networkView.RPC("TrajectoryChange", RPCMode.Others, Client.Instance.GetLocalIp(), attackID, trajectory);
     }
 
-    public void OnCast(string ID)
+    public void OnCastAttack(string ID)
     {
-        networkView.RPC("Cast", RPCMode.Others, GetLocalIp(), ID);
+        networkView.RPC("CastAttack", RPCMode.Others, GetLocalIp(), ID);
+    }
+    public void OnCastAura(string ID)
+    {
+        networkView.RPC("CastAura", RPCMode.Others, GetLocalIp(), ID);
     }
     public void OnSheildUse(string ID, int trajectory)
     {
@@ -242,7 +246,19 @@ public class Client : MonoBehaviour
     }
 
     [RPC]
-    void Cast(string opIp, string ID)
+    void CastAttack(string opIp, string ID)
+    {
+        if (opponentIp == opIp)
+        {
+            Debug.Log(ID + " detected");
+            EnergyManager.Instance.enemyOperationID.Add(ID);
+            EnergyManager.Instance.operation.Add(Operation.Cast);
+            EnergyManager.Instance.enemyTrajectoryID.Add(0);
+            //create magic
+        }
+    }
+    [RPC]
+    void CastAura(string opIp, string ID)
     {
         if (opponentIp == opIp)
         {
