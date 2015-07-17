@@ -6,6 +6,7 @@ public class AuraManager : MonoBehaviour {
     public static AuraManager Instance;
     List<Card> auraList=new List<Card>();
     List<Card> enemyAuraList=new List<Card> ();
+    List<Card> Etemplist = new List<Card>();
     public string auraText;
     public string enemyAuraText;
     public int costMinus = 0;
@@ -48,7 +49,33 @@ public class AuraManager : MonoBehaviour {
 	}
     public int EGetCardPatternUsed(string ID)
     {
+        foreach (Card card in enemyAuraList)
+        {
+            if (card.ID == ID)
+            {
+                return card.PatternUsed;
+            }
+        }
+        foreach (Card card in Etemplist)
+        {
+            if (card.ID == ID)
+            {
+                return card.PatternUsed;
+            }
+        }
         return 0;
+    }
+    public void AddTempList(Card card)
+    {
+        Etemplist.Add(card);
+    }
+    public bool InTempList(Card card)
+    {
+        return Etemplist.Contains(card);
+    }
+    public void  ClearTempList()
+    {
+        Etemplist.Clear();
     }
     public int GetCardPatternUsed(string ID)
     {
@@ -66,6 +93,10 @@ public class AuraManager : MonoBehaviour {
         enemyAuraList.Add(aura);
         enemyAuraText += AddAuraText(aura);
         EnemyAuraAffect(aura);
+        if(AI.Instance.aiType==AIType.WeakAI)
+        {
+            AIAuraAffect(aura);
+        }
     }
     public void AddAura(Card aura)
     {
@@ -83,6 +114,34 @@ public class AuraManager : MonoBehaviour {
             case "E26":
                 return aura.PatternUsed == 1 ? "阴谋施法:左侧弹道自由\n" : "阴谋施法:右侧弹道自由\n";
             default: return (aura.name + ":" + aura.explainText + "\n");
+        }
+    }
+    void AIAuraAffect(Card aura)
+    {
+        switch(aura.ID)
+        {
+            case"E10":
+                 foreach (Transform card in AI.Instance.EnemyHand.transform)
+                {
+                    Card cardScript = card.GetComponent<Card>();
+                    cardScript.UpdateEffectText();
+                    //AuraAffect(aura, cardScript);
+                }
+                break;
+        }
+    }
+    void RemoveAIAuraAffect(Card aura)
+    {
+        switch (aura.ID)
+        {
+            case "E10":
+                foreach (Transform card in AI.Instance.EnemyHand.transform)
+                {
+                    Card cardScript = card.GetComponent<Card>();
+                    cardScript.UpdateEffectText();
+                    //AuraAffect(aura, cardScript);
+                }
+                break;
         }
     }
     void EnemyAuraAffect(Card aura)
@@ -119,6 +178,9 @@ public class AuraManager : MonoBehaviour {
             case "E09":
                 EnergyManager.Instance.EnemyCardUsed += this.EnemyE09;
                 break;
+            case "E10":
+                enemyCostMinus += 1;
+                break;
             case "E15":
                 EnergyManager.Instance.StartTurn += this.EnemyE15;
                 break;
@@ -128,7 +190,7 @@ public class AuraManager : MonoBehaviour {
             case "E21":
                 enemyHealthPlus += 2;
                 break;
-            case "E24":
+            case "E24"://第二张回手
                 break;
             case "E26":
                 break;
@@ -172,7 +234,7 @@ public class AuraManager : MonoBehaviour {
                 EnergyManager.Instance.EnemyCardUsed -= this.EnemyE09;
                 break;
             case "E10":
-                //偷懒没写
+                enemyCostMinus -= 1;
                 break;
             case "E15":
                 EnergyManager.Instance.StartTurn -= this.EnemyE15;
@@ -316,12 +378,6 @@ public class AuraManager : MonoBehaviour {
                 EnergyManager.Instance.MyCardUsed -= this.E09;
                 break;
             case "E10":
-                //foreach (Transform card in DrawCard.Instance.HandZone.transform)
-                //{
-                //    Card cardScript = card.GetComponent<Card>();
-                //    cardScript.RemoveEffect(aura.ID+aura.PatternUsed);
-                //    cardScript.UpdateEffectText();
-                //}
                 costMinus -= 1;
                 foreach (Transform card in DrawCard.Instance.HandZone.transform)
                 {

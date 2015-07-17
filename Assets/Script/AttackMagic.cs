@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public enum TrajectoryType//enemy 的left和hero的一样，都是左边
 {
-    Left=-1,Middle=0,Right=1
+    Left=-1,Middle=0,Right=1,Null
 }
 public class AttackMagic : Magic
 {

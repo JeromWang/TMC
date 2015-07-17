@@ -132,7 +132,7 @@ public class EnergyManager : MonoBehaviour
     }
     void GameStart()
     {
-        if (LevelManager.Instance.level > 3 || LevelManager.Instance.IsOnline|| LevelManager.Instance.level==0)
+        if (LevelManager.Instance.level > 3 || LevelManager.Instance.IsOnline)
         {
             StartGame();
         }
@@ -142,8 +142,6 @@ public class EnergyManager : MonoBehaviour
         }
             
         GuideText.Instance.StartGame();
-
-        StartTurn();
         StartCoroutine(startTurn());
     }
     public void Destroy()
@@ -335,6 +333,7 @@ public class EnergyManager : MonoBehaviour
             //DrawCard.Instance.GetEnemyRoundList(roundCount);//之后换成AI来生成list
             AI.Instance.AIOperation();
             StartCoroutine(Online_End());
+            AI.Instance.DestroyUsedAura();
         }
     }
     public IEnumerator End()

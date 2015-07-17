@@ -380,20 +380,23 @@ public class Card : MonoBehaviour
     {
         if (EnergyManager.Instance.accessibleEnergy < cost && isHeros)
             return Accessible.NeedEnergy;
-        if (EnergyManager.Instance.EEnergyAccessible(cost)==false && !isHeros)
+        if (EnergyManager.Instance.EEnergyAccessible(cost) == false && !isHeros)
+        {
             return Accessible.NeedEnergy;
+        }
+            
          if (ID[0] == 'E')//结界
          {
              return AuraAccessible();
          }
-        //变换卡
+         if (ID[0] == 'C')//变换卡
          {
              if (isHeros)
                  return ConvertAccessible(EnergyManager.Instance.HeroMagicCircle.line);
              else
                  return ConvertAccessible(EnergyManager.Instance.EnemyMagicCircle.line);
          }
-         
+         return Accessible.OK;
     }
    
     public void CreateDefenceMagic()
@@ -636,11 +639,6 @@ public class Card : MonoBehaviour
         else
         {
             EnergyManager.Instance.EnemyCardUse();//对手的出牌事件
-            if(AI.Instance.aiType==AIType.WeakAI)
-            {
-                EnergyManager.Instance.EMinusEnergy(cost);
-                //Debug.Log("weeak");
-            }
             if(typeText=="结界")
             {
                 CreateAura();
@@ -676,7 +674,7 @@ public class Card : MonoBehaviour
             }
             else
             {
-                if (LevelManager.Instance.IsOnline)
+                if (LevelManager.Instance.IsOnline || AI.Instance.aiType == AIType.WeakAI)
                 {
                     ShieldManager.Instance.EnermyShield(EnemyShield(EnergyManager.Instance.enemyTrajectoryID[EnergyManager.Instance.enemyOperationIndex]), EnergyManager.Instance.enemyTrajectoryID[EnergyManager.Instance.enemyOperationIndex]);
                 }
@@ -920,6 +918,14 @@ public class Card : MonoBehaviour
     }
 
     #region Effect相关
+    public bool HasEffect(string EffectName)
+    {
+        if(Effect.ContainsKey(EffectName))
+        {
+            return true;
+        }
+        return false;
+    }
     public void PlusEffectValue(string EffectName, int Value)//对效果的数值进行+操作，不存在这个效果则添加
     {
         if (Effect.ContainsKey(EffectName))
@@ -968,15 +974,16 @@ public class Card : MonoBehaviour
     }
     #endregion
     #region Pattern 相关
-    public bool EGetLine2Draw(int Pattern2Draw)
+    public bool EDrawLine(int Pattern2Draw)
     {
+        //Debug.Log(Pattern2Draw.ToString());
         if (Pattern2Draw == 1)
-            return EGetLine2Draw(Pattern_1);
+            return EDrawLine(Pattern_1);
         if (Pattern2Draw == 2)
-            return EGetLine2Draw(Pattern_2);
+            return EDrawLine(Pattern_2);
         return false;
     }
-    bool EGetLine2Draw(int [][] Pattern)
+    bool EDrawLine(int[][] Pattern)
     {
         Line line;
         for (int i = 0; i < Pattern.GetLength(0); i++)
@@ -984,6 +991,7 @@ public class Card : MonoBehaviour
             line=new Line(Pattern[i][0], Pattern[i][1],Pattern[i][2], Pattern[i][3]);
             if(EnergyManager.Instance.EnemyMagicCircle.EDrawLine(line)==true)
             {
+                //Debug.Log(Pattern[i][0].ToString() + "," + Pattern[i][1].ToString() + "," + Pattern[i][2].ToString() + "," + Pattern[i][3].ToString());
                 return true;
             }
         }

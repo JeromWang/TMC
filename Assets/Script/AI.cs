@@ -6,14 +6,17 @@ public enum AIType
 {
     CardList,//读入整局使用的list
     RoundList,//读入每回合使用的list
-    WeakAI,//会主动放盾,按着给定的画线序列画线
+    WeakAI,
+    //会主动放盾,按着给定的水晶序列放水晶，自己按牌来画线，
+    //结界只能是一个pattern的,或者先画第一个再画第二个,而且不停的画线，就算这回合用不出来，也不会留一点给其他卡
+    //不能处理变换卡（仅当前面的结界卡都使用完后）,线不能被水晶截成两半，仅考虑当下一步
     StrongAI
 }
 public enum AIStyle
 {
     CrazyDog,//疯狗，快攻，预算血量大于1无脑打对手脸,同归于尽，能打脸一定打脸
     RefreshProtector,//刷新保卫者，在不死的情况下，尽力保卫刷新
-    Berserker,//对刚，用自己最强的地方和对手最强的地方对刚
+    Berserker,//对刚，用自己最强的地方和对手最强的地方对刚，追求一定的破盾打击
     Conservative,//保守，后期，尽力护脸
     YZAM//月之暗面
 }
@@ -22,14 +25,17 @@ public class AI : MonoBehaviour {
 
     public static AI Instance;
     public Transform EnemyHand;
+    public Transform EReturnList;
     public AIType aiType=AIType.WeakAI;
-    public AIStyle aiStyle = AIStyle.CrazyDog;
+    AIStyle aiStyle = AIStyle.CrazyDog;
 
     Hero hero, enemyHero;
     List<Card> accessibleCardList = new List<Card>();
-    List<Line> lineList = new List<Line>();
+    List<Card> usedAuraList = new List<Card>();
+    //List<Line> lineList = new List<Line>();
     List<Point> kengList = new List<Point>();
     List<AttackMagic> freedomList = new List<AttackMagic>();//EnemyFreedomList
+    public int damagePermit;
     int attackMiddle ;
     int attackFreedom ;
     int herosMiddle ;
@@ -60,6 +66,28 @@ public class AI : MonoBehaviour {
 	void Update () {
 	
 	}
+    public void SetAIStyle(AIStyle style)
+    {
+        aiStyle = style;
+        switch(aiStyle)
+        {
+            case AIStyle.Berserker:
+                damagePermit = 0;
+                break;
+            case AIStyle.YZAM:
+                damagePermit = 0;
+                break;
+            case AIStyle.Conservative:
+                damagePermit = 0;
+                break;
+            case AIStyle.RefreshProtector:
+                damagePermit = 1;
+                break;
+            case AIStyle.CrazyDog:
+                damagePermit = 2;
+                break;
+        }
+    }
     void UpdateAccessibleCardList()
     {
         accessibleCardList.Clear();
@@ -75,10 +103,10 @@ public class AI : MonoBehaviour {
             }
         }
     }
-    public void ReadLineList(List<Line> list)
-    {
-        lineList = list;
-    }
+    //public void ReadLineList(List<Line> list)
+    //{
+    //    lineList = list;
+    //}
     public void ReadKengList(List<Point> list)
     {
         kengList = list;
@@ -89,13 +117,323 @@ public class AI : MonoBehaviour {
             return;
         //抽牌+卡牌实体化
         if (EnergyManager.Instance.roundCount == 1)
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
                 DrawCard.Instance.EnemyDraw(i);
-        DrawCard.Instance.EnemyDraw(EnergyManager.Instance.roundCount + 2);
+        DrawCard.Instance.EnemyDraw(EnergyManager.Instance.roundCount + 3);
+    }
+    void CastAttack(Card card)
+    {
+        if (card == null)
+            return;
+        EnergyManager.Instance.EMinusEnergy(card.cost);
+        DrawCard.Instance.Cast(card.ID, 0);
+    }
+    void UpdateEShieldInfo(Card card,TrajectoryType tra)
+    {
+        switch (tra)
+        {
+            case TrajectoryType.Left:
+                EL_Shield = card.magicValue;
+                EL_Refresh = card.HasEffect("Refresh");
+                break;
+            case TrajectoryType.Middle:
+                EM_Shield = card.magicValue;
+                EM_Refresh = card.HasEffect("Refresh");
+                break;
+            case TrajectoryType.Right:
+                ER_Shield = card.magicValue;
+                ER_Refresh = card.HasEffect("Refresh");
+                break;
+        }
+    }
+    void CastShield(Card card,TrajectoryType tra)
+    {
+       // Debug.Log("CastShield");
+        if (card == null)
+            return;
+        int trajectory=0;
+        switch(tra)
+        {
+            case TrajectoryType.Left:
+                trajectory = -1;
+                break;
+            case TrajectoryType.Middle:
+                trajectory = 0;
+                break;
+            case TrajectoryType.Right:
+                trajectory = 1;
+                break;
+        }
+        EnergyManager.Instance.EMinusEnergy(card.cost);
+        DrawCard.Instance.Cast(card.ID, trajectory);
+        UpdateEShieldInfo(card, tra);
+    }
+    void DestroyUsedCard(Card card)
+    {
+        if (card == null)
+            return;
+        if(card.HasEffect("Return")==false)
+        {
+            card.Destroy();
+            return;
+        }
+        //Return
+        card.transform.parent = EReturnList;
+    }
+    void ReturnHand()
+    {
+        List<Card> cardList=GetCardList(EReturnList);
+        foreach(Card card in cardList)
+        {
+            card.transform.parent = EnemyHand;
+        }
+    }
+    int Damage(int damagePermit,int atk)
+    {
+        return atk - damagePermit;
+    }
+    void AIDefence()
+    {
+        List<Card> DefList = new List<Card>();
+        foreach(Transform c in EnemyHand)
+        {
+            if (c.GetComponent<Card>().GetCardType() == CardType.defence)
+                DefList.Add(c.GetComponent<Card>());
+        }
+        bool hasE02 = false;
+        foreach (Transform c in EnemyHand)
+        {
+            if (c.GetComponent<Card>().ID=="E02")
+            {
+                hasE02 = true;
+                break;
+            }
+        }
+        GetAIInformation();
+        //(damagePermit + attackMiddle + EM_Shield, herosMiddle+herosFreedom)? converative?
+        int Mdamage = hasE02 ? Damage(damagePermit + EM_Shield, herosMiddle + herosFreedom) : Damage(damagePermit + attackMiddle + EM_Shield, herosMiddle + herosFreedom);//以后要改
+        int Rdamage = Damage(damagePermit + ER_Shield, herosFreedom);
+        int Ldamage = Damage(damagePermit + EL_Shield, herosFreedom);
+        if (Mdamage <= 0 && Rdamage <= 0 && Ldamage <= 0)
+            return;
+        //比较三个方向的damage找到最大的，在该方向放盾，repeat
+        TrajectoryType tra;
+        Dictionary<TrajectoryType,int> traDict=new Dictionary<TrajectoryType,int>();
+        traDict.Add(TrajectoryType.Middle,Mdamage);
+        int random= Random.Range(0, 2);
+        if (random == 0)//交换顺序
+        {
+            traDict.Add(TrajectoryType.Left, Ldamage);
+            traDict.Add(TrajectoryType.Right, Rdamage);
+        }
+        else
+        {
+            traDict.Add(TrajectoryType.Right, Rdamage);
+            traDict.Add(TrajectoryType.Left, Ldamage);
+        }
+        for (int i = 0; i < 3;i++ )
+        {
+            tra=WorseTrajectory(traDict);
+            traDict.Remove(tra);
+            if(tra==null)
+                break;
+            Trajectory2Def(DefList,damagePermit,tra,hasE02);
+        }
+    }
+    TrajectoryType WorseTrajectory(Dictionary<TrajectoryType,int> traDict)
+    {
+        KeyValuePair<TrajectoryType, int> worse = new KeyValuePair<TrajectoryType, int>(TrajectoryType.Null, 0);
+        foreach(KeyValuePair<TrajectoryType,int> t in traDict )
+        {
+            if(t.Value>worse.Value)
+            {
+                worse = t;
+            }
+        }
+        return worse.Key;
+    }
+    bool RefreshFreedomEnough(TrajectoryType tra,bool E02)
+    {
+        switch(tra)
+        {
+            case TrajectoryType.Middle:
+                if (EM_Refresh == false)
+                    return false;
+                if(E02)
+                    return Damage(attackMiddle+EM_Shield+attackFreedom,herosMiddle+herosFreedom)<=0;//要改
+                else
+                    return Damage(attackMiddle + EM_Shield + attackFreedom, herosMiddle + herosFreedom) <= 0;
+            case TrajectoryType.Left:
+                if (EL_Refresh == false)
+                    return false;
+                if (E02)
+                    return Damage(EL_Shield + attackFreedom, herosFreedom) <= 0;//要改
+                else
+                    return Damage(attackMiddle + EL_Shield + attackFreedom, herosFreedom) <= 0;
+            case TrajectoryType.Right:
+                if (ER_Refresh == false)
+                    return false;
+                if (E02)
+                    return Damage(ER_Shield + attackFreedom, herosFreedom) <= 0;//要改
+                else
+                    return Damage(attackMiddle + ER_Shield + attackFreedom, herosFreedom) <= 0;
+        }
+        return true;
+    }
+    void Trajectory2Def(List<Card> DefList,int damagePermit,TrajectoryType tra,bool E02)
+    {
+
+        if (RefreshFreedomEnough(tra, E02))
+            return;
+        switch(tra)
+        {
+            case TrajectoryType.Middle:
+                if(E02==true)
+                {
+                    UseCard2Def(DefList, EM_Shield, damagePermit, herosMiddle + herosFreedom, TrajectoryType.Middle);
+                    return;
+                }
+                UseCard2Def(DefList, EM_Shield, damagePermit + attackMiddle, herosMiddle + herosFreedom, TrajectoryType.Middle);
+                return;
+            case TrajectoryType.Left:
+                UseCard2Def(DefList, EL_Shield, damagePermit, herosFreedom, TrajectoryType.Left);
+                return;
+            case TrajectoryType.Right:
+                UseCard2Def(DefList, ER_Shield, damagePermit, herosFreedom, TrajectoryType.Right);
+                return;
+        }
+    }
+    void UseCard2Def(List<Card> DefList,int defenceNow,int atkPermit,int atk,TrajectoryType tra)
+    {
+        Card card = FindDefenceCard(DefList, defenceNow,atkPermit, atk);
+        CastShield(card, tra);
+        DefList.Remove(card);
+        DestroyUsedCard(card);
+    }
+    Card FindDefenceCard(List<Card> DefList,int defenceNow,int atkPermit,int atk)//选择费用最少的
+    {
+        List<Card> list=new List<Card>();
+        bool canDefence = false;
+        foreach(Card card in DefList)
+        {
+            if(card.IsAccessible(false)==Accessible.OK)
+            {
+                if(defenceNow<card.magicValue)
+                {
+                    list.Add(card);
+                    if (card.magicValue + atkPermit >= atk)
+                    {
+                        canDefence = true;
+                    }
+                }
+            }
+        }
+        if(canDefence)
+        {
+            return FindMinCostCard(list);
+        }
+        return FindValueBiggest(list);
+    }
+    Card FindValueBiggest(List<Card> list)
+    {
+        if (list.Count == 0)
+            return null;
+        Card c = list[list.Count - 1];
+        for (int i = list.Count - 1; i >= 0; i--)
+        {
+            if (list[i].magicValue > c.magicValue)
+            {
+                c = list[i];
+            }
+        }
+        return c;
+    }
+    Card FindMinCostCard(List<Card> list)
+    {
+        if (list.Count == 0)
+            return null;
+        Card c=list[list.Count-1];
+        for (int i = list.Count - 1;i>=0 ; i--)
+        {
+            if(list[i].cost<c.cost)
+            {
+                c = list[i];
+            }
+        }
+        return c;
+    }
+    List<Card> GetCardList(Transform t)
+    {
+        List<Card> cardList = new List<Card>();
+        foreach (Transform c in t)
+        {
+            cardList.Add(c.GetComponent<Card>());
+        }
+        return cardList;
+    }
+    void AIUseCard()//【尽量使用能量】，先使用攻击牌，按顺序丢，没有合适的牌使用时可以使用英雄技能
+    {
+        List<Card> cardList = GetCardList(EnemyHand);
+        foreach(Card card in cardList)
+        {
+            if(card.IsAccessible(false)==Accessible.OK && card.GetCardType()==CardType.attack)
+            {
+                CastAttack(card);
+                DestroyUsedCard(card);
+            }
+        }
+        foreach(Card card in cardList)
+        {
+            if(card.ID=="S00")
+            {
+                RandShield(card);
+                break;
+            }
+        }
+    }
+    void RandShield(Card card)
+    {
+        if (card.IsAccessible(false) != Accessible.OK)
+        {
+            return;
+        }
+        if(EM_Shield < card.magicValue && !EM_Refresh)
+        {
+            CastShield(card, TrajectoryType.Middle);
+            return;
+        }
+        int i = Random.Range(0, 2);
+        if(i==0)
+        {
+            if (ER_Shield < card.magicValue && !ER_Refresh)
+            {
+                CastShield(card, TrajectoryType.Right);
+                return;
+            }
+            if (EL_Shield < card.magicValue && !EL_Refresh)
+            {
+                CastShield(card, TrajectoryType.Left);
+                return;
+            }
+        }
+        else
+        {
+            if (EL_Shield < card.magicValue && !EL_Refresh)
+            {
+                CastShield(card, TrajectoryType.Left);
+                return;
+            }
+            if (ER_Shield < card.magicValue && !ER_Refresh)
+            {
+                CastShield(card, TrajectoryType.Right);
+                return;
+            }
+        }
+        
     }
     public void AIOperation()
     {
-        
+        Debug.Log("AIOperation");
         //放水晶
         if(EnergyManager.Instance.roundCount<=6)
         {
@@ -103,7 +441,7 @@ public class AI : MonoBehaviour {
             EnergyManager.Instance.EnemyMagicCircle.KengTrue(kengList[round * 2 - 2]);
             EnergyManager.Instance.EnemyMagicCircle.KengTrue(kengList[round * 2-1]);
         }
-        //if(herosMiddle)
+        AIDefence();
         for (; EnemyDrawLine(); ) ;//把所有能量都拿来画线
         //使用牌后如果没有回手就摧毁
         //使用可以用的结界
@@ -111,12 +449,31 @@ public class AI : MonoBehaviour {
         for (int i = EnemyHand.childCount-1; i >= 0;i-- )
         {
             card = EnemyHand.GetChild(i).GetComponent<Card>();
-            if(card.IsAccessible(false)==Accessible.OK && card.GetCardType()==CardType.aura)
+            if (card.IsAccessible(false) == Accessible.OK && card.GetCardType() == CardType.aura && !AuraManager.Instance.InTempList(card))
             {
                 DrawCard.Instance.Cast(card.ID, 0);
-                card.Destroy();
+                AuraManager.Instance.AddTempList(card);
+                usedAuraList.Add(card);
+                continue;
+            }
+            if(AuraManager.Instance.InTempList(card))
+            {
+                DrawCard.Instance.Cast(card.ID, 0);
+                usedAuraList.Add(card);
+                continue;
             }
         }
+        AIUseCard();
+        AuraManager.Instance.ClearTempList();
+        ReturnHand();
+    }
+    public void DestroyUsedAura()
+    {
+        foreach(Card card in usedAuraList)
+        {
+            card.Destroy();
+        }
+        usedAuraList.Clear();
     }
     public void EndGame()
     {
@@ -125,21 +482,38 @@ public class AI : MonoBehaviour {
             card.GetComponent<Card>().Destroy();
         }
     }
-    bool DrawPattern() { return true; }//对于一个输入的pattern尝试它的每一条边可不可以画
     bool EnemyDrawLine()
     {
-        if (lineList.Count <= 0)
-            return false;
+        //if (lineList.Count <= 0)
+        //    return false;
         if (EnergyManager.Instance.EEnergyAccessible(1) == false)
             return false;
-        if (EnergyManager.Instance.EnemyMagicCircle.EDrawLine(lineList[0]))
+        Card card;
+        foreach (Transform c in EnemyHand.transform)
         {
-            lineList.RemoveAt(0);
-            EnergyManager.Instance.EMinusEnergy(1);
-            //Debug.Log("EnemyDrawLine 3");
-            return true;
+            card = c.GetComponent<Card>();
+            //如果它在aura的templist上就查看下一个card
+            if (AuraManager.Instance.InTempList(card))
+                continue;
+            if(card.GetCardType()==CardType.aura && card.IsAccessible(false)!=Accessible.OK)
+            {
+                //Debug.Log(card.ID);
+                bool success = false;
+                if(card.IsAccessible(false)==Accessible.NeedPattern)
+                    success=card.EDrawLine(1);
+                if (card.IsAccessible(false) == Accessible.NeedSymmetryPattern)
+                    success=card.EDrawLine(2);
+                if (success == false)
+                    continue;
+                EnergyManager.Instance.EMinusEnergy(1);
+                if(card.IsAccessible(false)==Accessible.OK)
+                {
+                    AuraManager.Instance.AddTempList(card);
+                }
+                return true;
+            }
         }
-        //Debug.Log("EnemyDrawLine 4");
+        
         return false;
     }
     public void ReStart()
@@ -148,6 +522,7 @@ public class AI : MonoBehaviour {
     }
     public void GetHerosInformation()//回合开始时获得玩家的状况
     {
+        //Debug.Log("GetHerosInformation");
         herosMiddle = AttackManager.Instance.HerosMiddle();
         herosFreedom = AttackManager.Instance.HerosFreedom();
         L_Shield = GetShieldValue(ShieldManager.Instance.L_DefenseMagic);
@@ -195,6 +570,7 @@ public class AI : MonoBehaviour {
     //从头开始一个一个拉出来，如果超过了就继续,同时加强该路的防御
     void DefenseTheWay(int defencePower, int atkPower, TrajectoryType way)
     {
+        Debug.Log("DTW:" + way.ToString() +"  NUM:"+freedomList.Count.ToString());
         int def = 0;
         for (int i = freedomList.Count - 1; i >= 0; i--)
         {
@@ -219,6 +595,15 @@ public class AI : MonoBehaviour {
                 break;
         }
     }
+    int CaculateValueSum(List<AttackMagic> List)
+    {
+        int sum = 0;
+        foreach(AttackMagic a in List)
+        {
+            sum += a.magicValue;
+        }
+        return sum;
+    }
     public void AIFreedomChooseWay()
     {
         GetAIInformation();
@@ -234,8 +619,22 @@ public class AI : MonoBehaviour {
             //Debug.Log("0");
             return;
         }
-
-        #region 如果一侧防御和血量和攻击的和<= 斩杀
+        //能活，用AI自己的自由来防御
+        {
+            if (herosMiddle + herosFreedom > EM_Shield + attackMiddle + enemyHero.health)
+            {
+                DefenseTheWay(EM_Shield + attackMiddle + damagePermit, herosMiddle + herosFreedom, TrajectoryType.Middle);
+            }
+            if (herosFreedom > ER_Shield + enemyHero.health)
+            {
+                DefenseTheWay(ER_Shield + damagePermit, herosFreedom, TrajectoryType.Right);
+            }
+            if (herosFreedom > EL_Shield + enemyHero.health)
+            {
+                DefenseTheWay(EL_Shield + damagePermit, herosFreedom, TrajectoryType.Left);
+            }
+        }
+        #region 如果玩家一侧防御和血量和攻击的和<= 斩杀
         if (hero.health + M_Shield + herosMiddle + herosFreedom
             <= (attackMiddle + attackFreedom))
         {
@@ -286,16 +685,13 @@ public class AI : MonoBehaviour {
         }
         #endregion
 
-        //能活，用自己的自由来防御
         
 
-        //用自己的自由去保护刷新
-        //用刚好的还是超额的
-        //从头开始一个一个拉出来，如果超过了就继续
-        if (AI.Instance.aiStyle == AIStyle.RefreshProtector)
+
+        //在盾会被打爆的情况下护一下脸 ！AIStyle.CrazyDog
+        //不同情况下选择护脸，[不护脸伤害太高]，[百分比]，[所剩生命值太低],[下回合防不住]
+        //if(aiStyle!=AIStyle.CrazyDog)
         {
-            //先护脸
-            int damagePermit = 3;
             if (herosMiddle + herosFreedom > EM_Shield + attackMiddle + damagePermit)
             {
                 DefenseTheWay(EM_Shield + attackMiddle + damagePermit, herosMiddle + herosFreedom, TrajectoryType.Middle);
@@ -308,7 +704,12 @@ public class AI : MonoBehaviour {
             {
                 DefenseTheWay(EL_Shield + damagePermit, herosFreedom, TrajectoryType.Left);
             }
-
+        }
+        //用自己的自由去保护刷新
+        //用刚好的还是超额的
+        //从头开始一个一个拉出来，如果超过了就继续
+        if (AI.Instance.aiStyle == AIStyle.RefreshProtector)
+        {
             if (EM_Refresh == true && (herosMiddle + herosFreedom > EM_Shield + attackMiddle))
             {
                 DefenseTheWay(EM_Shield + attackMiddle,herosMiddle + herosFreedom,TrajectoryType.Middle);
@@ -322,41 +723,7 @@ public class AI : MonoBehaviour {
                 DefenseTheWay(EL_Shield, herosFreedom, TrajectoryType.Left);
             }
         }
-        //在盾会被打爆的情况下护一下脸 ！AIStyle.CrazyDog
-        //不同情况下选择护脸，[不护脸伤害太高]，[百分比]，[所剩生命值太低],[下回合防不住]
-        if(aiStyle!=AIStyle.CrazyDog)
-        {
-            int damagePermit=2;
-            if(herosMiddle+herosFreedom>EM_Shield+attackMiddle+damagePermit)
-            {
-                DefenseTheWay(EM_Shield + attackMiddle+damagePermit, herosMiddle + herosFreedom, TrajectoryType.Middle);
-            }
-            if(herosFreedom > ER_Shield+damagePermit)
-            {
-                DefenseTheWay(ER_Shield + damagePermit, herosFreedom, TrajectoryType.Right);
-            }
-            if (herosFreedom > EL_Shield + damagePermit)
-            {
-                DefenseTheWay(EL_Shield + damagePermit, herosFreedom, TrajectoryType.Left);
-            }
-        }
-        if(aiStyle==AIStyle.Conservative)
-        {
-            int damagePermit = 1;
-            if (herosMiddle + herosFreedom > EM_Shield + attackMiddle + damagePermit)
-            {
-                DefenseTheWay(EM_Shield + attackMiddle + damagePermit, herosMiddle + herosFreedom, TrajectoryType.Middle);
-            }
-            if (herosFreedom > ER_Shield + damagePermit)
-            {
-                DefenseTheWay(ER_Shield + damagePermit, herosFreedom, TrajectoryType.Right);
-            }
-            if (herosFreedom > EL_Shield + damagePermit)
-            {
-                DefenseTheWay(EL_Shield + damagePermit, herosFreedom, TrajectoryType.Left);
-            }
-        }
-
+        
         //Berserker,用所有的自由来
         if(aiStyle==AIStyle.Berserker)
         {
@@ -384,54 +751,64 @@ public class AI : MonoBehaviour {
         }
         
         //优先打爆盾/都打到都很低？
-        //……
-
+        //计算破盾后的伤害[大于某值]【百分比】【剩余血量】
+        attackFreedom = CaculateValueSum(freedomList);
+        if(attackFreedom-L_Shield>=4)
+        {
+            AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Left, freedomList);
+            return;
+        }
+        if (attackFreedom - R_Shield >= 4)
+        {
+            AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Right, freedomList);
+            return;
+        }
 
         //不要主动去打盾
-        if (ShieldManager.Instance.M_DefenseMagic == null && ShieldManager.Instance.L_DefenseMagic != null && ShieldManager.Instance.R_DefenseMagic != null)
+        if (M_Shield==0 && L_Shield>0 && R_Shield>0)
         {
             //Debug.Log("14");
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Middle, freedomList);
             return;
         }
-        if (ShieldManager.Instance.M_DefenseMagic != null && ShieldManager.Instance.L_DefenseMagic == null && ShieldManager.Instance.R_DefenseMagic != null)
+        if (M_Shield>0 && L_Shield==0 && R_Shield>0)
         {
             //Debug.Log("15");
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Left, freedomList);
             return;
         }
-        if (ShieldManager.Instance.M_DefenseMagic != null && ShieldManager.Instance.L_DefenseMagic != null && ShieldManager.Instance.R_DefenseMagic == null)
+        if (M_Shield>0 && L_Shield>0 && R_Shield==0)
         {
             //Debug.Log("16");
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Right, freedomList);
             return;
         }
-        if (ShieldManager.Instance.M_DefenseMagic == null && ShieldManager.Instance.L_DefenseMagic == null && ShieldManager.Instance.R_DefenseMagic != null)
+        if (M_Shield == 0 && L_Shield == 0 && R_Shield > 0)
         {
             //Debug.Log("17");
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Left, freedomList);
             return;
         }
-        if (ShieldManager.Instance.M_DefenseMagic == null && ShieldManager.Instance.L_DefenseMagic != null && ShieldManager.Instance.R_DefenseMagic == null)
+        if (M_Shield == 0 && L_Shield > 0 && R_Shield == 0)
         {
             //Debug.Log("18");
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Right, freedomList);
             return;
         }
         //优先破刷新
-        if (ShieldManager.Instance.M_DefenseMagic != null && ShieldManager.Instance.M_DefenseMagic.HasEffect("Refresh") && (ShieldManager.Instance.M_DefenseMagic.MagicMax <= (attackFreedom + attackMiddle)))
+        if (M_Shield>0 && M_Refresh && (M_Shield <= (attackFreedom + attackMiddle)))
         {
             //Debug.Log("4");
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Middle, freedomList);
             return;
         }
-        if (ShieldManager.Instance.L_DefenseMagic != null && ShieldManager.Instance.L_DefenseMagic.HasEffect("Refresh") && (ShieldManager.Instance.L_DefenseMagic.MagicMax <= attackFreedom))
+        if (L_Shield>0 && L_Refresh && (L_Shield <= attackFreedom))
         {
             //Debug.Log("5");
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Left, freedomList);
             return;
         }
-        if (ShieldManager.Instance.R_DefenseMagic != null && ShieldManager.Instance.R_DefenseMagic.HasEffect("Refresh") && (ShieldManager.Instance.R_DefenseMagic.MagicMax <= attackFreedom))
+        if (R_Shield>0 && R_Refresh && (R_Shield <= attackFreedom))
         {
             //Debug.Log("6");
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Right, freedomList);
@@ -445,14 +822,14 @@ public class AI : MonoBehaviour {
                 for (; a.trajectory == TrajectoryType.Middle; )
                 {
                     a.trajectory = (TrajectoryType)Random.Range(-1, 2);
-                    if (a.trajectory == TrajectoryType.Right && ShieldManager.Instance.R_DefenseMagic != null)
+                    if (a.trajectory == TrajectoryType.Right && R_Shield>0)
                     {
-                        if (ShieldManager.Instance.L_DefenseMagic == null || ShieldManager.Instance.L_DefenseMagic != null && !ShieldManager.Instance.L_DefenseMagic.HasEffect("Refresh"))
+                        if ( !L_Refresh)
                             a.trajectory = TrajectoryType.Left;
                     }
-                    else if (a.trajectory == TrajectoryType.Left && ShieldManager.Instance.L_DefenseMagic != null)
+                    else if (a.trajectory == TrajectoryType.Left && L_Shield>0)
                     {
-                        if (ShieldManager.Instance.R_DefenseMagic == null || ShieldManager.Instance.R_DefenseMagic != null && !ShieldManager.Instance.R_DefenseMagic.HasEffect("Refresh"))
+                        if (!R_Refresh)
                             a.trajectory = TrajectoryType.Right;
                     }
                 }
