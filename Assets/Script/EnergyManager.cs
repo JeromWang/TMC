@@ -336,6 +336,20 @@ public class EnergyManager : MonoBehaviour
             AI.Instance.DestroyUsedAura();
         }
     }
+    void DestroyEnemyList()
+    {
+        for (int i = DrawCard.Instance.EnemyList.childCount - 1; i >= 0; i--)
+        {
+            if (DrawCard.Instance.EnemyList.GetChild(i).GetComponent<Card>().typeText == "结界")
+            {
+                DrawCard.Instance.EnemyList.GetChild(i).parent = DrawCard.Instance.EnemyAuraList;
+                continue;
+            }
+            CardMoving cardScript = DrawCard.Instance.EnemyList.GetChild(i).GetComponent<CardMoving>();
+            cardScript.BeDestroy();
+            Destroy(DrawCard.Instance.EnemyList.GetChild(i).gameObject);
+        }
+    }
     public IEnumerator End()
     {
         TurnsEndTime = 0f;
@@ -359,17 +373,7 @@ public class EnergyManager : MonoBehaviour
         TurnsEndTime += 3;
         yield return new WaitForSeconds(TurnsEndTime);
 
-        for (int i = DrawCard.Instance.EnemyList.childCount - 1; i >= 0; i--)
-        {
-            if(DrawCard.Instance.EnemyList.GetChild(i).GetComponent<Card>().typeText=="结界")
-            {
-                DrawCard.Instance.EnemyList.GetChild(i).parent = DrawCard.Instance.EnemyAuraList;
-                continue;
-            }
-            CardMoving cardScript = DrawCard.Instance.EnemyList.GetChild(i).GetComponent<CardMoving>();
-            cardScript.BeDestroy();
-            Destroy(DrawCard.Instance.EnemyList.GetChild(i).gameObject);
-        }
+        DestroyEnemyList();
         if(!LevelManager.Instance.IsOnline)
         {
             AI.Instance.AIFreedomChooseWay();
@@ -504,7 +508,8 @@ public class EnergyManager : MonoBehaviour
         {
             roundCount++;
             AuraManager.Instance.AuraStartTurnEffect();
-            StartTurn();
+            StartTurn();//StartTurn事件
+            AI.Instance.GetHerosInformation();
             accessibleCrystal = 2;
             accessibleEnergy = totalEnergy;
             eAccessibleEnergy = roundCount>6?6:roundCount;

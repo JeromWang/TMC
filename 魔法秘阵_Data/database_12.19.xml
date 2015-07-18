@@ -1,6 +1,6 @@
 ﻿<?xMSl version="1.0" encoding="utf-8"?>
 <Database>
-  <Version value="7.7"></Version>
+  <Version value="7.17"></Version>
   <Spell>
     <Card ID="S00">
       <CardName type="text" value="英雄技能"/>
@@ -353,16 +353,16 @@
       <Require type="Number" value="4" />
       <PatternNumber value="2"/>
       <Pattern_1>
-        <Line1 type="text" value="2,2,3,1" />
-        <Line2 type="text" value="3,1,4,2" />
-        <Line3 type="text" value="4,2,5,1" />
-        <Line4 type="text" value="5,1,6,2" />
-      </Pattern_1>
-      <Pattern_2>
         <Line1 type="text" value="2,2,3,3" />
         <Line2 type="text" value="3,3,4,2" />
         <Line3 type="text" value="4,2,5,3" />
         <Line4 type="text" value="5,3,6,2" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="2,2,3,1" />
+        <Line2 type="text" value="3,1,4,2" />
+        <Line3 type="text" value="4,2,5,1" />
+        <Line4 type="text" value="5,1,6,2" />
       </Pattern_2>
       <Feature>
         <TopDown value="1"/>

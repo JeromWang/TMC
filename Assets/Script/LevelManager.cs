@@ -118,6 +118,7 @@ public class LevelManager : MonoBehaviour
     void SetLevel(LevelType levelType)
     {
         DrawCard.Instance.GetCardList("啦啦啦");
+        List<Point> keng = new List<Point>();
         switch(levelType)
         {
             case LevelType.TuitionI:
@@ -225,50 +226,88 @@ public class LevelManager : MonoBehaviour
             case LevelType.PrepareRefresh:
                 //天启+刷新
                 AI.Instance.SetAIStyle(AIStyle.RefreshProtector);
-                AI.Instance.aiType = AIType.CardList;
-                PlayerPrefs.SetString("EnemyLevel", "S08S08E05S08S08C03S08S08C23S01S08S74E17S74S73S16S16S15S15S01");
+                AI.Instance.aiType = AIType.WeakAI;
+                PlayerPrefs.SetString("EnemyLevel",
+                    "S00S01S15S73S15S08S73S16S74S16S74S08S04S12S13S13S69S12S11S11");
                 DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+                //和坑没有关系
+                keng.Add(new Point(4, 4));
+                keng.Add(new Point(4, 2));
+                keng.Add(new Point(1, 1));
+                keng.Add(new Point(7, 1));
+                keng.Add(new Point(4, 0));
+                keng.Add(new Point(1, 3));
+                keng.Add(new Point(7, 3));
+                keng.Add(new Point(6, 4));
+                keng.Add(new Point(2, 4));
+                keng.Add(new Point(0, 2));
+                keng.Add(new Point(8, 2));
+                keng.Add(new Point(2, 0));
+                AI.Instance.ReadKengList(keng);
                 break;
 
             case LevelType.DD_JD_1:
                 //动荡阵列+激荡阵列[1]
-                AI.Instance.aiType = AIType.RoundList;
-                DrawCard.Instance.EnemyRoundList.Add("");//1
-                DrawCard.Instance.EnemyRoundList.Add("E01");//2
-                DrawCard.Instance.EnemyRoundList.Add("E10");//3
-                DrawCard.Instance.EnemyRoundList.Add("E10S00");//4
-                DrawCard.Instance.EnemyRoundList.Add("S13S13S00");//5
-                DrawCard.Instance.EnemyRoundList.Add("E02S00");//6
-                DrawCard.Instance.EnemyRoundList.Add("E01S16S14");//7
-                DrawCard.Instance.EnemyRoundList.Add("S16S14");//8
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//9
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//10
-                DrawCard.Instance.EnemyRoundList.Add("S00S15S14");//11
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//12
-                DrawCard.Instance.EnemyRoundList.Add("S00S15S13S14");//13
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//14
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//15
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//16
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//17
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//18
+                AI.Instance.SetAIStyle(AIStyle.Conservative);
+                AI.Instance.aiType = AIType.WeakAI;
+                PlayerPrefs.SetString("EnemyLevel", 
+                    "S00E01E10E01E02E10S69S69S07S10S70S10S15S13S03S14S16S13S16S11");//测试
+                keng.Add(new Point(4, 4));
+                keng.Add(new Point(4, 2));
+                keng.Add(new Point(1, 1));
+                keng.Add(new Point(7, 1));
+                keng.Add(new Point(4, 0));
+                keng.Add(new Point(1, 3));
+                keng.Add(new Point(7, 3));
+                keng.Add(new Point(6, 4));
+                keng.Add(new Point(2, 4));
+                keng.Add(new Point(0, 2));
+                keng.Add(new Point(8, 2));
+                keng.Add(new Point(2, 0));
+                AI.Instance.ReadKengList(keng);
+                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+                break;
+            case LevelType.DD_JD_2:
+                //动荡阵列+激荡阵列+元素导流[2]
+                AI.Instance.SetAIStyle(AIStyle.Conservative);
+                AI.Instance.aiType = AIType.WeakAI;
+                PlayerPrefs.SetString("EnemyLevel", 
+                    "S00E10E01E01E10E02S69E06S69S10S13S74S10S15S03S14S16S13S16S11");//测试
+                keng.Add(new Point(1, 1));
+                keng.Add(new Point(4, 4));
+                keng.Add(new Point(4, 2));
+                keng.Add(new Point(7, 1));
+                keng.Add(new Point(4, 0));
+                keng.Add(new Point(1, 3));
+                keng.Add(new Point(7, 3));
+                keng.Add(new Point(6, 4));
+                keng.Add(new Point(2, 4));
+                keng.Add(new Point(0, 2));
+                keng.Add(new Point(8, 2));
+                keng.Add(new Point(2, 0));
+                AI.Instance.ReadKengList(keng);
+                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
                 break;
             case LevelType.DD_Small:
                 //小法术+动荡阵列
-                AI.Instance.aiType = AIType.RoundList;
-                DrawCard.Instance.EnemyRoundList.Add("S67");//1
-                DrawCard.Instance.EnemyRoundList.Add("");//2
-                DrawCard.Instance.EnemyRoundList.Add("E04");//3
-                DrawCard.Instance.EnemyRoundList.Add("S03");//4
-                DrawCard.Instance.EnemyRoundList.Add("S08");//5
-                DrawCard.Instance.EnemyRoundList.Add("E04S10");//6
-                DrawCard.Instance.EnemyRoundList.Add("S68");//7
-                DrawCard.Instance.EnemyRoundList.Add("S11");//8
-                DrawCard.Instance.EnemyRoundList.Add("E01S69");//9
-                DrawCard.Instance.EnemyRoundList.Add("S08");//10
-                DrawCard.Instance.EnemyRoundList.Add("S10S00");//11
-                DrawCard.Instance.EnemyRoundList.Add("S13S13");//12
-                DrawCard.Instance.EnemyRoundList.Add("S13S00");//13
-                DrawCard.Instance.EnemyRoundList.Add("S13S13");//14
+                AI.Instance.SetAIStyle(AIStyle.CrazyDog);
+                AI.Instance.aiType = AIType.WeakAI;
+                PlayerPrefs.SetString("EnemyLevel", 
+                    "S00E04S68E04E01S08S04S69S08S07S10S13S74S12S12S10S15S04S13S16");//测试
+                keng.Add(new Point(3,3));
+                keng.Add(new Point(2,2));
+                keng.Add(new Point(4, 2));
+                keng.Add(new Point(5,3));
+                keng.Add(new Point(6,2));
+                keng.Add(new Point(3,1));
+                keng.Add(new Point(5,1));
+                keng.Add(new Point(1,1));
+                keng.Add(new Point(7,1));
+                keng.Add(new Point(4,4));
+                keng.Add(new Point(4,0));
+                keng.Add(new Point(1,3));
+                AI.Instance.ReadKengList(keng);
+                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
                 break;
             case LevelType.SC_MR_1:
                 //三重轰击+末日施法者[1]
@@ -366,28 +405,7 @@ public class LevelManager : MonoBehaviour
                 PlayerPrefs.SetString("EnemyLevel", "C04S71S74S08C02C04S08S10C05S70S15C03E04C05S16C03S16S08S04S01");
                 DrawCard.Instance.GetEnemyCardList("EnemyLevel");
                 break;
-            case LevelType.DD_JD_2:
-                //动荡阵列+激荡阵列[2]
-                AI.Instance.aiType = AIType.RoundList;
-                DrawCard.Instance.EnemyRoundList.Add("");//1
-                DrawCard.Instance.EnemyRoundList.Add("E01");//2
-                DrawCard.Instance.EnemyRoundList.Add("E10");//3
-                DrawCard.Instance.EnemyRoundList.Add("E10S00");//4
-                DrawCard.Instance.EnemyRoundList.Add("S13S13S00");//5
-                DrawCard.Instance.EnemyRoundList.Add("E02S00");//6
-                DrawCard.Instance.EnemyRoundList.Add("E01S16S14");//7
-                DrawCard.Instance.EnemyRoundList.Add("E06S16S14");//8
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//9
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//10
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//11
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//12
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//13
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//14
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//15
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//16
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//17
-                DrawCard.Instance.EnemyRoundList.Add("S00S13S14");//18
-                break;
+            
             case LevelType.YZAM_1:
                 //月之暗面[1]
                 AI.Instance.aiType = AIType.RoundList;
@@ -410,43 +428,7 @@ public class LevelManager : MonoBehaviour
                 DrawCard.Instance.EnemyRoundList.Add("S68S68S00");//17
                 DrawCard.Instance.EnemyRoundList.Add("S72");//18
                 DrawCard.Instance.EnemyRoundList.Add("S00");//19
-
-                break;
-            case LevelType.YZAM_2:
-                //月之暗面[2]
-                AI.Instance.SetAIStyle(AIStyle.Berserker);
-                AI.Instance.aiType = AIType.WeakAI;
-                DrawCard.Instance.EnemyRoundList.Add("S67");//1
-                DrawCard.Instance.EnemyRoundList.Add("S67");//2
-                DrawCard.Instance.EnemyRoundList.Add("S01");//3
-                DrawCard.Instance.EnemyRoundList.Add("S71");//4
-                DrawCard.Instance.EnemyRoundList.Add("E28");//5
-                DrawCard.Instance.EnemyRoundList.Add("S75");//6
-                DrawCard.Instance.EnemyRoundList.Add("E02S76");//7
-                DrawCard.Instance.EnemyRoundList.Add("S76");//8
-                DrawCard.Instance.EnemyRoundList.Add("S70");//9
-                DrawCard.Instance.EnemyRoundList.Add("E03S69S69");//10
-                DrawCard.Instance.EnemyRoundList.Add("E17");//11
-                DrawCard.Instance.EnemyRoundList.Add("S75S00");//12
-                DrawCard.Instance.EnemyRoundList.Add("S00S70");//13
-                DrawCard.Instance.EnemyRoundList.Add("S00S70");//14
-                DrawCard.Instance.EnemyRoundList.Add("S71");//15
-                DrawCard.Instance.EnemyRoundList.Add("S72");//16
-                DrawCard.Instance.EnemyRoundList.Add("S68S68S00");//17
-                DrawCard.Instance.EnemyRoundList.Add("S00");//18
-                //List<Line> line = new List<Line>();
-                //line.Add(new Line(4,4,4,2));
-                //line.Add(new Line(3,3,4,2));
-                //line.Add(new Line(5,3,4,2));
-                //line.Add(new Line(4,2,4,0));
-                //line.Add(new Line(1,1,4,0));
-                //line.Add(new Line(0,2,1,1));
-                //line.Add(new Line(7,1,4,0));
-                //line.Add(new Line(8,2,7,1));
-                //AI.Instance.ReadLineList(line);
-
-                //List<Point> keng = new List<Point>();
-                //keng.Add(new Point(4,4));
+                // keng.Add(new Point(4,4));
                 //keng.Add(new Point(4,2));
                 //keng.Add(new Point(3,3));
                 //keng.Add(new Point(5,3));
@@ -458,26 +440,26 @@ public class LevelManager : MonoBehaviour
                 //keng.Add(new Point(2, 4));
                 //keng.Add(new Point(6, 4));
                 //keng.Add(new Point(7, 3));
-                //AI.Instance.ReadKengList(keng);
-                //keng.Add(new Point());
-                //keng.Add(new Point());
-                //这边是从头读，cardlist是从尾读
-                PlayerPrefs.SetString("EnemyLevel", "E28C04S71S74S08C02C04S08S10C05S70S15C03E04C05S16C03S16S08S04");
-                PlayerPrefs.SetString("EnemyLevel", "S00E01E10E01E02E10S69S69S07S10S10S70S15S13S03S14S16S13S16S11");//测试
-                //PlayerPrefs.SetString("EnemyLevel", "S00E04S03E04S07S07S69C04S08S10C05S70S15C03E04C05S16C03S16S08");//测试
-                List<Point> keng = new List<Point>();
+                break;
+            case LevelType.YZAM_2:
+                //月之暗面[2]
+                AI.Instance.SetAIStyle(AIStyle.YZAM);
+                AI.Instance.aiType = AIType.WeakAI;
                 keng.Add(new Point(4,4));
                 keng.Add(new Point(4,2));
-                keng.Add(new Point(1,1));
-                keng.Add(new Point(7,1));
+                keng.Add(new Point(1, 1));
+                keng.Add(new Point(1, 3));
+                keng.Add(new Point(7, 1));
+                keng.Add(new Point(7, 3));
                 keng.Add(new Point(4,0));
-                keng.Add(new Point(1,3));
-                keng.Add(new Point(7,3));
-                keng.Add(new Point(6,4));
-                keng.Add(new Point(2,4));
+                keng.Add(new Point(3,3));
+                keng.Add(new Point(5,3));
                 keng.Add(new Point(0,2));
                 keng.Add(new Point(8,2));
-                keng.Add(new Point(2,0));
+                keng.Add(new Point(2, 4));
+                AI.Instance.ReadKengList(keng);
+                PlayerPrefs.SetString("EnemyLevel",
+                    "S00E02S15E28S73S74S69S75S76S75S76S71S70S70S69S68S13S67S16S08");
                 AI.Instance.ReadKengList(keng);
                 DrawCard.Instance.GetEnemyCardList("EnemyLevel");
                 break;
@@ -536,19 +518,19 @@ public class LevelManager : MonoBehaviour
                 break;
 
             case 7:
-                SetLevel(LevelType.DD_JD_1);
-                break;
-
-            case 8:
-                SetLevel(LevelType.DD_Small);
-                break;
-
-            case 9:
                 SetLevel(LevelType.SC_MR_1);
                 break;
 
-            case 10:
+            case 8:
                 SetLevel(LevelType.GY_DD_Small);
+                break;
+
+            case 9:
+                SetLevel(LevelType.DD_JD_1);
+                break;
+
+            case 10:
+                SetLevel(LevelType.DD_Small);
                 break;
 
             case 11:
@@ -585,14 +567,7 @@ public class LevelManager : MonoBehaviour
                 break;
         }
     }
-    //void AddLineList(int x1,int y1,int x2,int y2)
-    //{
-    //    AI.Instance.AddLineList(new Line(x1, y1, x2, y2));
-    //}
-    //void AddKengList(int x,int y)
-    //{
-    //    AI.Instance.AddKengList(new Point(x,y));
-    //}
+
     public void RoundLabelShow()
     {
         RoundLabel.SetActive(true);

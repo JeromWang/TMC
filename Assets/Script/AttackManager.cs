@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class AttackManager: MonoBehaviour
 {
     public  static AttackManager Instance;
@@ -18,6 +19,9 @@ public class AttackManager: MonoBehaviour
     public bool[] EnermyWaitPos ; //{ false, false, false, false, false, false, false, false, false, false, false, false };
     public List<AttackMagic> attackMagicList =new List<AttackMagic>();
     public List<AttackMagic> enemyAttackMagicList = new List<AttackMagic>();
+
+    const int FireThisTurn = 0;
+    const int FireNextTurn = 1;
 	// Use this for initialization
 	void Start () {
         AttackManager.Instance = this;
@@ -60,12 +64,12 @@ public class AttackManager: MonoBehaviour
     {
         foreach(AttackMagic a in attackMagicList)
         {
-            if (a.waitToFire == 0)
+            if (a.waitToFire == FireThisTurn)
                 return false;
         }
         foreach (AttackMagic a in enemyAttackMagicList)
         {
-            if (a.waitToFire == 0)
+            if (a.waitToFire == FireThisTurn)
                 return false;
         }
         return true;
@@ -75,7 +79,7 @@ public class AttackManager: MonoBehaviour
         int attackMiddle = 0;
         foreach (AttackMagic a in enemyAttackMagicList)
         {
-            if (a.waitToFire <= 1)
+            if (a.waitToFire == FireThisTurn)
             {
                 if (!a.HasEffect("Freedom"))
                 {
@@ -90,7 +94,7 @@ public class AttackManager: MonoBehaviour
         int attackFreedom = 0;
         foreach (AttackMagic a in enemyAttackMagicList)
         {
-            if (a.waitToFire <= 1)
+            if (a.waitToFire == FireThisTurn)
             {
                 if (a.HasEffect("Freedom"))
                 {
@@ -105,7 +109,7 @@ public class AttackManager: MonoBehaviour
         int attackMiddle = 0;
         foreach (AttackMagic a in attackMagicList)
         {
-            if (a.waitToFire <= 1)
+            if (a.waitToFire == FireThisTurn)
             {
                 if (!a.HasEffect("Freedom"))
                 {
@@ -120,7 +124,7 @@ public class AttackManager: MonoBehaviour
         int attackFreedom = 0;
         foreach (AttackMagic a in attackMagicList)
         {
-            if (a.waitToFire <= 1)
+            if (a.waitToFire == FireThisTurn)
             {
                 if (a.HasEffect("Freedom"))
                 {
@@ -135,7 +139,7 @@ public class AttackManager: MonoBehaviour
         List<AttackMagic> atkList = new List<AttackMagic>();
         foreach (AttackMagic a in enemyAttackMagicList)
         {
-            if (a.waitToFire <= 1)
+            if (a.waitToFire == FireThisTurn)
             {
                 atkList.Add(a);
             }
@@ -147,7 +151,7 @@ public class AttackManager: MonoBehaviour
         List<AttackMagic> atkList = new List<AttackMagic>();
         foreach (AttackMagic a in enemyAttackMagicList)
         {
-            if (a.waitToFire <= 1)
+            if (a.waitToFire == FireThisTurn)
             {
                 if (a.HasEffect("Freedom"))
                 {
@@ -173,7 +177,7 @@ public class AttackManager: MonoBehaviour
         }
         foreach (AttackMagic a in enemyAttackMagicList)
         {
-            if (a.waitToFire <= 1 && a.HasEffect("Freedom"))
+            if (a.waitToFire == FireThisTurn && a.HasEffect("Freedom"))
             {
                 a.trajectory = t;
             }

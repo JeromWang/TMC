@@ -35,11 +35,11 @@ public class AI : MonoBehaviour {
     //List<Line> lineList = new List<Line>();
     List<Point> kengList = new List<Point>();
     List<AttackMagic> freedomList = new List<AttackMagic>();//EnemyFreedomList
-    public int damagePermit;
-    int attackMiddle ;
-    int attackFreedom ;
+    int damagePermit;
+    int enemyMiddle ;
+    int enemyFreedom ;
     int herosMiddle ;
-    int herosFreedom ;
+    int herosFreedom ;//调试pulic
 
     int L_Shield =  0;
     int M_Shield =  0;
@@ -72,13 +72,13 @@ public class AI : MonoBehaviour {
         switch(aiStyle)
         {
             case AIStyle.Berserker:
-                damagePermit = 0;
+                damagePermit = 1;
                 break;
             case AIStyle.YZAM:
                 damagePermit = 0;
                 break;
             case AIStyle.Conservative:
-                damagePermit = 0;
+                damagePermit = 1;
                 break;
             case AIStyle.RefreshProtector:
                 damagePermit = 1;
@@ -146,7 +146,7 @@ public class AI : MonoBehaviour {
                 break;
         }
     }
-    void CastShield(Card card,TrajectoryType tra)
+    void CastShield_Destroy(Card card,TrajectoryType tra)
     {
        // Debug.Log("CastShield");
         if (card == null)
@@ -167,6 +167,7 @@ public class AI : MonoBehaviour {
         EnergyManager.Instance.EMinusEnergy(card.cost);
         DrawCard.Instance.Cast(card.ID, trajectory);
         UpdateEShieldInfo(card, tra);
+        DestroyUsedCard(card);
     }
     void DestroyUsedCard(Card card)
     {
@@ -192,14 +193,19 @@ public class AI : MonoBehaviour {
     {
         return atk - damagePermit;
     }
-    void AIDefence()
+    List<Card> GetDefList()
     {
         List<Card> DefList = new List<Card>();
-        foreach(Transform c in EnemyHand)
+        foreach (Transform c in EnemyHand)
         {
             if (c.GetComponent<Card>().GetCardType() == CardType.defence)
                 DefList.Add(c.GetComponent<Card>());
         }
+        return DefList;
+    }
+    void AIDefence()
+    {
+        
         bool hasE02 = false;
         foreach (Transform c in EnemyHand)
         {
@@ -211,9 +217,12 @@ public class AI : MonoBehaviour {
         }
         GetAIInformation();
         //(damagePermit + attackMiddle + EM_Shield, herosMiddle+herosFreedom)? converative?
-        int Mdamage = hasE02 ? Damage(damagePermit + EM_Shield, herosMiddle + herosFreedom) : Damage(damagePermit + attackMiddle + EM_Shield, herosMiddle + herosFreedom);//以后要改
+        int Mdamage = hasE02 ? Damage(damagePermit + EM_Shield, herosMiddle + herosFreedom) : Damage(damagePermit + enemyMiddle + EM_Shield, herosMiddle + herosFreedom);//以后要改
         int Rdamage = Damage(damagePermit + ER_Shield, herosFreedom);
         int Ldamage = Damage(damagePermit + EL_Shield, herosFreedom);
+        //Debug.Log("M:" + Mdamage.ToString());
+        //Debug.Log("L:" + Ldamage.ToString());
+        //Debug.Log("R:" + Rdamage.ToString());
         if (Mdamage <= 0 && Rdamage <= 0 && Ldamage <= 0)
             return;
         //比较三个方向的damage找到最大的，在该方向放盾，repeat
@@ -235,9 +244,10 @@ public class AI : MonoBehaviour {
         {
             tra=WorseTrajectory(traDict);
             traDict.Remove(tra);
-            if(tra==null)
+            //Debug.Log(tra.ToString());
+            if(tra==TrajectoryType.Null)
                 break;
-            Trajectory2Def(DefList,damagePermit,tra,hasE02);
+            Trajectory2Def(damagePermit,tra,hasE02);
         }
     }
     TrajectoryType WorseTrajectory(Dictionary<TrajectoryType,int> traDict)
@@ -260,27 +270,27 @@ public class AI : MonoBehaviour {
                 if (EM_Refresh == false)
                     return false;
                 if(E02)
-                    return Damage(attackMiddle+EM_Shield+attackFreedom,herosMiddle+herosFreedom)<=0;//要改
+                    return Damage(enemyMiddle+EM_Shield+enemyFreedom,herosMiddle+herosFreedom)<=0;//要改
                 else
-                    return Damage(attackMiddle + EM_Shield + attackFreedom, herosMiddle + herosFreedom) <= 0;
+                    return Damage(enemyMiddle + EM_Shield + enemyFreedom, herosMiddle + herosFreedom) <= 0;
             case TrajectoryType.Left:
                 if (EL_Refresh == false)
                     return false;
                 if (E02)
-                    return Damage(EL_Shield + attackFreedom, herosFreedom) <= 0;//要改
+                    return Damage(EL_Shield + enemyFreedom, herosFreedom) <= 0;//要改
                 else
-                    return Damage(attackMiddle + EL_Shield + attackFreedom, herosFreedom) <= 0;
+                    return Damage(enemyMiddle + EL_Shield + enemyFreedom, herosFreedom) <= 0;
             case TrajectoryType.Right:
                 if (ER_Refresh == false)
                     return false;
                 if (E02)
-                    return Damage(ER_Shield + attackFreedom, herosFreedom) <= 0;//要改
+                    return Damage(ER_Shield + enemyFreedom, herosFreedom) <= 0;//要改
                 else
-                    return Damage(attackMiddle + ER_Shield + attackFreedom, herosFreedom) <= 0;
+                    return Damage(enemyMiddle + ER_Shield + enemyFreedom, herosFreedom) <= 0;
         }
         return true;
     }
-    void Trajectory2Def(List<Card> DefList,int damagePermit,TrajectoryType tra,bool E02)
+    void Trajectory2Def(int damagePermit,TrajectoryType tra,bool E02)
     {
 
         if (RefreshFreedomEnough(tra, E02))
@@ -290,49 +300,52 @@ public class AI : MonoBehaviour {
             case TrajectoryType.Middle:
                 if(E02==true)
                 {
-                    UseCard2Def(DefList, EM_Shield, damagePermit, herosMiddle + herosFreedom, TrajectoryType.Middle);
+                    UseCard2Def( EM_Shield, damagePermit, herosMiddle + herosFreedom, TrajectoryType.Middle);
                     return;
                 }
-                UseCard2Def(DefList, EM_Shield, damagePermit + attackMiddle, herosMiddle + herosFreedom, TrajectoryType.Middle);
+                UseCard2Def(EM_Shield, damagePermit + enemyMiddle, herosMiddle + herosFreedom, TrajectoryType.Middle);
                 return;
             case TrajectoryType.Left:
-                UseCard2Def(DefList, EL_Shield, damagePermit, herosFreedom, TrajectoryType.Left);
+                UseCard2Def( EL_Shield, damagePermit, herosFreedom, TrajectoryType.Left);
                 return;
             case TrajectoryType.Right:
-                UseCard2Def(DefList, ER_Shield, damagePermit, herosFreedom, TrajectoryType.Right);
+                UseCard2Def( ER_Shield, damagePermit, herosFreedom, TrajectoryType.Right);
                 return;
         }
     }
-    void UseCard2Def(List<Card> DefList,int defenceNow,int atkPermit,int atk,TrajectoryType tra)
+    void UseCard2Def(int defenceNow,int atkPermit,int atk,TrajectoryType tra)
     {
-        Card card = FindDefenceCard(DefList, defenceNow,atkPermit, atk);
-        CastShield(card, tra);
-        DefList.Remove(card);
-        DestroyUsedCard(card);
+        Card card = FindDefenceCard(defenceNow,atkPermit, atk);
+        CastShield_Destroy(card, tra);
     }
-    Card FindDefenceCard(List<Card> DefList,int defenceNow,int atkPermit,int atk)//选择费用最少的
+    Card FindDefenceCard(int defenceNow,int atkPermit,int atk)//选择费用最少的
     {
-        List<Card> list=new List<Card>();
+        List<Card> cannotlist=new List<Card>();
+        List<Card> canlist = new List<Card>();
         bool canDefence = false;
+        List<Card> DefList = GetDefList();
         foreach(Card card in DefList)
         {
             if(card.IsAccessible(false)==Accessible.OK)
             {
                 if(defenceNow<card.magicValue)
                 {
-                    list.Add(card);
+                    cannotlist.Add(card);
                     if (card.magicValue + atkPermit >= atk)
                     {
                         canDefence = true;
+                        canlist.Add(card);
                     }
                 }
             }
         }
         if(canDefence)
         {
-            return FindMinCostCard(list);
+            //Debug.Log("CanDefence");
+            return FindMinCostCard(canlist);
         }
-        return FindValueBiggest(list);
+        //Debug.Log("Can't CanDefence");
+        return FindValueBiggest(cannotlist);
     }
     Card FindValueBiggest(List<Card> list)
     {
@@ -344,6 +357,7 @@ public class AI : MonoBehaviour {
             if (list[i].magicValue > c.magicValue)
             {
                 c = list[i];
+                Debug.Log(c.name);
             }
         }
         return c;
@@ -399,7 +413,7 @@ public class AI : MonoBehaviour {
         }
         if(EM_Shield < card.magicValue && !EM_Refresh)
         {
-            CastShield(card, TrajectoryType.Middle);
+            CastShield_Destroy(card, TrajectoryType.Middle);
             return;
         }
         int i = Random.Range(0, 2);
@@ -407,12 +421,12 @@ public class AI : MonoBehaviour {
         {
             if (ER_Shield < card.magicValue && !ER_Refresh)
             {
-                CastShield(card, TrajectoryType.Right);
+                CastShield_Destroy(card, TrajectoryType.Right);
                 return;
             }
             if (EL_Shield < card.magicValue && !EL_Refresh)
             {
-                CastShield(card, TrajectoryType.Left);
+                CastShield_Destroy(card, TrajectoryType.Left);
                 return;
             }
         }
@@ -420,12 +434,12 @@ public class AI : MonoBehaviour {
         {
             if (EL_Shield < card.magicValue && !EL_Refresh)
             {
-                CastShield(card, TrajectoryType.Left);
+                CastShield_Destroy(card, TrajectoryType.Left);
                 return;
             }
             if (ER_Shield < card.magicValue && !ER_Refresh)
             {
-                CastShield(card, TrajectoryType.Right);
+                CastShield_Destroy(card, TrajectoryType.Right);
                 return;
             }
         }
@@ -433,7 +447,7 @@ public class AI : MonoBehaviour {
     }
     public void AIOperation()
     {
-        Debug.Log("AIOperation");
+        //Debug.Log("AIOperation");
         //放水晶
         if(EnergyManager.Instance.roundCount<=6)
         {
@@ -497,7 +511,7 @@ public class AI : MonoBehaviour {
                 continue;
             if(card.GetCardType()==CardType.aura && card.IsAccessible(false)!=Accessible.OK)
             {
-                //Debug.Log(card.ID);
+               // Debug.Log(card.ID);
                 bool success = false;
                 if(card.IsAccessible(false)==Accessible.NeedPattern)
                     success=card.EDrawLine(1);
@@ -518,7 +532,7 @@ public class AI : MonoBehaviour {
     }
     public void ReStart()
     {
-        EnergyManager.Instance.StartTurn += this.GetHerosInformation;
+        
     }
     public void GetHerosInformation()//回合开始时获得玩家的状况
     {
@@ -547,8 +561,8 @@ public class AI : MonoBehaviour {
     }
     void GetAIInformation()
     {
-        attackMiddle = AttackManager.Instance.CaculateAttackMiddle();
-        attackFreedom = AttackManager.Instance.CaculateAttackFreedom();
+        enemyMiddle = AttackManager.Instance.CaculateAttackMiddle();
+        enemyFreedom = AttackManager.Instance.CaculateAttackFreedom();
         freedomList = AttackManager.Instance.GetFreedomList();
 
         EL_Shield = GetShieldValue(ShieldManager.Instance.EL_DefenseMagic);
@@ -561,8 +575,8 @@ public class AI : MonoBehaviour {
 
         if (AuraManager.Instance.E02Enemy == true)
         {
-            attackFreedom += attackMiddle;
-            attackMiddle = 0;
+            enemyFreedom += enemyMiddle;
+            enemyMiddle = 0;
             freedomList.Clear();
             freedomList = AttackManager.Instance.GetFireList();
         }
@@ -570,7 +584,7 @@ public class AI : MonoBehaviour {
     //从头开始一个一个拉出来，如果超过了就继续,同时加强该路的防御
     void DefenseTheWay(int defencePower, int atkPower, TrajectoryType way)
     {
-        Debug.Log("DTW:" + way.ToString() +"  NUM:"+freedomList.Count.ToString());
+        Debug.Log("DTW:" + way.ToString()+"def："+defencePower.ToString()+"atk:"+atkPower.ToString() +"  NUM:"+freedomList.Count.ToString());
         int def = 0;
         for (int i = freedomList.Count - 1; i >= 0; i--)
         {
@@ -614,16 +628,16 @@ public class AI : MonoBehaviour {
         //没有刷新盾或不能打爆，优先造成血量伤害
         //都不能打爆的也绝不打刷新盾
 
-        if (attackFreedom == 0)
+        if (enemyFreedom == 0)
         {
             //Debug.Log("0");
             return;
         }
         //能活，用AI自己的自由来防御
         {
-            if (herosMiddle + herosFreedom > EM_Shield + attackMiddle + enemyHero.health)
+            if (herosMiddle + herosFreedom > EM_Shield + enemyMiddle + enemyHero.health)
             {
-                DefenseTheWay(EM_Shield + attackMiddle + damagePermit, herosMiddle + herosFreedom, TrajectoryType.Middle);
+                DefenseTheWay(EM_Shield + enemyMiddle + damagePermit, herosMiddle + herosFreedom, TrajectoryType.Middle);
             }
             if (herosFreedom > ER_Shield + enemyHero.health)
             {
@@ -636,21 +650,21 @@ public class AI : MonoBehaviour {
         }
         #region 如果玩家一侧防御和血量和攻击的和<= 斩杀
         if (hero.health + M_Shield + herosMiddle + herosFreedom
-            <= (attackMiddle + attackFreedom))
+            <= (enemyMiddle + enemyFreedom))
         {
             //Debug.Log("1");
             AttackManager.Instance.SetFreedomTrajectory(0, freedomList);
             return;
         }
         if ((hero.health + L_Shield + herosFreedom)
-           <= attackFreedom)
+           <= enemyFreedom)
         {
             //Debug.Log("2");
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Left, freedomList);
             return;
         }
         if ((hero.health + R_Shield + herosFreedom)
-           <= attackFreedom)
+           <= enemyFreedom)
         {
             //Debug.Log("3");
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Right, freedomList);
@@ -662,21 +676,21 @@ public class AI : MonoBehaviour {
         if (AI.Instance.aiStyle == AIStyle.CrazyDog)
         {
             if (hero.health + M_Shield + herosMiddle
-            <= (attackMiddle + attackFreedom))
+            <= (enemyMiddle + enemyFreedom))
             {
                 //Debug.Log("CrazyDog 1");
                 AttackManager.Instance.SetFreedomTrajectory(0, freedomList);
                 return;
             }
             if ((hero.health + L_Shield)
-               <= attackFreedom)
+               <= enemyFreedom)
             {
                 //Debug.Log("CrazyDog 2");
                 AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Left, freedomList);
                 return;
             }
             if ((hero.health + R_Shield)
-               <= attackFreedom)
+               <= enemyFreedom)
             {
                 //Debug.Log("CrazyDog 3");
                 AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Right, freedomList);
@@ -690,11 +704,10 @@ public class AI : MonoBehaviour {
 
         //在盾会被打爆的情况下护一下脸 ！AIStyle.CrazyDog
         //不同情况下选择护脸，[不护脸伤害太高]，[百分比]，[所剩生命值太低],[下回合防不住]
-        //if(aiStyle!=AIStyle.CrazyDog)
         {
-            if (herosMiddle + herosFreedom > EM_Shield + attackMiddle + damagePermit)
+            if (herosMiddle + herosFreedom > EM_Shield + enemyMiddle + damagePermit)
             {
-                DefenseTheWay(EM_Shield + attackMiddle + damagePermit, herosMiddle + herosFreedom, TrajectoryType.Middle);
+                DefenseTheWay(EM_Shield + enemyMiddle + damagePermit, herosMiddle + herosFreedom, TrajectoryType.Middle);
             }
             if (herosFreedom > ER_Shield + damagePermit)
             {
@@ -710,9 +723,10 @@ public class AI : MonoBehaviour {
         //从头开始一个一个拉出来，如果超过了就继续
         if (AI.Instance.aiStyle == AIStyle.RefreshProtector)
         {
-            if (EM_Refresh == true && (herosMiddle + herosFreedom > EM_Shield + attackMiddle))
+            //Debug.Log("protector:" + EM_Refresh.ToString() + (herosMiddle + herosFreedom > EM_Shield + enemyMiddle).ToString());
+            if (EM_Refresh == true && (herosMiddle + herosFreedom > EM_Shield + enemyMiddle))
             {
-                DefenseTheWay(EM_Shield + attackMiddle,herosMiddle + herosFreedom,TrajectoryType.Middle);
+                DefenseTheWay(EM_Shield + enemyMiddle,herosMiddle + herosFreedom,TrajectoryType.Middle);
             }
             if (ER_Refresh == true && (herosFreedom > ER_Shield))
             {
@@ -727,7 +741,7 @@ public class AI : MonoBehaviour {
         //Berserker,用所有的自由来
         if(aiStyle==AIStyle.Berserker)
         {
-            if (enemyHero.health + EM_Shield + attackMiddle
+            if (enemyHero.health + EM_Shield + enemyMiddle
             <= (herosMiddle + herosFreedom))
             {
                 //Debug.Log("Berserker 1");
@@ -752,13 +766,13 @@ public class AI : MonoBehaviour {
         
         //优先打爆盾/都打到都很低？
         //计算破盾后的伤害[大于某值]【百分比】【剩余血量】
-        attackFreedom = CaculateValueSum(freedomList);
-        if(attackFreedom-L_Shield>=4)
+        enemyFreedom = CaculateValueSum(freedomList);
+        if(enemyFreedom-L_Shield>=4)
         {
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Left, freedomList);
             return;
         }
-        if (attackFreedom - R_Shield >= 4)
+        if (enemyFreedom - R_Shield >= 4)
         {
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Right, freedomList);
             return;
@@ -796,19 +810,19 @@ public class AI : MonoBehaviour {
             return;
         }
         //优先破刷新
-        if (M_Shield>0 && M_Refresh && (M_Shield <= (attackFreedom + attackMiddle)))
+        if (M_Shield>0 && M_Refresh && (M_Shield <= (enemyFreedom + enemyMiddle)))
         {
             //Debug.Log("4");
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Middle, freedomList);
             return;
         }
-        if (L_Shield>0 && L_Refresh && (L_Shield <= attackFreedom))
+        if (L_Shield>0 && L_Refresh && (L_Shield <= enemyFreedom))
         {
             //Debug.Log("5");
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Left, freedomList);
             return;
         }
-        if (R_Shield>0 && R_Refresh && (R_Shield <= attackFreedom))
+        if (R_Shield>0 && R_Refresh && (R_Shield <= enemyFreedom))
         {
             //Debug.Log("6");
             AttackManager.Instance.SetFreedomTrajectory(TrajectoryType.Right, freedomList);

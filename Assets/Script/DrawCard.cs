@@ -82,6 +82,8 @@ public class DrawCard : MonoBehaviour
         EnergyManager.Instance.operation.Add(Operation.Cast);
         EnergyManager.Instance.enemyTrajectoryID.Add(TrajectoryID);
     }
+
+    //weakAI是从头读，cardlist是从尾读
     public void GetEnemyCardList(string deckName)
     {
         EnemyCardList.Clear();

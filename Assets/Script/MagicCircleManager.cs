@@ -277,7 +277,7 @@ public class MagicCircleMananger : MonoBehaviour
             LineChange();
         LineTrueDepth--;
     }
-    void LineChange()
+    virtual protected void LineChange()
     {
 
     }

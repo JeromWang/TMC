@@ -290,7 +290,10 @@ public class Card : MonoBehaviour
     }
     public CardType GetCardType()
     {
-        if (typeText == "攻击")
+        if (ID == "S00")
+            return CardType.defence;
+        if (typeText == "攻击" || isHeros && AuraManager.Instance.E28Heros && typeText == "防御"
+            || !isHeros && AuraManager.Instance.E28Enemy && typeText == "防御")
             return CardType.attack;
         if (typeText == "防御")
             return CardType.defence;
@@ -645,8 +648,7 @@ public class Card : MonoBehaviour
             }
         }
         
-        if (typeText == "攻击" || isHeros && AuraManager.Instance.E28Heros && typeText == "防御"
-            || !isHeros && AuraManager.Instance.E28Enemy && typeText == "防御")
+        if (GetCardType()==CardType.attack)
         {
             #region 攻击
             if (isHeros)
@@ -664,7 +666,7 @@ public class Card : MonoBehaviour
             }
             #endregion
         }
-        else if (typeText == "防御")
+        else if (GetCardType()==CardType.defence)
         {
             #region 防御
             if (isHeros)
@@ -685,7 +687,7 @@ public class Card : MonoBehaviour
             }
             #endregion
         }
-        else if(typeText=="治疗")
+        else if(GetCardType()==CardType.heal)
         {
             #region 治疗
             GameObject heal = (GameObject)Resources.Load("ParticleSystem/heal");
@@ -911,6 +913,11 @@ public class Card : MonoBehaviour
     }
     public void Destroy()
     {
+        //Debug.Log("Destory");
+        if(AI.Instance.aiType==AIType.WeakAI && isHeros==false)
+        {
+            transform.parent = null;//Ai GetDefList()的需求
+        }
         if(cardMoving!=null)
             cardMoving.BeDestroy();
 

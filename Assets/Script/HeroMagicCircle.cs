@@ -7,7 +7,7 @@ public class HeroMagicCircle : MagicCircleMananger {
 
     public delegate void ChangeLineEvent();
     public event ChangeLineEvent ChangeLine;
-    void LineChange()
+    protected override void LineChange()
     {
         ChangeLine();
     }

@@ -14,7 +14,7 @@ public class AttackMagic : Magic
     public int myWaitNum = 0;
     public int eWaitNum = 0;
     public static bool chooseTrajectory = false;
-    public int waitToFire = -100;
+    public int waitToFire = 100;
     public TrajectoryType trajectory = TrajectoryType.Middle;
     public int attackID=-1;
     public int enemyAttackID=-1;
