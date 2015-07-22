@@ -57,7 +57,16 @@ public class DrawCard : MonoBehaviour
         }
         residue = CardList.Count;
     }
-    
+    public void GetCardListByList(string s)
+    {
+        //Debug.Log(s);
+        CardList.Clear();
+        for (int i = 0; i < s.Length / 3; i++)
+        {
+            CardList.Add(s.Substring(i * 3, 3));
+        }
+        residue = CardList.Count;
+    }
     public void GetEnemyRoundList(int round)
     {
         //Debug.Log("GetEnemyRoundList");
@@ -95,6 +104,17 @@ public class DrawCard : MonoBehaviour
         }
         enemyResidue = EnemyCardList.Count;
       //  Debug.Log(enemyResidue.ToString());
+    }
+    public void GetEnemyCardListByList(string s)
+    {
+        EnemyCardList.Clear();
+        for (int i = 0; i < 20; i++)
+        {
+            EnemyCardList.Add(s.Substring(i * 3, 3));
+            // Debug.Log(s.Substring(i * 3, 3));
+        }
+        enemyResidue = EnemyCardList.Count;
+        //  Debug.Log(enemyResidue.ToString());
     }
     public void GetNewCardList(string s)
     {

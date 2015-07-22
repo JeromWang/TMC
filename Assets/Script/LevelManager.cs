@@ -122,7 +122,7 @@ public class LevelManager : MonoBehaviour
         switch(levelType)
         {
             case LevelType.TuitionI:
-                PlayerPrefs.SetString("Level", "S08S08S08S08S08S08S08S08S08S08S08S08S08S10S10S12S08S03S02S01");
+                DrawCard.Instance.GetCardListByList("S08S08S08S08S08S08S08S08S08S08S08S08S08S10S10S12S08S03S02S01");
                 AI.Instance.aiType = AIType.RoundList;
                 DrawCard.Instance.EnemyRoundList.Add("S01");//1
                 DrawCard.Instance.EnemyRoundList.Add("S04");//2
@@ -153,11 +153,9 @@ public class LevelManager : MonoBehaviour
                 key.Add("MouseOver");
                 key.Add("MouseDown");
                 key.Add("Interesting");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
-                DrawCard.Instance.GetCardList("Level");
                 break;
             case LevelType.TuitionII:
-                PlayerPrefs.SetString("Level", "S08S08S08S08S08S08S08S08S08S02S13S07S13E02E10S14E10E01S06E01");//E01 E01 E03 E10 E10 E06 
+                DrawCard.Instance.GetCardListByList("S08S08S08S08S08S08S08S08S08S02S13S07S13E02E10S14E10E01S06E01");
                 AI.Instance.aiType = AIType.RoundList;
                 DrawCard.Instance.EnemyRoundList.Add("S67");//1
                 DrawCard.Instance.EnemyRoundList.Add("S67");//2
@@ -183,12 +181,9 @@ public class LevelManager : MonoBehaviour
                 key.Add("PatternChoose");
                 key.Add("Refresh");
                 key.Add("RedundentLink");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
-                DrawCard.Instance.GetCardList("Level");
                 break;
             case LevelType.TuitionIII:
-                PlayerPrefs.SetString("Level", "S08S08S08S08S08S08S08S08S08S68C02S07S75C07S10S08C02S67S67C07");
-                PlayerPrefs.SetString("EnemyLevel", "S08S08S08S08S08S08S08");
+                DrawCard.Instance.GetCardListByList("S08S08S08S08S08S08S08S08S08S68C02S07S75C07S10S08C02S67S67C07");
                 AI.Instance.aiType = AIType.RoundList;
                 DrawCard.Instance.EnemyRoundList.Add("S01");//1
                 DrawCard.Instance.EnemyRoundList.Add("S02");//2
@@ -210,26 +205,20 @@ public class LevelManager : MonoBehaviour
                 key.Add("WaitToFire");
                 key.Add("Prepare");
                 key.Add("RedundentLink");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
-                DrawCard.Instance.GetCardList("Level");
                 break;
             case LevelType.EasyI:
                 AI.Instance.aiType = AIType.CardList;
-                PlayerPrefs.SetString("EnemyLevel", "S08S08S08S08S08S08S08C23S69S01S74S08S08S12S08C03S69S08S02S01");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+                DrawCard.Instance.GetEnemyCardListByList("S08S08S08S08S08S08S08C23S69S01S74S08S08S12S08C03S69S08S02S01");
                 break;
             case LevelType.EasyII:
                 AI.Instance.aiType = AIType.CardList;
-                PlayerPrefs.SetString("EnemyLevel", "S08S08E05S08S08C03S08S08C23S01S74S08C23S12S08C03S69S08S02S01");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+                DrawCard.Instance.GetEnemyCardListByList("S08S08E05S08S08C03S08S08C23S01S74S08C23S12S08C03S69S08S02S01");
                 break;
             case LevelType.PrepareRefresh:
                 //天启+刷新
                 AI.Instance.SetAIStyle(AIStyle.RefreshProtector);
                 AI.Instance.aiType = AIType.WeakAI;
-                PlayerPrefs.SetString("EnemyLevel",
-                    "S00S01S15S73S15S08S73S16S74S16S74S08S04S12S13S13S69S12S11S11");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+                DrawCard.Instance.GetEnemyCardListByList("S00S01S15S73S15S08S73S16S74S16S74S08S04S12S13S13S69S12S11S11");
                 //和坑没有关系
                 keng.Add(new Point(4, 4));
                 keng.Add(new Point(4, 2));
@@ -250,8 +239,7 @@ public class LevelManager : MonoBehaviour
                 //动荡阵列+激荡阵列[1]
                 AI.Instance.SetAIStyle(AIStyle.Conservative);
                 AI.Instance.aiType = AIType.WeakAI;
-                PlayerPrefs.SetString("EnemyLevel", 
-                    "S00E01E10E01E02E10S69S69S07S10S70S10S15S13S03S14S16S13S16S11");//测试
+                DrawCard.Instance.GetEnemyCardListByList("S00E01E10E01E02E10S69S69S07S10S70S10S15S13S03S14S16S13S16S11");
                 keng.Add(new Point(4, 4));
                 keng.Add(new Point(4, 2));
                 keng.Add(new Point(1, 1));
@@ -265,14 +253,12 @@ public class LevelManager : MonoBehaviour
                 keng.Add(new Point(8, 2));
                 keng.Add(new Point(2, 0));
                 AI.Instance.ReadKengList(keng);
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
                 break;
             case LevelType.DD_JD_2:
                 //动荡阵列+激荡阵列+元素导流[2]
                 AI.Instance.SetAIStyle(AIStyle.Conservative);
                 AI.Instance.aiType = AIType.WeakAI;
-                PlayerPrefs.SetString("EnemyLevel", 
-                    "S00E10E01E01E10E02S69E06S69S10S13S74S10S15S03S14S16S13S16S11");//测试
+                DrawCard.Instance.GetEnemyCardListByList("S00E10E01E01E10E02S69E06S69S10S13S74S10S15S03S14S16S13S16S11");
                 keng.Add(new Point(1, 1));
                 keng.Add(new Point(4, 4));
                 keng.Add(new Point(4, 2));
@@ -286,14 +272,12 @@ public class LevelManager : MonoBehaviour
                 keng.Add(new Point(8, 2));
                 keng.Add(new Point(2, 0));
                 AI.Instance.ReadKengList(keng);
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
                 break;
             case LevelType.DD_Small:
                 //小法术+动荡阵列
                 AI.Instance.SetAIStyle(AIStyle.CrazyDog);
                 AI.Instance.aiType = AIType.WeakAI;
-                PlayerPrefs.SetString("EnemyLevel", 
-                    "S00E04S68E04E01S08S04S69S08S07S10S13S74S12S12S10S15S04S13S16");//测试
+                DrawCard.Instance.GetEnemyCardListByList("S00E04S68E04E01S08S04S69S08S07S10S13S74S12S12S10S15S04S13S16");
                 keng.Add(new Point(3,3));
                 keng.Add(new Point(2,2));
                 keng.Add(new Point(4, 2));
@@ -307,7 +291,6 @@ public class LevelManager : MonoBehaviour
                 keng.Add(new Point(4,0));
                 keng.Add(new Point(1,3));
                 AI.Instance.ReadKengList(keng);
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
                 break;
             case LevelType.SC_MR_1:
                 //三重轰击+末日施法者[1]
@@ -396,14 +379,12 @@ public class LevelManager : MonoBehaviour
             case LevelType.ZS_DD_1:
                 //咒术风暴+动荡阵列[1]
                 AI.Instance.aiType = AIType.CardList;
-                PlayerPrefs.SetString("EnemyLevel", "C04S71S74S08C02C04S08S10C05S70S15C03C23C05S16C03S16S08S04S01");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+                DrawCard.Instance.GetEnemyCardListByList("C04S71S74S08C02C04S08S10C05S70S15C03C23C05S16C03S16S08S04S01");
                 break;
             case LevelType.ZS_DD_2:
                 //咒术风暴+动荡阵列[2]
                 AI.Instance.aiType = AIType.CardList;
-                PlayerPrefs.SetString("EnemyLevel", "C04S71S74S08C02C04S08S10C05S70S15C03E04C05S16C03S16S08S04S01");
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
+                DrawCard.Instance.GetEnemyCardListByList("C04S71S74S08C02C04S08S10C05S70S15C03E04C05S16C03S16S08S04S01");
                 break;
             
             case LevelType.YZAM_1:
@@ -458,10 +439,8 @@ public class LevelManager : MonoBehaviour
                 keng.Add(new Point(8,2));
                 keng.Add(new Point(2, 4));
                 AI.Instance.ReadKengList(keng);
-                PlayerPrefs.SetString("EnemyLevel",
-                    "S00E02S15E28S73S74S69S75S76S75S76S71S70S70S69S68S13S67S16S08");
+                DrawCard.Instance.GetEnemyCardListByList("S00E02S15E28S73S74S69S75S76S75S76S71S70S70S69S68S13S67S16S08");
                 AI.Instance.ReadKengList(keng);
-                DrawCard.Instance.GetEnemyCardList("EnemyLevel");
                 break;
            
             case LevelType.Heal:
