@@ -74,6 +74,32 @@ public class AttackManager: MonoBehaviour
         }
         return true;
     }
+    public AttackMagic RandomAtk(bool isHeros)
+    {
+        Random.seed = System.DateTime.Today.Millisecond;
+        if(isHeros)
+        {
+            if (attackMagicList.Count == 0)
+                return null;
+            return attackMagicList[Random.Range(0, attackMagicList.Count)];
+        }
+        if (isHeros==false)
+        {
+            if (enemyAttackMagicList.Count == 0)
+                return null;
+            return enemyAttackMagicList[Random.Range(0, enemyAttackMagicList.Count)];
+        }
+        return null;
+    }
+    public AttackMagic FindEnemyByID(int ID)
+    {
+        foreach(AttackMagic a in enemyAttackMagicList)
+        {
+            if (a.enemyAttackID == ID)
+                return a;
+        }
+        return null;
+    }
     public int CaculateAttackMiddle()
     {
         int attackMiddle = 0;

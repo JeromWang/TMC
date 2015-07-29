@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Net;
+public enum Operation
+{
+    Cast, ChangeTrajectory, Cohere, Entrench, DestroyAura,E06
+}
 public class Client : MonoBehaviour
 {
     public static Client Instance;
@@ -157,6 +161,14 @@ public class Client : MonoBehaviour
     {
         networkView.RPC("Win", RPCMode.Others, GetLocalIp());
     }
+    public void OnDestroyAura(string ID,int PatternUsed)
+    {
+        networkView.RPC("DestroyAura", RPCMode.Others, GetLocalIp(),ID,PatternUsed);
+    }
+    public void OnE06(string attackID)
+    {
+        networkView.RPC("E06", RPCMode.Others, GetLocalIp(), attackID);
+    }
     [RPC]
     void EndRound(string opIp)
     {
@@ -258,6 +270,18 @@ public class Client : MonoBehaviour
         }
     }
     [RPC]
+    void DestroyAura(string opIp, string ID, int PatternUsed)
+    {
+        if (opponentIp == opIp)
+        {
+            Debug.Log(ID + " detected");
+            EnergyManager.Instance.enemyOperationID.Add(ID);
+            EnergyManager.Instance.operation.Add(Operation.DestroyAura);
+            EnergyManager.Instance.enemyTrajectoryID.Add(PatternUsed);
+            //create magic
+        }
+    }
+    [RPC]
     void CastAura(string opIp, string ID)
     {
         if (opponentIp == opIp)
@@ -287,6 +311,15 @@ public class Client : MonoBehaviour
         {
             EnergyManager.Instance.enemyOperationID.Add(attackID.ToString());
             EnergyManager.Instance.operation.Add(Operation.Cohere);
+        }
+    }
+    [RPC]
+    void E06(string opIp, int attackID)
+    {
+        if (opponentIp == opIp)
+        {
+            EnergyManager.Instance.enemyOperationID.Add(attackID.ToString());
+            EnergyManager.Instance.operation.Add(Operation.E06);
         }
     }
     [RPC]

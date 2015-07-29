@@ -34,19 +34,6 @@ public class AuraManager : MonoBehaviour {
     {
         return auraList.Count;
     }
-    void ENumberInitial()
-    {
-        E02Heros = false;
-        E02Enemy = false;
-        E24Heros = false;
-        E28Heros = false;
-        E28Enemy = false;
-        E26_LeftHeros = false;
-        E26_RightHeros = false;
-    }
-	void Start () {
-        AuraManager.Instance = this;
-	}
     public int EGetCardPatternUsed(string ID)
     {
         foreach (Card card in enemyAuraList)
@@ -73,19 +60,15 @@ public class AuraManager : MonoBehaviour {
     {
         return Etemplist.Contains(card);
     }
-    public void  ClearTempList()
+    public void ClearTempList()
     {
         Etemplist.Clear();
     }
     public int GetCardPatternUsed(string ID)
     {
-        foreach(Card card in auraList)
-        {
-            if(card.ID==ID)
-            {
-                return card.PatternUsed;
-            }
-        }
+        Card card= GetCardByID(ID, auraList,0);
+        if(card!=null)
+            return card.PatternUsed;
         return 0;
     }
     public void AddEnemyAura(Card aura)
@@ -93,7 +76,7 @@ public class AuraManager : MonoBehaviour {
         enemyAuraList.Add(aura);
         enemyAuraText += AddAuraText(aura);
         EnemyAuraAffect(aura);
-        if(AI.Instance.aiType==AIType.WeakAI)
+        if (AI.Instance.aiType == AIType.WeakAI)
         {
             AIAuraAffect(aura);
         }
@@ -104,9 +87,94 @@ public class AuraManager : MonoBehaviour {
         auraList.Add(aura);
         CardBackLightHide();
         AuraAffect(aura);
-        auraText+=AddAuraText(aura);
+        auraText += AddAuraText(aura);
         GuideText.Instance.ReturnText(1001);//"AuraManager"
     }
+    public void Restart()
+    {
+        EnergyManager.Instance.HeroMagicCircle.ChangeLine += this.AuraSustain;
+    }
+    public void AuraStartTurnEffect()
+    {
+        //Debug.Log("AuraStartTurnEffect");
+        if (auraStartTurnList.Count <= 0)
+            return;
+        foreach (Card card in auraStartTurnList)
+        {
+            card.CreateAttackMagic();
+        }
+    }
+    public void AuraSustain()//改变连线后，检查aura是否还生效
+    {
+        //  Debug.Log("sustain");
+        auraText = "";
+        for (int i = auraList.Count - 1; i >= 0; i--)
+        {
+            // Debug.Log(auraList[i].PatternUsed.ToString());
+            bool succeed = false;
+            if (auraList[i].PatternUsed == 1)
+            {
+                succeed = auraList[i].patternTrue(auraList[i].Pattern_1);
+                //  Debug.Log(succeed.ToString());
+            }
+            if (auraList[i].PatternUsed == 2)
+            {
+                succeed = auraList[i].patternTrue(auraList[i].Pattern_2);
+                //  Debug.Log(succeed.ToString());
+            }
+            if (succeed == false)
+            {
+                if (LevelManager.Instance.IsOnline)
+                {
+                    Client.Instance.OnDestroyAura(auraList[i].ID, auraList[i].PatternUsed);
+                }
+                RemoveAuraEffect(auraList[i]);
+                EnergyManager.Instance.StartTurn += auraList[i].Return;
+                auraList.RemoveAt(i);
+            }
+            else
+            {
+                auraText += AddAuraText(auraList[i]);
+            }
+        }
+        //  Debug.Log(auraText);
+        GuideText.Instance.ReturnText(1000);
+        // Debug.Log("AuraSustain:"+AuraManager.Instance.auraText);
+    }
+    public void DestroyEnemyAura(string ID, int PatternUsed)
+    {
+        Card card = GetCardByID(ID, enemyAuraList,PatternUsed);
+        RemoveEnemyAuraAffect(card);
+        enemyAuraList.Remove(card);
+    }
+    Card GetCardByID(string ID, List<Card> list,int PatternUsed)
+    {
+        foreach(Card card in list)
+        {
+            if(card.ID==ID)
+            {
+                if(card.PatternUsed==PatternUsed)
+                    return card;
+                if (PatternUsed == 0)
+                    return card;
+            }
+        }
+        return null;
+    }
+    void ENumberInitial()
+    {
+        E02Heros = false;
+        E02Enemy = false;
+        E24Heros = false;
+        E28Heros = false;
+        E28Enemy = false;
+        E26_LeftHeros = false;
+        E26_RightHeros = false;
+    }
+	void Start () {
+        AuraManager.Instance = this;
+	}
+    
     string AddAuraText(Card aura)
     {
         switch (aura.ID)
@@ -449,54 +517,7 @@ public class AuraManager : MonoBehaviour {
         ENumberInitial();
 
     }
-    public void Restart()
-    {
-        EnergyManager.Instance.HeroMagicCircle.ChangeLine += this.AuraSustain;
-    }
-    public void AuraStartTurnEffect()
-    {
-        //Debug.Log("AuraStartTurnEffect");
-        if (auraStartTurnList.Count <= 0)
-            return;
-        foreach(Card card in auraStartTurnList)
-        {
-            card.CreateAttackMagic();
-        }
-    }
-    public void AuraSustain()//改变连线后，检查aura是否还生效
-    {
-      //  Debug.Log("sustain");
-        auraText = "";
-        for (int i = auraList.Count-1; i >=0; i--)
-        {
-           // Debug.Log(auraList[i].PatternUsed.ToString());
-            bool succeed = false;
-            if (auraList[i].PatternUsed == 1)
-            {
-                succeed = auraList[i].patternTrue(auraList[i].Pattern_1);
-              //  Debug.Log(succeed.ToString());
-            }
-            if (auraList[i].PatternUsed == 2)
-            {
-                succeed = auraList[i].patternTrue(auraList[i].Pattern_2);
-              //  Debug.Log(succeed.ToString());
-            }
-            if (succeed == false)
-            {
-                RemoveAuraEffect(auraList[i]);
-                EnergyManager.Instance.StartTurn += auraList[i].Return;
-                auraList.RemoveAt(i);
-            }
-            else
-            {
-                auraText+=AddAuraText(auraList[i]);
-            }
-        }
-      //  Debug.Log(auraText);
-        GuideText.Instance.ReturnText(1000);
-       // Debug.Log("AuraSustain:"+AuraManager.Instance.auraText);
-    }
-
+   
     public void E15()//每回合治疗2
     {
         LevelManager.Instance.hero.damage -= 2+healthPlus;
@@ -520,12 +541,22 @@ public class AuraManager : MonoBehaviour {
     {
         if(!LevelManager.Instance.IsOnline)//单机情况
         {
-            if (AttackManager.Instance.enemyAttackMagicList.Count == 0)
-            {
+            AttackMagic a = AttackManager.Instance.RandomAtk(false);
+            if (a == null)
                 return;
-            }
-            Random.seed = System.DateTime.Today.Millisecond;
-            AttackMagic a = AttackManager.Instance.enemyAttackMagicList[Random.Range(0, AttackManager.Instance.enemyAttackMagicList.Count)];
+            a.magicValuePlus += 1;
+            a.UpdateMagicValue();
+            a.magicCircle.ExpendShrink();
+            return;
+        }
+    }
+    public void EnemyE06(int ID)
+    {
+        if(LevelManager.Instance.IsOnline)
+        {
+            AttackMagic a = AttackManager.Instance.FindEnemyByID(ID);
+            if (a == null)
+                return;
             a.magicValuePlus += 1;
             a.UpdateMagicValue();
             a.magicCircle.ExpendShrink();
@@ -534,12 +565,9 @@ public class AuraManager : MonoBehaviour {
     }
     public void E06()
     {
-        if(AttackManager.Instance.attackMagicList.Count==0)
-        {
+        AttackMagic a=AttackManager.Instance.RandomAtk(true);
+        if (a == null)
             return;
-        }
-        Random.seed = System.DateTime.Today.Millisecond;
-        AttackMagic a=AttackManager.Instance.attackMagicList[Random.Range(0, AttackManager.Instance.attackMagicList.Count)];
         a.magicValuePlus+=1;
         a.UpdateMagicValue();
         a.magicCircle.ExpendShrink();

@@ -2,10 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public enum Operation 
-{
-    Cast,ChangeTrajectory,Cohere,Entrench
-}
 
 public class EnergyManager : MonoBehaviour
 {
@@ -382,6 +378,44 @@ public class EnergyManager : MonoBehaviour
             FireGo();
         StartCoroutine(startTurn());
     }
+    void ChangeTrajectory()
+    {
+        AttackMagic a= AttackManager.Instance.FindEnemyByID(int.Parse(enemyOperationID[enemyOperationIndex]));
+        if(a==null)
+        {
+            Debug.Log("ChangeTrajectory No Found");
+            return;
+        }
+        a.trajectory = (TrajectoryType)enemyTrajectoryID[enemyOperationIndex];
+    }
+    void Cohere()
+    {
+        AttackMagic a = AttackManager.Instance.FindEnemyByID(int.Parse(enemyOperationID[enemyOperationIndex])); 
+        if (a == null)
+        {
+            Debug.Log("ChangeTrajectory No Found");
+            return;
+        }
+        a.CohereMagic();
+    }
+    void Entrench()
+    {
+        foreach (DefenseMagic a in ShieldManager.Instance.defenseMagicList)
+        {
+            if (a.enemyDefenseID.ToString() == enemyOperationID[enemyOperationIndex])
+            {
+                a.EntrenchMagic();
+            }
+        }
+    }
+    void DestroyAura()
+    {
+        AuraManager.Instance.DestroyEnemyAura(enemyOperationID[enemyOperationIndex], enemyTrajectoryID[enemyOperationIndex]);
+    }
+    void E06()
+    {
+        AuraManager.Instance.EnemyE06(int.Parse(enemyOperationID[enemyOperationIndex]));
+    }
     IEnumerator Online_End()
     {
         //Debug.Log("count " + enemyOperationID.Count);
@@ -393,36 +427,32 @@ public class EnergyManager : MonoBehaviour
                 //Debug.Log("isuse" + operation[enemyOperationIndex]);
                 StartCoroutine(DrawCard.Instance.EnemyShowCard());
                 yield return new WaitForSeconds(2f);
+                continue;
             }
-            else if (operation[enemyOperationIndex] == Operation.ChangeTrajectory)
+            if (operation[enemyOperationIndex] == Operation.ChangeTrajectory)
             {
-                foreach (AttackMagic a in AttackManager.Instance.enemyAttackMagicList)
-                {
-                    if (a.enemyAttackID.ToString() == enemyOperationID[enemyOperationIndex])
-                    {
-                        a.trajectory = (TrajectoryType)enemyTrajectoryID[enemyOperationIndex];
-                    }
-                }
+                ChangeTrajectory();
+                continue;
             }
-            else if (operation[enemyOperationIndex] == Operation.Cohere)
+            if (operation[enemyOperationIndex] == Operation.Cohere)
             {
-                foreach (AttackMagic a in AttackManager.Instance.enemyAttackMagicList)
-                {
-                    if (a.enemyAttackID.ToString() == enemyOperationID[enemyOperationIndex])
-                    {
-                        a.CohereMagic();
-                    }
-                }
+                Cohere();
+                continue;
             }
-            else if (operation[enemyOperationIndex] == Operation.Entrench)
+            if (operation[enemyOperationIndex] == Operation.Entrench)
             {
-                foreach (DefenseMagic a in ShieldManager.Instance.defenseMagicList)
-                {
-                    if (a.enemyDefenseID.ToString() == enemyOperationID[enemyOperationIndex])
-                    {
-                        a.EntrenchMagic();
-                    }
-                }
+                Entrench();
+                continue;
+            }
+            if (operation[enemyOperationIndex] == Operation.DestroyAura)
+            {
+                DestroyAura();
+                continue;
+            }
+            if (operation[enemyOperationIndex] == Operation.E06)
+            {
+                E06();
+                continue;
             }
         }
         enemyCardShowing = false;
