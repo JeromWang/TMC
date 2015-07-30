@@ -6,11 +6,11 @@ public class EnemyMagicCircle : MagicCircleMananger
 
     bool CanDraw(Line line)
     {
-        if (GetLine(line.point1, line.point2))//已经有线了
+        if (GetLine(line.Point1, line.Point2))//已经有线了
             return false;
-        if (keng[line.point1.GetX(), line.point1.GetY()] == false)
+        if (keng[line.Point1.GetX(), line.Point1.GetY()] == false)
             return false;
-        if (keng[line.point2.GetX(), line.point2.GetY()] == false)
+        if (keng[line.Point2.GetX(), line.Point2.GetY()] == false)
             return false;
         return true;
     }
@@ -18,7 +18,7 @@ public class EnemyMagicCircle : MagicCircleMananger
     {
         if (CanDraw(line) == false)
             return false;
-        LineTrue(line.point1.GetUni(), line.point2.GetUni());
+        LineTrue(line.Point1.GetUni(), line.Point2.GetUni());
         return true;
     }
     public void Destroy()

@@ -17,7 +17,7 @@ public class AttackManager: MonoBehaviour
     public  int EnermyWaitNum = -1;
     public  int EnermySetNum = 0;
     public bool[] EnermyWaitPos ; //{ false, false, false, false, false, false, false, false, false, false, false, false };
-    public List<AttackMagic> attackMagicList =new List<AttackMagic>();
+    public List<AttackMagic> attackMagicList = new List<AttackMagic>();
     public List<AttackMagic> enemyAttackMagicList = new List<AttackMagic>();
 
     const int FireThisTurn = 0;
@@ -59,7 +59,17 @@ public class AttackManager: MonoBehaviour
         attackMagicList.Clear();
         enemyAttackMagicList.Clear();
     }
-    
+    public void DestroyAttack(AttackMagic atk,bool isHeros)
+    {
+        if (isHeros)
+        {
+            attackMagicList.Remove(atk);
+        }
+        else
+        {
+            enemyAttackMagicList.Remove(atk);
+        }
+    }
     public bool AllFireDestroy()
     {
         foreach(AttackMagic a in attackMagicList)
@@ -74,7 +84,7 @@ public class AttackManager: MonoBehaviour
         }
         return true;
     }
-    public AttackMagic RandomAtk(bool isHeros)
+    public AttackMagic GetRandomAtk(bool isHeros)
     {
         Random.seed = System.DateTime.Today.Millisecond;
         if(isHeros)

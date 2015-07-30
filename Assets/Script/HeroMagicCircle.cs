@@ -7,6 +7,7 @@ public class HeroMagicCircle : MagicCircleMananger {
 
     public delegate void ChangeLineEvent();
     public event ChangeLineEvent ChangeLine;
+    bool level2 = false;
     protected override void LineChange()
     {
         ChangeLine();
@@ -17,6 +18,7 @@ public class HeroMagicCircle : MagicCircleMananger {
         if (LevelManager.Instance.level == 2)
         {
             Level2Start();
+            level2 = true;
         }
     }
     void Level2Start()
@@ -48,9 +50,10 @@ public class HeroMagicCircle : MagicCircleMananger {
     }
     public void Destroy()
     {
-        if (LevelManager.Instance.level == 2)
+        if (level2)
         {
             Level2End();
+            level2 = false;
         }
         base.Destroy();
     }

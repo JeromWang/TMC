@@ -446,15 +446,7 @@ public class AttackMagic : Magic
     }
     public override void Destroy()
     {
-        if(isHeros)
-        {
-            AttackManager.Instance.attackMagicList.Remove(this);
-        }
-        else
-        {
-            AttackManager.Instance.enemyAttackMagicList.Remove(this);
-        }
-        
+        AttackManager.Instance.DestroyAttack(this, isHeros);
         EnergyManager.Instance.FireGo -= this.FireGo;
         EnergyManager.Instance.StartTurn -= this.StartTurn;
         TrajectoryPosition.Instance.HidePosition();

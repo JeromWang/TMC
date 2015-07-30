@@ -21,7 +21,7 @@ public class PatternChose : MonoBehaviour
             Debug.Log("null");
         ID = card.ID;
         NameLabel.text = card.name;
-        TypeLabel.text = card.typeText;
+        //TypeLabel.text = card.typeText;
         EffectLabel.text = card.effectText;
 
         if(pattern==1)

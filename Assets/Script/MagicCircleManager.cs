@@ -47,7 +47,19 @@ public class Point
 }
 public class Line
 {
-    public Point point1, point2;
+    Point point1, point2;
+
+    public Point Point1
+    {
+        get { return point1; }
+        set { point1 = value; }
+    }
+
+    public Point Point2
+    {
+        get { return point2; }
+        set { point2 = value; }
+    }
     public Line(Point p1,Point p2)
     {
         point1 = p1;
@@ -73,6 +85,7 @@ public class Line
     {
         return !(l1 == l2);
     }
+    
 }
 public class MagicCircleMananger : MonoBehaviour
 {
@@ -465,10 +478,10 @@ public class MagicCircleMananger : MonoBehaviour
     /// </summary>
     public bool IsOperable(Line line)
     {
-        int x1 = line.point1.GetX();
-        int y1 = line.point1.GetY();
-        int x2 = line.point2.GetX();
-        int y2 = line.point2.GetY();
+        int x1 = line.Point1.GetX();
+        int y1 = line.Point1.GetY();
+        int x2 = line.Point2.GetX();
+        int y2 = line.Point2.GetY();
         double k = (double)(Mathf.Abs(y1 - y2)) / (double)(Mathf.Abs(x1 - x2));
         if (x1 == x2)
         {

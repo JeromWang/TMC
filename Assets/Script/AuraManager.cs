@@ -26,11 +26,11 @@ public class AuraManager : MonoBehaviour {
     public bool E26_RightHeros = false;
     List<Card> auraStartTurnList=new List<Card>();
 
-    public int GetEnemyAuraListCount()
+    public int GetEnemyAuraCount()
     {
         return enemyAuraList.Count;
     }
-    public int GetAuraListCount()
+    public int GetAuraCount()
     {
         return auraList.Count;
     }
@@ -93,6 +93,18 @@ public class AuraManager : MonoBehaviour {
     public void Restart()
     {
         EnergyManager.Instance.HeroMagicCircle.ChangeLine += this.AuraSustain;
+    }
+    public void ShowEnemyAuraCard()
+    {
+        DrawCard.Instance.ShowAuraCard(enemyAuraList);
+    }
+    public void HideEnemyAuraCard()
+    {
+        foreach(Card c in enemyAuraList)
+        {
+            c.transform.parent = null;
+            c.gameObject.SetActive(false);
+        }
     }
     public void AuraStartTurnEffect()
     {
@@ -541,7 +553,7 @@ public class AuraManager : MonoBehaviour {
     {
         if(!LevelManager.Instance.IsOnline)//单机情况
         {
-            AttackMagic a = AttackManager.Instance.RandomAtk(false);
+            AttackMagic a = AttackManager.Instance.GetRandomAtk(false);
             if (a == null)
                 return;
             a.magicValuePlus += 1;
@@ -565,7 +577,7 @@ public class AuraManager : MonoBehaviour {
     }
     public void E06()
     {
-        AttackMagic a=AttackManager.Instance.RandomAtk(true);
+        AttackMagic a=AttackManager.Instance.GetRandomAtk(true);
         if (a == null)
             return;
         a.magicValuePlus+=1;

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
@@ -11,14 +12,16 @@ public enum CardType
 {
     error,attack,defence,aura,heal
 }
-public class Card : MonoBehaviour
+public class Card : MonoBehaviour, IComparable
 {
     public bool isHeros;
     public string ID;
-    public string name;
+    string name;
     public string effectText;
-    public string typeText;
+    string typeText;
     public string explainText;
+
+    //应该抽象
     public int[][] Pattern_1 = new int[0][];//要求的线 x1,y1,x2,y2  = new int[12, 4];
     public int[][] Pattern_2 = new int[0][];//另一种选择
     public int PatternNumber = 0;//Pattern的种类
@@ -35,11 +38,8 @@ public class Card : MonoBehaviour
     public int number;//生成法球个数
     int tempNumber;//目前还需生成的防御魔法个数
     public int magicValue;//数值
-    Dictionary<string, int> Effect = new Dictionary<string, int>();//效果字典 string：名字，int：数值
+    Dictionary<string, int> Effect = new Dictionary<string, int>();//效果字典 string：名字，int：数值//应该抽象
 
-    //public GameObject shield;
-    //public GameObject AttackCircle;
-    //public GameObject Heal;
     Vector3 HealPos = new Vector3(1000, 0.2f, 850);
     Vector3 EnermyHealPos = new Vector3(1000f, 0.2f, 880f);
     Vector3 ShieldPos;//new Vector3(1000, 1.91f, 850);
@@ -53,6 +53,16 @@ public class Card : MonoBehaviour
 
     public CardMoving cardMoving;
     bool used = false;//已使用 Return效果用
+
+    public int CompareTo(object obj)
+    {
+        if (obj is Card)
+        {
+            Card card = obj as Card;
+            return (this.ID).CompareTo(card.ID);
+        }
+        return 1;
+    }
 
     void Awake()
     {
@@ -402,7 +412,7 @@ public class Card : MonoBehaviour
          return Accessible.OK;
     }
    
-    public void CreateDefenceMagic()
+    void CreateDefenceMagic()
     {
         if(tempNumber>0)
         {
@@ -472,7 +482,7 @@ public class Card : MonoBehaviour
     void CardUseEffect(string address)
     {
         GameObject Aura = (GameObject)Resources.Load(address);
-        Object obj;
+        UnityEngine.Object obj;
         if(isHeros)
         {
             obj = Instantiate(Aura, new Vector3(1000f, 0.1f, 850f), qua);
@@ -575,7 +585,9 @@ public class Card : MonoBehaviour
                         }
                     }
                     if (LevelManager.Instance.IsOnline)
+                    {
                         Client.Instance.OnCastAura(ID);
+                    }
                 #endregion
                 }
                 else// 教学关 第二关
@@ -654,7 +666,9 @@ public class Card : MonoBehaviour
             if (isHeros)
             {
                 if (LevelManager.Instance.IsOnline)
+                {
                     Client.Instance.OnCastAttack(ID);
+                }
             }
             for (int i = 1; i <= number; i++)//生成火球实体
             {
@@ -753,10 +767,10 @@ public class Card : MonoBehaviour
         }
         else if (ShieldManager.Instance.EL_Shield == null && ShieldManager.Instance.ER_Shield == null)
         {
-            int r = Random.Range(-1, 2);
+            int r = UnityEngine.Random.Range(-1, 2);
             for (; r == 0; )
             {
-                r = Random.Range(-1, 2);
+                r = UnityEngine.Random.Range(-1, 2);
             }
             ShieldManager.Instance.EnermyShield(EnemyShield(r), r);
         }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class EnergyManager : MonoBehaviour
+public class EnergyManager : MonoBehaviour//应该分成battleManager 和 EnergyManager
 {
     public static EnergyManager Instance;
     public HeroMagicCircle HeroMagicCircle;
@@ -18,6 +18,7 @@ public class EnergyManager : MonoBehaviour
     public int cameraFlag;//相机指示
     public bool myTurnsEnd = false;
     public bool enemyTurnsEnd = false;
+    public bool turnsEnd = false;
     public int cardUsedTurn = 0;//本回合用过的非结界卡数
     bool testMode = false;
     GameObject handZone;
@@ -336,7 +337,7 @@ public class EnergyManager : MonoBehaviour
     {
         for (int i = DrawCard.Instance.EnemyList.childCount - 1; i >= 0; i--)
         {
-            if (DrawCard.Instance.EnemyList.GetChild(i).GetComponent<Card>().typeText == "结界")
+            if (DrawCard.Instance.EnemyList.GetChild(i).GetComponent<Card>().GetCardType()==CardType.aura)
             {
                 DrawCard.Instance.EnemyList.GetChild(i).parent = DrawCard.Instance.EnemyAuraList;
                 continue;
@@ -350,6 +351,7 @@ public class EnergyManager : MonoBehaviour
     {
         TurnsEndTime = 0f;
         myTurnsEnd = true;
+        turnsEnd = true;
         MyTurnEnd();
         TurnsEnd();
         yield return new WaitForSeconds(1f);
@@ -418,13 +420,13 @@ public class EnergyManager : MonoBehaviour
     }
     IEnumerator Online_End()
     {
-        //Debug.Log("count " + enemyOperationID.Count);
+        Debug.Log("count " + enemyOperationID.Count);
         for (enemyOperationIndex = 0; enemyOperationIndex < enemyOperationID.Count; enemyOperationIndex++)
         {
-            //Debug.Log("第" + enemyOperationIndex + "个操作");
+            Debug.Log("第" + enemyOperationIndex + "个操作");
             if (operation[enemyOperationIndex] == Operation.Cast)
             {
-                //Debug.Log("isuse" + operation[enemyOperationIndex]);
+                Debug.Log("isuse" + operation[enemyOperationIndex]);
                 StartCoroutine(DrawCard.Instance.EnemyShowCard());
                 yield return new WaitForSeconds(2f);
                 continue;
@@ -537,6 +539,7 @@ public class EnergyManager : MonoBehaviour
         if (!WinLose())//没失败继续，失败直接退出
         {
             roundCount++;
+            turnsEnd = false;
             AuraManager.Instance.AuraStartTurnEffect();
             StartTurn();//StartTurn事件
             AI.Instance.GetHerosInformation();

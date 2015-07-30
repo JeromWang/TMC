@@ -235,10 +235,16 @@ public class Deck : MonoBehaviour {
     void Tile(Transform t)
     {
         //Debug.Log("Tile");
-        int x = 0;
+        List<Card> list = new List<Card>();
         foreach (Transform temp in t.transform)
         {
-            temp.position = x * (new Vector3(0f, 0f, -0.2f)) + t.position;
+            list.Add(temp.GetComponent<Card>());
+        }
+        list.Sort();
+        int x = 0;
+        foreach (Card c in list)
+        {
+            c.transform.position = x * (new Vector3(0f, 0f, -0.2f)) + t.position;
             x++;
         }
     }
@@ -249,33 +255,10 @@ public class Deck : MonoBehaviour {
        // Debug.Log(cardScript.ID);
         if(deckCard.inPool)
         {
-            //foreach (string s in PoolList)
-            //{
-            //    if (cardScript.ID == s)
-            //    {
-            //        //Debug.Log("pool");
-            //        PoolList.Remove(s);
-            //            CardList.Add(s);
-            //        t.parent = CardZone;
-            //        break;
-            //    }
-            //}
             t.parent = CardZone;
         }
         else
         {
-            //foreach (string s in CardList)
-            //{
-            //    if (cardScript.ID == s)
-            //    {
-            //       // Debug.Log("card");
-            //        CardList.Remove(s);
-            //        if(iniPool)//如果初始化完了
-            //            PoolList.Add(s);
-            //        t.parent = PoolZone;
-            //        break;
-            //    }
-            //}
             t.parent = PoolZone;
         }
 

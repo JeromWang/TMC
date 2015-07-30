@@ -574,6 +574,10 @@ public class LevelManager : MonoBehaviour
                 level = 1;
             SetLevel(level);
         }
+        else
+        {
+            DrawCard.Instance.GetCardList("啦啦啦");
+        }
         GameObject.Find("ShaLou").AddComponent<SandClock>();
         CameraMoving.Instance.Move(0);
     }

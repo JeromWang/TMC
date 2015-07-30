@@ -1,0 +1,1862 @@
+﻿<?xMSl version="1.0" encoding="utf-8"?>
+<Database>
+  <Version value="7.17"></Version>
+  <Spell>
+    <Card ID="S00">
+      <CardName type="text" value="英雄技能"/>
+      <Cost type="Number" value="2" />
+      <CardType type="Number" value="2" />
+      <Value type="Number" value="3" />
+      <Feature>
+        <Return type="bool" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>所有法师的第一节课</Text>
+    </Card>
+    <Card ID="S01">
+      <CardName type="text" value="魔法飞弹"/>
+      <Cost type="Number" value="1" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="1" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>所有法师的第一节课</Text>
+    </Card>
+    <Card ID="S02">
+      <CardName type="text" value="魔法箭"/>
+      <Cost type="Number" value="2" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="2" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>只比魔法飞弹强那么一点</Text>
+    </Card>
+    <Card ID="S03">
+      <CardName type="text" value="双发飞弹"/>
+      <Cost type="Number" value="2" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="1" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="2" />
+      <Text>魔法-魔法飞弹！</Text>
+    </Card>
+    <Card ID="S04">
+      <CardName type="text" value="虹飞弹"/>
+      <Cost type="Number" value="2" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="1" />
+      <Feature>
+        <Freedom type="bool" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>如果你觉得它和魔法箭没什么两样的话，那你一定没有认真学习魔法</Text>
+    </Card>
+    <Card ID="S05">
+      <CardName type="text" value="动荡魔流"/>
+      <Cost type="Number" value="2" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="1" />
+      <Feature>
+        <Explode type="bool" value="1" />
+      </Feature>
+      <Explode type="Number" value="1" />
+      <Quantity type="Number" value="1" />
+      <Text>有些魔法实际上比它表面看起来要厉害</Text>
+    </Card>
+    <Card ID="S06">
+      <CardName type="text" value="魔法冲击"/>
+      <Cost type="Number" value="3" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="3" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>魔导师们通常从这节课开始在室外给学徒们上课</Text>
+    </Card>
+    <Card ID="S07">
+      <CardName type="text" value="三重飞弹"/>
+      <Cost type="Number" value="3" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="1" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="3" />
+      <Text>多次成为魔法资格考试的第一题</Text>
+    </Card>
+    <Card ID="S08">
+      <CardName type="text" value="分裂飞弹"/>
+      <Cost type="Number" value="3" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="1" />
+      <Feature>
+        <Freedom type="bool" value="1" />
+      </Feature>
+      <Quantity type="Number" value="2" />
+      <Text>敌人将难以预测你的行动</Text>
+    </Card>
+    <Card ID="S09">
+      <CardName type="text" value="魔法轰击"/>
+      <Cost type="Number" value="4" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="4" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>简单而实用</Text>
+    </Card>
+    <Card ID="S10">
+      <CardName type="text" value="链式飞弹"/>
+      <Cost type="Number" value="4" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="1" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="4" />
+      <Text>很少有人会在一个方向上防守3次以上</Text>
+    </Card>
+    <Card ID="S11">
+      <CardName type="text" value="激流"/>
+      <Cost type="Number" value="4" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="2" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="2" />
+      <Text>如果你想面面俱到，就要付出代价</Text>
+    </Card>
+    <Card ID="S12">
+      <CardName type="text" value="激荡"/>
+      <Cost type="Number" value="4" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="3" />
+      <Feature>
+        <Freedom type="Number" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>高手的选择</Text>
+    </Card>
+    <Card ID="S13">
+      <CardName type="text" value="先知冲击"/>
+      <Cost type="Number" value="3" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="2" />
+      <Feature>
+        <Return type="bool" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>积少成多</Text>
+    </Card>
+    <Card ID="S14">
+      <CardName type="text" value="先知轰击"/>
+      <Cost type="Number" value="6" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="4" />
+      <Feature>
+        <Return type="bool" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>你一定是做好了持久战准备</Text>
+    </Card>
+    <Card ID="S15">
+      <CardName type="text" value="天启:序"/>
+      <Cost type="Number" value="2" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="3" />
+      <Feature>
+        <Preparation type="Number" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>缓慢，然而高效</Text>
+    </Card>
+    <Card ID="S16">
+      <CardName type="text" value="天启:终"/>
+      <Cost type="Number" value="4" />
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="6" />
+      <Feature>
+        <Preparation type="Number" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>最好不要让你的敌人将他释放出来</Text>
+    </Card>
+    <Card ID="S67">
+      <CardName type="text" value="魔法外壳"/>
+      <Cost type="Number" value="1" />
+      <CardType type="Number" value="2" />
+      <Value type="Number" value="2" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>没有想象中那么结实</Text>
+    </Card>
+    <Card ID="S68">
+      <CardName type="text" value="魔法护盾"/>
+      <Cost type="Number" value="2" />
+      <CardType type="Number" value="2" />
+      <Value type="Number" value="4" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>能够防御大多数法术</Text>
+    </Card>
+    <Card ID="S69">
+      <CardName type="text" value="魔法屏障"/>
+      <Cost type="Number" value="3" />
+      <CardType type="Number" value="2" />
+      <Value type="Number" value="6" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>可保你一时平安</Text>
+    </Card>
+    <Card ID="S70">
+      <CardName type="text" value="魔法壁垒"/>
+      <Cost type="Number" value="4" />
+      <CardType type="Number" value="2" />
+      <Value type="Number" value="8" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>难以穿透</Text>
+    </Card>
+    <Card ID="S71">
+      <CardName type="text" value="魔法护盾II"/>
+      <Cost type="Number" value="5" />
+      <CardType type="Number" value="2" />
+      <Value type="Number" value="10" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>面对持续进攻的不二之选</Text>
+    </Card>
+    <Card ID="S72">
+      <CardName type="text" value="魔法屏障II"/>
+      <Cost type="Number" value="6" />
+      <CardType type="Number" value="2" />
+      <Value type="Number" value="12" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>只有极其精通防御魔法的大法师才能够使用</Text>
+    </Card>
+    <Card ID="S73">
+      <CardName type="text" value="持久护盾"/>
+      <Cost type="Number" value="3" />
+      <CardType type="Number" value="2" />
+      <Value type="Number" value="4" />
+      <Feature>
+        <Refresh type="bool" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>只有极其精通防御魔法的大法师才能够使用</Text>
+    </Card>
+    <Card ID="S74">
+      <CardName type="text" value="持久壁垒"/>
+      <Cost type="Number" value="5" />
+      <CardType type="Number" value="2" />
+      <Value type="Number" value="8" />
+      <Feature>
+        <Refresh type="bool" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+      <Text>只有极其精通防御魔法的大法师才能够使用</Text>
+    </Card>
+    <Card ID="S75">
+      <CardName type="text" value="镜像护盾I"/>
+      <Cost type="Number" value="4" />
+      <CardType type="Number" value="2" />
+      <Value type="Number" value="4" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="2" />
+      <Text>面对持续进攻的不二之选</Text>
+    </Card>
+    <Card ID="S76">
+      <CardName type="text" value="镜像护盾II"/>
+      <Cost type="Number" value="6" />
+      <CardType type="Number" value="2" />
+      <Value type="Number" value="6" />
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="2" />
+      <Text>面对持续进攻的不二之选</Text>
+    </Card>
+  </Spell>
+
+  <Aura>
+    <Card ID="E01">
+      <CardName type="text" value="动荡阵列"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="3" />
+      <PatternNumber value="2"/>
+      <Value value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,1,4,2" />
+        <Line2 type="text" value="7,1,4,2" />
+        <Line3 type="text" value="4,4,4,2" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="1,3,4,2" />
+        <Line2 type="text" value="7,3,4,2" />
+        <Line3 type="text" value="4,0,4,2" />
+      </Pattern_2>
+      <Feature>
+        <TopDown value="1"/>
+      </Feature>
+      <Explain value="每回合开始时召唤一个1攻魔法"/>
+    </Card>
+    <Card ID="E02">
+      <CardName type="text" value="不羁阵列"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="6" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,1,4,2" />
+        <Line2 type="text" value="7,1,4,2" />
+        <Line3 type="text" value="4,4,4,2" />
+        <Line4 type="text" value="1,3,4,2" />
+        <Line5 type="text" value="7,3,4,2" />
+        <Line6 type="text" value="4,0,4,2" />
+      </Pattern_1>
+      <Feature>
+      </Feature>
+      <Explain value="所有魔法获得弹道自由"/>
+    </Card>
+    <Card ID="E03">
+      <CardName type="text" value="末日施法者"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="4" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,2,4" />
+        <Line2 type="text" value="2,4,4,2" />
+        <Line3 type="text" value="4,2,6,4" />
+        <Line4 type="text" value="6,4,8,2" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="0,2,2,0" />
+        <Line2 type="text" value="2,0,4,2" />
+        <Line3 type="text" value="4,2,6,0" />
+        <Line4 type="text" value="6,0,8,2" />
+      </Pattern_2>
+      <Feature>
+        <TopDown value="1"/>
+      </Feature>
+      <Explain value="初始攻击力>=4的魔法攻击+3"/>
+    </Card>
+    <Card ID="E04">
+      <CardName type="text" value="不屈施法者"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="4" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,2,3,3" />
+        <Line2 type="text" value="3,3,4,2" />
+        <Line3 type="text" value="4,2,5,3" />
+        <Line4 type="text" value="5,3,6,2" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="2,2,3,1" />
+        <Line2 type="text" value="3,1,4,2" />
+        <Line3 type="text" value="4,2,5,1" />
+        <Line4 type="text" value="5,1,6,2" />
+      </Pattern_2>
+      <Feature>
+        <TopDown value="1"/>
+      </Feature>
+      <Explain value="初始攻击力小于4的魔法攻击+1"/>
+    </Card>
+    <Card ID="E05">
+      <CardName type="text" value="天穹回环"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="18" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,0,4,0" />
+        <Line2 type="text" value="4,0,6,0" />
+        <Line3 type="text" value="6,0,7,1" />
+        <Line4 type="text" value="7,1,8,2" />
+        <Line5 type="text" value="8,2,7,3" />
+        <Line6 type="text" value="7,3,6,4" />
+        <Line7 type="text" value="6,4,4,4" />
+        <Line8 type="text" value="4,4,2,4" />
+        <Line9 type="text" value="2,4,1,3" />
+        <Line10 type="text" value="1,3,0,2" />
+        <Line11 type="text" value="0,2,1,1" />
+        <Line12 type="text" value="1,1,2,0" />
+        <Line13 type="text" value="1,1,7,1" />
+        <Line14 type="text" value="7,1,4,4" />
+        <Line15 type="text" value="4,4,1,1" />
+        <Line16 type="text" value="1,3,7,3" />
+        <Line17 type="text" value="7,3,4,0" />
+        <Line18 type="text" value="4,0,1,3" />
+      </Pattern_1>
+      <Feature>
+        <Shield_expansion type="bool" value="1"/>
+        <CardType type="Number" value="4" />
+        <Require_lessen type="bool" value="1"/>
+      </Feature>
+      <Shield_expansion type="Number" value="2" />
+      <CardType type="Number" value="4" />
+      <Require_lessen type="Number" value="3" />
+      <Explain value="护甲每回合+2/+2,魔法消耗减少3"/>
+    </Card>
+    <Card ID="E06">
+      <CardName type="text" value="元素导流"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="6" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,3,7,3" />
+        <Line2 type="text" value="7,3,4,0" />
+        <Line3 type="text" value="4,0,1,3" />
+        <Line4 type="text" value="1,1,7,1" />
+        <Line5 type="text" value="7,1,4,4" />
+        <Line6 type="text" value="4,4,1,1" />
+      </Pattern_1>
+      <Feature>
+      </Feature>
+      <Explain value="每次出牌随机对一个攻击魔法+1"/>
+    </Card>
+    <Card ID="E07">
+      <CardName type="text" value="元素洪流"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="24" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,0,4,0" />
+        <Line2 type="text" value="4,0,6,0" />
+        <Line3 type="text" value="6,0,7,1" />
+        <Line4 type="text" value="7,1,8,2" />
+        <Line5 type="text" value="8,2,7,3" />
+        <Line6 type="text" value="7,3,6,4" />
+        <Line7 type="text" value="6,4,4,4" />
+        <Line8 type="text" value="4,4,2,4" />
+        <Line9 type="text" value="2,4,1,3" />
+        <Line10 type="text" value="1,3,0,2" />
+        <Line11 type="text" value="0,2,1,1" />
+        <Line12 type="text" value="1,1,2,0" />
+        <Line13 type="text" value="1,1,7,1" />
+        <Line14 type="text" value="7,1,4,4," />
+        <Line15 type="text" value="4,4,1,1" />
+        <Line16 type="text" value="1,3,7,3" />
+        <Line17 type="text" value="7,3,4,0" />
+        <Line18 type="text" value="4,0,1,3" />
+        <Line19 type="text" value="2,4,2,0" />
+        <Line20 type="text" value="2,0,8,2" />
+        <Line21 type="text" value="8,2,2,4" />
+        <Line22 type="text" value="6,4,6,0" />
+        <Line23 type="text" value="6,0,0,2" />
+        <Line24 type="text" value="0,2,6,4" />
+      </Pattern_1>
+      <Feature>
+        <Shield_expansion type="bool" value="1"/>
+        <CardType type="Number" value="4" />
+        <Require_lessen type="bool" value="1"/>
+        <Auto_attack type="bool" value="1"/>
+      </Feature>
+      <Shield_expansion type="Number" value="2" />
+      <CardType type="Number" value="4" />
+      <Require_lessen type="Number" value="3" />
+      <Auto_attack type="Number" value="4"/>
+      <Explain value="护甲每回合+2/+2,魔法消耗减少3，每回合发出一个攻击力4的魔法弹"/>
+    </Card>
+    <Card ID="E08">
+      <CardName type="text" value="幻象之墙"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="3" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,2,3,1" />
+        <Line2 type="text" value="3,1,5,1" />
+        <Line3 type="text" value="5,1,6,2" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="2,2,3,3"/>
+        <Line2 type="text" value="3,3,5,3" />
+        <Line3 type="text" value="5,3,6,2" />
+      </Pattern_2>
+      <Feature>
+        <TopDown value="1"/>
+        <Weaken type="bool" value="1"/>
+      </Feature>
+      <Weaken type="Number" value="1" />
+      <Explain value="护甲获得削弱+1"/>
+    </Card>
+    <Card ID="E09">
+      <CardName type="text" value="光翼"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="4" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,2,2" />
+        <Line2 type="text" value="2,4,2,2" />
+        <Line3 type="text" value="2,0,2,2" />
+        <Line4 type="text" value="4,2,2,2" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="4,2,6,2" />
+        <Line2 type="text" value="6,4,6,2" />
+        <Line3 type="text" value="6,0,6,2" />
+        <Line4 type="text" value="8,2,6,2" />
+      </Pattern_2>
+      <Feature>
+        <LeftRight value="1"/>
+      </Feature>
+      <Explain value="每次出牌血量+1"/>
+    </Card>
+    <Card ID="E10">
+      <CardName type="text" value="激荡阵列"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="3" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,1,7,1" />
+        <Line2 type="text" value="7,1,4,4" />
+        <Line3 type="text" value="4,4,1,1" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="1,3,7,3" />
+        <Line2 type="text" value="7,3,4,0" />
+        <Line3 type="text" value="4,0,1,3" />
+      </Pattern_2>
+      <Feature>
+        <TopDown value="1"/>
+      </Feature>
+      <Feedback type="Number" value="1" />
+      <Explain value="所有牌费用-1"/>
+    </Card>
+    <Card ID="E11">
+      <CardName type="text" value="耐心施法"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="3" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,3,2,4" />
+        <Line2 type="text" value="2,4,6,4" />
+        <Line3 type="text" value="6,4,7,3" />
+      </Pattern_1>
+      <Feature>
+        <Preparation type="bool" value="1"/>
+      </Feature>
+      <Preparation type="text" value="1,3-" />
+      <Explain value="所有初始攻击力小于4的魔法获得，准备（+1）"/>
+    </Card>
+    <Card ID="E12">
+      <CardName type="text" value="迅捷施法"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="3" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,1,2,0" />
+        <Line2 type="text" value="2,0,6,0" />
+        <Line3 type="text" value="6,0,7,1" />
+      </Pattern_1>
+      <Feature>
+        <Swift type="bool" value="1"/>
+      </Feature>
+      <Swift type="text" value="1,3-" />
+      <Explain value="所有初始攻击力小于4的魔法获得，准备（-1）但不小于0"/>
+    </Card>
+    <Card ID="E13">
+      <CardName type="text" value="强效耐心"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="3" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,2,4" />
+        <Line2 type="text" value="2,4,6,4" />
+        <Line3 type="text" value="6,4,8,2" />
+      </Pattern_1>
+      <Feature>
+        <Preparation type="bool" value="1"/>
+      </Feature>
+      <Preparation type="text" value="1,4+" />
+      <Explain value=""/>
+    </Card>
+    <Card ID="E14">
+      <CardName type="text" value="强效迅捷"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="3" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,2,0" />
+        <Line2 type="text" value="2,0,6,0" />
+        <Line3 type="text" value="6,0,8,2" />
+      </Pattern_1>
+      <Feature>
+        <Swift type="bool" value="1"/>
+      </Feature>
+      <Swift type="text" value="1,4+" />
+      <Explain value="所有攻击力>=4的魔法获得，准备（-1）但不小于0"/>
+    </Card>
+    <Card ID="E15">
+      <CardName type="text" value="圣十字"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="4" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,2,4,2" />
+        <Line2 type="text" value="4,4,4,2" />
+        <Line3 type="text" value="4,0,4,2" />
+        <Line4 type="text" value="6,2,4,2" />
+      </Pattern_1>
+      <Feature>
+      </Feature>
+      <Explain value="每回合治疗2"/>
+    </Card>
+    <Card ID="E16">
+      <CardName type="text" value="涅槃"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="7" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,4,2" />
+        <Line2 type="text" value="4,4,4,2" />
+        <Line3 type="text" value="4,0,4,2" />
+        <Line4 type="text" value="8,2,4,2" />
+        <Line5 type="text" value="1,3,1,1" />
+        <Line6 type="text" value="7,3,7,1" />
+        <Line7 type="text" value="3,3,5,3" />
+      </Pattern_1>
+      <Feature>
+        <Revive type="bool" value="1"/>
+      </Feature>
+      <Explain value="死亡后在下一回合重生，生命值为历史最大值"/>
+    </Card>
+    <Card ID="E17">
+      <CardName type="text" value="穿刺阵列"/>
+      <CardType type="Number" value="4" />
+      <Value value="4"/>
+      <Require type="Number" value="9" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,3,4,4" />
+        <Line2 type="text" value="4,4,7,3" />
+        <Line3 type="text" value="7,3,7,1" />
+        <Line4 type="text" value="7,1,4,0" />
+        <Line5 type="text" value="4,0,1,1" />
+        <Line6 type="text" value="1,1,1,3" />
+        <Line7 type="text" value="1,1,4,4" />
+        <Line8 type="text" value="4,4,7,1" />
+        <Line9 type="text" value="4,4,4,0" />
+      </Pattern_1>
+      <Feature>
+      </Feature>
+      <Explain value="每回合开始时召唤一个4攻魔法"/>
+    </Card>
+    <Card ID="E18">
+      <CardName type="text" value="凝聚阵列"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="9" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,3,4,4" />
+        <Line2 type="text" value="4,4,7,3" />
+        <Line3 type="text" value="7,3,7,1" />
+        <Line4 type="text" value="7,1,4,0" />
+        <Line5 type="text" value="4,0,1,1" />
+        <Line6 type="text" value="1,1,1,3" />
+        <Line7 type="text" value="1,3,7,3" />
+        <Line8 type="text" value="7,3,4,0" />
+        <Line9 type="text" value="4,0,1,3" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="1,3,4,4" />
+        <Line2 type="text" value="4,4,7,3" />
+        <Line3 type="text" value="7,3,7,1" />
+        <Line4 type="text" value="7,1,4,0" />
+        <Line5 type="text" value="4,0,1,1" />
+        <Line6 type="text" value="1,1,1,3" />
+        <Line7 type="text" value="1,1,7,1" />
+        <Line8 type="text" value="7,1,4,4" />
+        <Line9 type="text" value="4,4,1,1" />
+      </Pattern_2>
+      <Feature>
+        <Cohension_effect type="bool" value="1" />
+      </Feature>
+      <Cohension_effect type="Number" value="1" />
+      <Explain value="聚能效果+1"/>
+    </Card>
+    <Card ID="E19">
+      <CardName type="text" value="分散阵列"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="9" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,3,4,4" />
+        <Line2 type="text" value="4,4,7,3" />
+        <Line3 type="text" value="7,3,7,1" />
+        <Line4 type="text" value="7,1,4,0" />
+        <Line5 type="text" value="4,0,1,1" />
+        <Line6 type="text" value="1,1,1,3" />
+        <Line7 type="text" value="4,4,1,1" />
+        <Line8 type="text" value="1,1,7,3" />
+        <Line9 type="text" value="7,3,4,0" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="1,3,4,4" />
+        <Line2 type="text" value="4,4,7,3" />
+        <Line3 type="text" value="7,3,7,1" />
+        <Line4 type="text" value="7,1,4,0" />
+        <Line5 type="text" value="4,0,1,1" />
+        <Line6 type="text" value="1,1,1,3" />
+        <Line7 type="text" value="4,4,7,1" />
+        <Line8 type="text" value="7,1,1,3" />
+        <Line9 type="text" value="1,3,4,0" />
+      </Pattern_2>
+      <Feature>
+        <LeftRight value="1"/>
+        <Dichotomy type="bool" value="1" />
+      </Feature>
+      <Explain value="攻击魔法分裂为两个数值减半、相同效果的魔法"/>
+    </Card>
+    <Card ID="E20">
+      <CardName type="text" value="严阵以待"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="1" />
+      <Cost value="2"/>
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,8,2" />
+      </Pattern_1>
+      <Feature>
+      </Feature>
+      <Explain value="防御魔法获得巨盾"/>
+    </Card>
+    <Card ID="E21">
+      <CardName type="text" value="漫卷阵列"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="5" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="4,4,4,2" />
+        <Line2 type="text" value="4,2,4,0" />
+        <Line3 type="text" value="1,3,3,3" />
+        <Line4 type="text" value="3,3,5,3" />
+        <Line5 type="text" value="5,3,7,3" />
+      </Pattern_1>
+      <Feature>
+      </Feature>
+      <Explain value="治疗效果+2"/>
+    </Card>
+    <Card ID="E22">
+      <CardName type="text" value="稳固阵列"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="2" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="6,4,8,2" />
+        <Line2 type="text" value="8,2,6,0" />
+      </Pattern_1>
+      <Feature>
+        <LeftRight value="1"/>
+        <Everlast type="bool" value="1" />
+      </Feature>
+      <Everlast type="Number" value="1" />
+      <Explain value="所有持续魔法效果+1"/>
+    </Card>
+    <Card ID="E23">
+      <CardName type="text" value="永恒阵列"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="9" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,2,4" />
+        <Line2 type="text" value="2,4,6,4" />
+        <Line3 type="text" value="6,4,8,2" />
+        <Line4 type="text" value="8,2,6,0" />
+        <Line5 type="text" value="6,0,2,0" />
+        <Line6 type="text" value="2,0,0,2" />
+        <Line7 type="text" value="2,4,2,0" />
+        <Line8 type="text" value="2,0,8,2" />
+        <Line9 type="text" value="8,2,2,4" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="0,2,2,4" />
+        <Line2 type="text" value="2,4,6,4" />
+        <Line3 type="text" value="6,4,8,2" />
+        <Line4 type="text" value="8,2,6,0" />
+        <Line5 type="text" value="6,0,2,0" />
+        <Line6 type="text" value="2,0,0,2" />
+        <Line7 type="text" value="6,4,6,0" />
+        <Line8 type="text" value="6,0,0,2" />
+        <Line9 type="text" value="0,2,6,4" />
+      </Pattern_2>
+      <Feature>
+        <LeftRight value="1"/>
+        <Everlast type="bool" value="1" />
+      </Feature>
+      <Everlast type="Number" value="3" />
+      <Explain value="持续效果+3"/>
+    </Card>
+    <Card ID="E24">
+      <CardName type="text" value="先知阵列"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="9" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,2,4" />
+        <Line2 type="text" value="2,4,6,4" />
+        <Line3 type="text" value="6,4,8,2" />
+        <Line4 type="text" value="8,2,6,0" />
+        <Line5 type="text" value="6,0,2,0" />
+        <Line6 type="text" value="2,0,0,2" />
+        <Line7 type="text" value="2,4,2,0" />
+        <Line8 type="text" value="2,4,6,0" />
+        <Line9 type="text" value="8,2,2,4" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="0,2,2,4" />
+        <Line2 type="text" value="2,4,6,4" />
+        <Line3 type="text" value="6,4,8,2" />
+        <Line4 type="text" value="8,2,6,0" />
+        <Line5 type="text" value="6,0,2,0" />
+        <Line6 type="text" value="2,0,0,2" />
+        <Line7 type="text" value="6,4,6,0" />
+        <Line8 type="text" value="2,0,6,4" />
+        <Line9 type="text" value="0,2,6,4" />
+      </Pattern_2>
+      <Feature>
+        <LeftRight value="1"/>
+      </Feature>
+      <Explain value="每回合使用的第一张非结界牌回手"/>
+    </Card>
+    <Card ID="E25">
+      <CardName type="text" value="再生阵列"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="9" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,2,4" />
+        <Line2 type="text" value="2,4,6,4" />
+        <Line3 type="text" value="6,4,8,2" />
+        <Line4 type="text" value="8,2,6,0" />
+        <Line5 type="text" value="6,0,2,0" />
+        <Line6 type="text" value="2,0,0,2" />
+        <Line7 type="text" value="2,0,2,4" />
+        <Line8 type="text" value="2,4,6,0" />
+        <Line9 type="text" value="6,0,6,4" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="0,2,2,4" />
+        <Line2 type="text" value="2,4,6,4" />
+        <Line3 type="text" value="6,4,8,2" />
+        <Line4 type="text" value="8,2,6,0" />
+        <Line5 type="text" value="6,0,2,0" />
+        <Line6 type="text" value="2,0,0,2" />
+        <Line7 type="text" value="2,0,2,4" />
+        <Line8 type="text" value="2,0,6,4" />
+        <Line9 type="text" value="6,0,6,4" />
+      </Pattern_2>
+      <Feature>
+        <LeftRight value="1"/>
+        <Refresh type="bool" value="1" />
+      </Feature>
+      <Explain value="防御魔法获得刷新"/>
+    </Card>
+    <Card ID="E26">
+      <CardName type="text" value="阴谋施法"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="3" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,2,2" />
+        <Line2 type="text" value="2,2,3,1" />
+        <Line3 type="text" value="2,2,3,3" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="8,2,6,2" />
+        <Line2 type="text" value="6,2,5,1" />
+        <Line3 type="text" value="6,2,5,3" />
+      </Pattern_2>
+      <Feature>
+        <LeftRight value="1"/>
+      </Feature>
+      <Explain value="左/右侧弹道自由"/>
+    </Card>
+    <Card ID="E27">
+      <CardName type="text" value="诡秘施法"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="3" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,2,2" />
+        <Line2 type="text" value="2,2,1,1" />
+        <Line3 type="text" value="2,2,1,3" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="8,2,6,2" />
+        <Line2 type="text" value="6,2,7,1" />
+        <Line3 type="text" value="6,2,7,3" />
+      </Pattern_2>
+      <Feature>
+        <LeftRight value="1"/>
+        <Spell_damage_uni type="bool" value="1" />
+      </Feature>
+      <Spell_damage_uni type="Number" value="1" />
+      <Explain value="左（右）侧攻击魔法都获得攻击+1"/>
+    </Card>
+    <Card ID="E28">
+      <CardName type="text" value="月之暗面"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="8" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,1,1" />
+        <Line2 type="text" value="1,1,4,0" />
+        <Line3 type="text" value="4,0,7,1" />
+        <Line4 type="text" value="7,1,8,2" />
+        <Line5 type="text" value="4,0,4,2" />
+        <Line6 type="text" value="4,2,4,4" />
+        <Line7 type="text" value="4,2,3,3" />
+        <Line8 type="text" value="4,2,5,3" />
+      </Pattern_1>
+      <Feature>
+      </Feature>
+      <Explain value="防御牌效果变为召唤攻击魔法"/>
+    </Card>
+  </Aura>
+
+
+
+
+
+  <Circle>
+    <Card ID="C01">
+      <CardName type="text" value="索林的狙击弩"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="13" />
+      <Consumption type="Number" value="6" />
+      <Value type="Number" value="4" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,1,0,2" />
+        <Line2 type="text" value="0,2,1,3" />
+        <Line3 type="text" value="1,3,3,3" />
+        <Line4 type="text" value="3,3,4,4" />
+        <Line5 type="text" value="4,4,5,3" />
+        <Line6 type="text" value="5,3,4,2" />
+        <Line7 type="text" value="4,2,3,3" />
+        <Line8 type="text" value="3,3,5,3" />
+        <Line9 type="text" value="4,4,4,2" />
+        <Line10 type="text" value="4,2,4,0" />
+        <Line11 type="text" value="5,3,7,3" />
+        <Line12 type="text" value="7,3,8,2" />
+        <Line13 type="text" value="8,2,7,1" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="3,3,4,4" />
+        <Line2 type="text" value="4,4,5,3" />
+        <Line3 type="text" value="5,3,4,2" />
+        <Line4 type="text" value="4,2,3,3" />
+        <Line5 type="text" value="4,4,4,2" />
+        <Line6 type="text" value="4,2,4,0" />
+      </Pattern_consumption_1>
+      <Feature>
+        <Cohension type="Number" value="2" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C02">
+      <CardName type="text" value="三重轰击"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="9" />
+      <Consumption type="Number" value="6" />
+      <Value type="Number" value="4" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,0,1,1" />
+        <Line2 type="text" value="1,1,0,2" />
+        <Line3 type="text" value="1,1,4,2" />
+        <Line4 type="text" value="2,4,4,4" />
+        <Line5 type="text" value="4,4,6,4" />
+        <Line6 type="text" value="4,4,4,2" />
+        <Line7 type="text" value="6,0,7,1" />
+        <Line8 type="text" value="7,1,8,2" />
+        <Line9 type="text" value="7,1,4,2" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="2,0,1,1" />
+        <Line2 type="text" value="1,1,0,2" />
+        <Line3 type="text" value="2,4,4,4" />
+        <Line4 type="text" value="4,4,6,4" />
+        <Line5 type="text" value="6,0,7,1" />
+        <Line6 type="text" value="7,1,8,2" />
+      </Pattern_consumption_1>
+      <Feature>
+        <Preparation type="Number" value="1" />
+      </Feature>
+      <Quantity type="Number" value="3" />
+    </Card>
+    <Card ID="C03">
+      <CardName type="text" value="分裂箭"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="4" />
+      <Consumption type="Number" value="4" />
+      <Value type="Number" value="2" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,3,3" />
+        <Line2 type="text" value="1,3,4,0" />
+        <Line3 type="text" value="8,2,5,3" />
+        <Line4 type="text" value="7,3,4,0" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="0,2,3,3" />
+        <Line2 type="text" value="1,3,4,0" />
+        <Line3 type="text" value="8,2,5,3" />
+        <Line4 type="text" value="7,3,4,0" />
+      </Pattern_consumption_1>
+      <Feature>
+        <Freedom type="bool" value="1" />
+      </Feature>
+      <Quantity type="Number" value="2" />
+    </Card>
+    <Card ID="C04">
+      <CardName type="text" value="神性闪现"/>
+      <CardType type="Number" value="3" />
+      <Require type="Number" value="6" />
+      <Consumption type="Number" value="4" />
+      <Value type="Number" value="7" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,2,2" />
+        <Line2 type="text" value="2,2,4,2" />
+        <Line3 type="text" value="4,2,6,2" />
+        <Line4 type="text" value="6,2,8,2" />
+        <Line5 type="text" value="4,0,4,2" />
+        <Line6 type="text" value="4,2,4,4" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="2,2,4,2" />
+        <Line2 type="text" value="4,2,6,2" />
+        <Line3 type="text" value="4,0,4,2" />
+        <Line4 type="text" value="4,2,4,4" />
+      </Pattern_consumption_1>
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C05">
+      <CardName type="text" value="咒术风暴"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="12" />
+      <Consumption type="Number" value="6" />
+      <Value type="Number" value="2" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,2,3,1" />
+        <Line2 type="text" value="3,1,5,1" />
+        <Line3 type="text" value="5,1,6,2" />
+        <Line4 type="text" value="6,2,5,3" />
+        <Line5 type="text" value="5,3,3,3" />
+        <Line6 type="text" value="3,3,2,2" />
+        <Line7 type="text" value="2,2,0,2" />
+        <Line8 type="text" value="3,1,2,0" />
+        <Line9 type="text" value="5,1,6,0" />
+        <Line10 type="text" value="6,2,8,2" />
+        <Line11 type="text" value="5,3,6,4" />
+        <Line12 type="text" value="3,3,2,4" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="2,2,0,2" />
+        <Line2 type="text" value="3,1,2,0" />
+        <Line3 type="text" value="5,1,6,0" />
+        <Line4 type="text" value="6,2,8,2" />
+        <Line5 type="text" value="5,3,6,4" />
+        <Line6 type="text" value="3,3,2,4" />
+      </Pattern_consumption_1>
+      <Feature>
+        <Freedom type="bool" value="1" />
+      </Feature>
+      <Quantity type="Number" value="6" />
+    </Card>
+    <Card ID="C06">
+      <CardName type="text" value="龙击术"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="24" />
+      <Consumption type="Number" value="24" />
+      <Value type="Number" value="24" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,0,4,0" />
+        <Line2 type="text" value="4,0,6,0" />
+        <Line3 type="text" value="6,0,7,1" />
+        <Line4 type="text" value="7,1,8,2" />
+        <Line5 type="text" value="8,2,7,3" />
+        <Line6 type="text" value="7,3,6,4" />
+        <Line7 type="text" value="6,4,4,4" />
+        <Line8 type="text" value="4,4,2,4" />
+        <Line9 type="text" value="2,4,3,3" />
+        <Line10 type="text" value="3,3,0,2" />
+        <Line11 type="text" value="0,2,3,1" />
+        <Line12 type="text" value="3,1,2,0" />
+        <Line13 type="text" value="2,0,2,4" />
+        <Line14 type="text" value="2,4,8,2" />
+        <Line15 type="text" value="8,2,2,0" />
+        <Line16 type="text" value="6,0,6,4" />
+        <Line17 type="text" value="6,4,0,2" />
+        <Line18 type="text" value="0,2,6,0" />
+        <Line19 type="text" value="1,1,7,1" />
+        <Line20 type="text" value="7,1,4,4" />
+        <Line21 type="text" value="4,4,1,1" />
+        <Line22 type="text" value="4,0,7,3" />
+        <Line23 type="text" value="7,3,7,1" />
+        <Line24 type="text" value="7,1,4,0" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="2,0,4,0" />
+        <Line2 type="text" value="4,0,6,0" />
+        <Line3 type="text" value="6,0,7,1" />
+        <Line4 type="text" value="7,1,8,2" />
+        <Line5 type="text" value="8,2,7,3" />
+        <Line6 type="text" value="7,3,6,4" />
+        <Line7 type="text" value="6,4,4,4" />
+        <Line8 type="text" value="4,4,2,4" />
+        <Line9 type="text" value="2,4,3,3" />
+        <Line10 type="text" value="3,3,0,2" />
+        <Line11 type="text" value="0,2,3,1" />
+        <Line12 type="text" value="3,1,2,0" />
+        <Line13 type="text" value="2,0,2,4" />
+        <Line14 type="text" value="2,4,8,2" />
+        <Line15 type="text" value="8,2,2,0" />
+        <Line16 type="text" value="6,0,6,4" />
+        <Line17 type="text" value="6,4,0,2" />
+        <Line18 type="text" value="0,2,6,0" />
+        <Line19 type="text" value="1,1,7,1" />
+        <Line20 type="text" value="7,1,4,4" />
+        <Line21 type="text" value="4,4,1,1" />
+        <Line22 type="text" value="4,0,7,3" />
+        <Line23 type="text" value="7,3,7,1" />
+        <Line24 type="text" value="7,1,4,0" />
+      </Pattern_consumption_1>
+      <Feature>
+        <Bombard type="Number" value="2" />
+        <Cohension type="Number" value="3" />
+        <Preparation type="Number" value="2" />
+        <Preparation_option type="bool" value="1" />
+      </Feature>
+      <Preparation_alter type="Number" value="3" />
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C07">
+      <CardName type="text" value="元素尖锥"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="5" />
+      <Consumption type="Number" value="4" />
+      <Reconstitution type="Number" value="2"/>
+      <Value type="Number" value="4" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="4,4,4,2" />
+        <Line2 type="text" value="4,2,3,1" />
+        <Line3 type="text" value="4,2,5,1" />
+        <Line4 type="text" value="3,1,1,1" />
+        <Line5 type="text" value="5,1,7,1" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="4,2,3,1" />
+        <Line2 type="text" value="4,2,5,1" />
+        <Line3 type="text" value="3,1,1,1" />
+        <Line4 type="text" value="5,1,7,1" />
+      </Pattern_consumption_1>
+      <Pattern_reconstitution_1>
+        <Line1 type="text" value="4,2,1,1" />
+        <Line2 type="text" value="4,2,7,1" />
+      </Pattern_reconstitution_1>
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C08">
+      <CardName type="text" value="强能结界"/>
+      <CardType type="Number" value="2" />
+      <Require type="Number" value="5" />
+      <Consumption type="Number" value="5" />
+      <Value type="Number" value="6" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="4,0,4,2" />
+        <Line2 type="text" value="4,2,3,3" />
+        <Line3 type="text" value="4,2,5,3" />
+        <Line4 type="text" value="3,3,1,3" />
+        <Line5 type="text" value="5,3,7,3" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="4,0,4,2" />
+        <Line2 type="text" value="4,2,3,3" />
+        <Line3 type="text" value="4,2,5,3" />
+        <Line4 type="text" value="3,3,1,3" />
+        <Line5 type="text" value="5,3,7,3" />
+      </Pattern_consumption_1>
+      <Feature>
+        <Entrench type="Number" value="2" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C09">
+      <CardName type="text" value="索林速射"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="8" />
+      <Consumption type="Number" value="1" />
+      <Value type="Number" value="1" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,1,0,2" />
+        <Line2 type="text" value="0,2,1,3" />
+        <Line3 type="text" value="1,3,3,3" />
+        <Line4 type="text" value="3,3,5,3" />
+        <Line5 type="text" value="5,3,7,3" />
+        <Line6 type="text" value="7,3,8,2" />
+        <Line7 type="text" value="8,2,7,1" />
+        <Line8 type="text" value="4,0,4,4" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="4,0,4,4" />
+      </Pattern_consumption_1>
+      <Feature>
+        <Bombard type="Number" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C10">
+      <CardName type="text" value="强韧护盾"/>
+      <CardType type="Number" value="2" />
+      <Require type="Number" value="6" />
+      <Consumption type="Number" value="6" />
+      <Reconstitution type="Number" value="3" />
+      <Value type="Number" value="4" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,1,3" />
+        <Line2 type="text" value="1,3,2,4" />
+        <Line3 type="text" value="1,3,4,0" />
+        <Line4 type="text" value="4,0,7,3" />
+        <Line5 type="text" value="7,3,6,4" />
+        <Line6 type="text" value="7,3,8,2" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="0,2,1,3" />
+        <Line2 type="text" value="1,3,2,4" />
+        <Line3 type="text" value="1,3,4,0" />
+        <Line4 type="text" value="4,0,7,3" />
+        <Line5 type="text" value="7,3,6,4" />
+        <Line6 type="text" value="7,3,8,2" />
+      </Pattern_consumption_1>
+      <Pattern_reconstitution_1>
+        <Line1 type="text" value="0,2,4,0" />
+        <Line2 type="text" value="4,0,8,2" />
+        <Line3 type="text" value="0,2,8,2" />
+      </Pattern_reconstitution_1>
+      <Feature>
+        <Weaken type="Number" value="2" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C11">
+      <CardName type="text" value="疾电霆击"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="8" />
+      <Consumption type="Number" value="8" />
+      <Reconstitution type="Number" value="2" />
+      <Value type="Number" value="1" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="4,4,3,3" />
+        <Line2 type="text" value="3,3,1,1" />
+        <Line3 type="text" value="1,1,3,1" />
+        <Line4 type="text" value="3,1,4,2" />
+        <Line5 type="text" value="4,2,5,1" />
+        <Line6 type="text" value="5,1,7,1" />
+        <Line7 type="text" value="7,1,5,3" />
+        <Line8 type="text" value="5,3,4,4" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="4,4,3,3" />
+        <Line2 type="text" value="3,3,1,1" />
+        <Line3 type="text" value="1,1,3,1" />
+        <Line4 type="text" value="3,1,4,2" />
+        <Line5 type="text" value="4,2,5,1" />
+        <Line6 type="text" value="5,1,7,1" />
+        <Line7 type="text" value="7,1,5,3" />
+        <Line8 type="text" value="5,3,4,4" />
+      </Pattern_consumption_1>
+      <Pattern_reconstitution_1>
+        <Line1 type="text" value="4,2,4,4" />
+        <Line2 type="text" value="3,3,5,3" />
+      </Pattern_reconstitution_1>
+      <Feature>
+        <Cohension type="Number" value="2" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C12">
+      <CardName type="text" value="凤凰降临"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="8" />
+      <Consumption type="Number" value="6" />
+      <Value type="Number" value="9" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="4,4,1,3" />
+        <Line2 type="text" value="1,3,0,2" />
+        <Line3 type="text" value="4,4,7,3" />
+        <Line4 type="text" value="7,3,8,2" />
+        <Line5 type="text" value="4,4,4,2" />
+        <Line6 type="text" value="4,2,3,1" />
+        <Line7 type="text" value="4,2,5,1" />
+        <Line8 type="text" value="4,2,4,0" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="4,4,1,3" />
+        <Line2 type="text" value="1,3,0,2" />
+        <Line3 type="text" value="4,4,7,3" />
+        <Line4 type="text" value="7,3,8,2" />
+        <Line5 type="text" value="4,2,3,1" />
+        <Line6 type="text" value="4,2,5,1" />
+      </Pattern_consumption_1>
+      <Feature>
+        <Devour type="Number" value="2" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C13">
+      <CardName type="text" value="漩涡导能"/>
+      <CardType type="Number" value="1" />
+      <Value type="Number" value="4" />
+      <Require type="Number" value="15" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,0,0,2" />
+        <Line2 type="text" value="0,2,2,2" />
+        <Line3 type="text" value="2,0,3,1" />
+        <Line4 type="text" value="6,0,8,2" />
+        <Line5 type="text" value="8,2,6,2" />
+        <Line6 type="text" value="6,0,5,1" />
+        <Line7 type="text" value="2,4,6,4" />
+        <Line8 type="text" value="2,4,3,3" />
+        <Line9 type="text" value="6,4,5,3" />
+        <Line10 type="text" value="3,1,5,1" />
+        <Line11 type="text" value="5,1,6,2" />
+        <Line12 type="text" value="6,2,5,3" />
+        <Line13 type="text" value="5,3,3,3" />
+        <Line14 type="text" value="3,3,2,2" />
+        <Line15 type="text" value="2,2,3,1" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="2,2,3,3" />
+        <Line2 type="text" value="3,1,5,1" />
+        <Line3 type="text" value="5,3,6,2" />
+      </Pattern_consumption_1>
+      <Feature>
+        <Preparation type="Number" value="3" />
+      </Feature>
+      <Quantity type="Number" value="3" />
+    </Card>
+    <Card ID="C14">
+      <CardName type="text" value="洪流导能"/>
+      <CardType type="Number" value="4" />
+      <Value type="Number" value="4" />
+      <Require type="Number" value="14" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,1,2,0" />
+        <Line2 type="text" value="2,0,3,1" />
+        <Line3 type="text" value="3,1,1,1" />
+        <Line4 type="text" value="5,1,7,1" />
+        <Line5 type="text" value="5,1,6,0" />
+        <Line6 type="text" value="6,0,7,1" />
+        <Line7 type="text" value="1,3,3,3" />
+        <Line8 type="text" value="1,3,2,4" />
+        <Line9 type="text" value="2,4,3,3" />
+        <Line10 type="text" value="6,4,7,3" />
+        <Line11 type="text" value="5,3,7,3" />
+        <Line12 type="text" value="5,3,6,4" />
+        <Line13 type="text" value="3,1,5,3" />
+        <Line14 type="text" value="3,3,5,1" />
+      </Pattern_1>
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C15">
+      <CardName type="text" value="潮汐导能"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="12" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,1,3,1" />
+        <Line2 type="text" value="3,1,4,0" />
+        <Line3 type="text" value="4,0,5,1" />
+        <Line4 type="text" value="5,1,7,1" />
+        <Line5 type="text" value="7,1,6,2" />
+        <Line6 type="text" value="6,2,7,3" />
+        <Line7 type="text" value="7,3,5,3" />
+        <Line8 type="text" value="5,3,4,4" />
+        <Line9 type="text" value="4,4,3,3" />
+        <Line10 type="text" value="3,3,1,3" />
+        <Line11 type="text" value="1,3,2,2" />
+        <Line12 type="text" value="2,2,1,1" />
+      </Pattern_1>
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C16">
+      <CardName type="text" value="雪崩"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="8" />
+      <Consumption type="Number" value="7" />
+      <Value type="Number" value="8" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,2,2" />
+        <Line2 type="text" value="2,2,6,2" />
+        <Line3 type="text" value="6,2,8,2" />
+        <Line4 type="text" value="4,0,2,2" />
+        <Line5 type="text" value="2,2,4,4" />
+        <Line6 type="text" value="4,4,6,2" />
+        <Line7 type="text" value="6,2,4,0" />
+        <Line8 type="text" value="4,0,4,4" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="0,2,2,2" />
+        <Line2 type="text" value="2,2,6,2" />
+        <Line3 type="text" value="6,2,8,2" />
+        <Line4 type="text" value="4,0,2,2" />
+        <Line5 type="text" value="2,2,4,4" />
+        <Line6 type="text" value="4,4,6,2" />
+        <Line7 type="text" value="6,2,4,0" />
+      </Pattern_consumption_1>
+      <Feature>
+        <Devour type="Number" value="6" />
+        <Preparation type="Number" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C17">
+      <CardName type="text" value="浮游炮"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="9" />
+      <Consumption type="Number" value="3" />
+      <Value type="Number" value="4" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,0,6,0" />
+        <Line2 type="text" value="2,0,4,2" />
+        <Line3 type="text" value="6,0,4,2" />
+        <Line4 type="text" value="0,2,2,4" />
+        <Line5 type="text" value="0,2,4,2" />
+        <Line6 type="text" value="2,4,4,2" />
+        <Line7 type="text" value="8,2,6,4" />
+        <Line8 type="text" value="6,4,4,2" />
+        <Line9 type="text" value="8,2,4,2" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="2,0,6,0" />
+        <Line2 type="text" value="2,0,4,2" />
+        <Line3 type="text" value="6,0,4,2" />
+      </Pattern_consumption_1>
+      <Feature>
+        <Freedom type="bool" value="1" />
+        <Cohension type="Number" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C18">
+      <CardName type="text" value="意志之环"/>
+      <CardType type="Number" value="4" />
+      <Cost type="Number" value="6" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,0,6,0" />
+        <Line2 type="text" value="6,0,8,2" />
+        <Line3 type="text" value="8,2,6,4" />
+        <Line4 type="text" value="6,4,2,4" />
+        <Line5 type="text" value="2,4,0,2" />
+        <Line6 type="text" value="0,2,2,0" />
+      </Pattern_1>
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C19">
+      <CardName type="text" value="诺斯贝尔的响指"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="3" />
+      <Consumption type="Number" value="3" />
+      <Reconstitution type="Number" value="3" />
+      <Value type="Number" value="1" />
+      <PatternNumber type="Number" value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,1,4,2" />
+        <Line2 type="text" value="4,2,4,4" />
+        <Line3 type="text" value="4,2,7,1" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="1,3,4,2" />
+        <Line2 type="text" value="4,2,4,0" />
+        <Line3 type="text" value="4,2,7,3" />
+      </Pattern_2>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="1,1,4,2" />
+        <Line2 type="text" value="4,2,4,4" />
+        <Line3 type="text" value="4,2,7,1" />
+      </Pattern_consumption_1>
+      <Pattern_consumption_2>
+        <Line1 type="text" value="1,3,4,2" />
+        <Line2 type="text" value="4,2,4,0" />
+        <Line3 type="text" value="4,2,7,3" />
+      </Pattern_consumption_2>
+      <Pattern_reconstitution_1>
+        <Line1 type="text" value="1,1,7,1" />
+        <Line2 type="text" value="1,1,4,4" />
+        <Line3 type="text" value="7,1,4,4" />
+      </Pattern_reconstitution_1>
+      <Pattern_reconstitution_2>
+        <Line1 type="text" value="1,3,7,3" />
+        <Line2 type="text" value="1,3,4,0" />
+        <Line3 type="text" value="7,3,4,0" />
+      </Pattern_reconstitution_2>
+      <Feature>
+        <TopDown value="1"/>
+        <Explode type="Number" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C20">
+      <CardName type="text" value="法力回馈"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="5" />
+      <Consumption type="Number" value="0" />
+      <Value type="Number" value="0" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="4,0,2,2" />
+        <Line2 type="text" value="4,0,6,2" />
+        <Line3 type="text" value="2,2,6,2" />
+        <Line4 type="text" value="2,2,4,4" />
+        <Line5 type="text" value="6,2,4,4" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+      </Pattern_consumption_1>
+      <Feature>
+        <Preparation type="Number" value="1" />
+        <Preparation_alter type="Number" value="3" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C21">
+      <CardName type="text" value="不竭回馈"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="6" />
+      <Consumption type="Number" value="2" />
+      <Value type="Number" value="0" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,0,6,0" />
+        <Line2 type="text" value="2,0,4,2" />
+        <Line3 type="text" value="6,0,4,2" />
+        <Line4 type="text" value="2,4,6,4" />
+        <Line5 type="text" value="2,4,4,2" />
+        <Line6 type="text" value="6,4,4,2" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="2,0,6,0" />
+        <Line2 type="text" value="2,4,6,4" />
+      </Pattern_consumption_1>
+      <Feature>
+        <Preparation type="bool" value="1" />
+        <Preparation_freedom type="bool" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C22">
+      <CardName type="text" value="蓄势待发"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="6" />
+      <Consumption type="Number" value="0" />
+      <Value type="Number" value="2" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="3,1,4,2" />
+        <Line2 type="text" value="5,1,4,2" />
+        <Line3 type="text" value="6,2,4,2" />
+        <Line4 type="text" value="5,3,4,2" />
+        <Line5 type="text" value="3,3,4,2" />
+        <Line6 type="text" value="2,2,4,2" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+      </Pattern_consumption_1>
+      <Feature>
+        <Double type="bool" value="1" />
+        <Preparation type="bool" value="1" />
+        <Preparation_freedom type="bool" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C23">
+      <CardName type="text" value="偏转护盾"/>
+      <CardType type="Number" value="2" />
+      <Require type="Number" value="2" />
+      <Consumption type="Number" value="0" />
+      <Value type="Number" value="4" />
+      <Cost value="2"/>
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="0,2,2,4" />
+        <Line2 type="text" value="2,0,2,4" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="8,2,6,4" />
+        <Line2 type="text" value="6,0,6,4" />
+      </Pattern_2>
+      <Pattern_consumption_1>
+      </Pattern_consumption_1>
+      <Pattern_consumption_2>
+      </Pattern_consumption_2>
+      <Feature>
+        <LeftRight value="1"/>
+        <Weaken type="Number" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C24">
+      <CardName type="text" value="贤者之意图"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="4" />
+      <Consumption type="Number" value="4" />
+      <Reconstitution type="Number" value="4" />
+      <Cost value="2"/>
+      <Value type="Number" value="1" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="3,1,4,2" />
+        <Line2 type="text" value="5,1,4,2" />
+        <Line3 type="text" value="3,3,4,2" />
+        <Line4 type="text" value="5,3,4,2" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="3,1,4,2" />
+        <Line2 type="text" value="5,1,4,2" />
+        <Line3 type="text" value="3,3,4,2" />
+        <Line4 type="text" value="5,3,4,2" />
+      </Pattern_consumption_1>
+      <Pattern_reconstitution_1>
+        <Line1 type="text" value="3,1,5,1" />
+        <Line2 type="text" value="5,1,5,3" />
+        <Line3 type="text" value="3,3,5,3" />
+        <Line4 type="text" value="3,3,3,1" />
+      </Pattern_reconstitution_1>
+      <Feature>
+        <Freedom type="bool" value="1" />
+      </Feature>
+      <Draw type="Number" value="1" />
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C25">
+      <CardName type="text" value="十字祝福"/>
+      <CardType type="Number" value="4" />
+      <Require type="Number" value="5" />
+      <Consumption type="Number" value="5" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="4,0,4,2" />
+        <Line2 type="text" value="4,2,4,4" />
+        <Line3 type="text" value="1,3,3,3" />
+        <Line4 type="text" value="3,3,5,3" />
+        <Line5 type="text" value="5,3,7,3" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+        <Line1 type="text" value="4,0,4,2" />
+        <Line2 type="text" value="4,2,4,4" />
+        <Line3 type="text" value="1,3,3,3" />
+        <Line4 type="text" value="3,3,5,3" />
+        <Line5 type="text" value="5,3,7,3" />
+      </Pattern_consumption_1>
+      <Feature>
+        <Preparation type="bool" value="1" />
+      </Feature>
+      <Preparation type="Number" value="3" />
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C26">
+      <CardName type="text" value="治疗术"/>
+      <CardType type="Number" value="3" />
+      <Require type="Number" value="3" />
+      <Consumption type="Number" value="0" />
+      <Value type="Number" value="2" />
+      <Cost value="1"/>
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="6,0,6,2" />
+        <Line2 type="text" value="6,2,6,4" />
+        <Line3 type="text" value="5,3,7,3" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="2,0,2,2" />
+        <Line2 type="text" value="2,2,2,4" />
+        <Line3 type="text" value="1,3,3,3" />
+      </Pattern_2>
+      <Pattern_consumption_1>
+      </Pattern_consumption_1>
+      <Pattern_consumption_2>
+      </Pattern_consumption_2>
+      <Feature>
+        <LeftRight value="1"/>
+      </Feature>
+      <Auto_heal type="Number" value="1" />
+      <Duration type="Number" value="2" />
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C27">
+      <CardName type="text" value="愈合术"/>
+      <CardType type="Number" value="3" />
+      <Require type="Number" value="2" />
+      <Consumption type="Number" value="0" />
+      <Value type="Number" value="2" />
+      <Cost value="1"/>
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="4,2,4,4" />
+        <Line2 type="text" value="3,3,5,3" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+      </Pattern_consumption_1>
+      <Feature>
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C28">
+      <CardName type="text" value="叉状冲击"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="4" />
+      <Consumption type="Number" value="0" />
+      <Value type="Number" value="5" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,0,4,2" />
+        <Line2 type="text" value="6,0,4,2" />
+        <Line3 type="text" value="2,4,4,2" />
+        <Line4 type="text" value="6,4,4,2" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+      </Pattern_consumption_1>
+      <Feature>
+        <Preparation type="bool" value="1" />
+      </Feature>
+      <Preparation type="Number" value="1" />
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C29">
+      <CardName type="text" value="过载护盾"/>
+      <CardType type="Number" value="2" />
+      <Require type="Number" value="4" />
+      <Cost type="Number" value="2" />
+      <Consumption type="Number" value="0" />
+      <Value type="Number" value="5" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="3,1,7,1" />
+        <Line2 type="text" value="3,3,7,3" />
+        <Line3 type="text" value="3,1,3,3" />
+        <Line4 type="text" value="7,1,7,3" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="1,1,5,1" />
+        <Line2 type="text" value="1,3,5,3" />
+        <Line3 type="text" value="1,1,1,3" />
+        <Line4 type="text" value="5,1,5,3" />
+      </Pattern_2>
+      <Pattern_consumption_1>
+      </Pattern_consumption_1>
+      <Pattern_consumption_2>
+      </Pattern_consumption_2>
+      <Feature>
+        <LeftRight value="1"/>
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C30">
+      <CardName type="text" value="贤者之决断"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="3" />
+      <Cost type="Number" value="1" />
+      <Consumption type="Number" value="0" />
+      <Value type="Number" value="1" />
+      <PatternNumber value="2"/>
+      <Pattern_1>
+        <Line1 type="text" value="2,2,8,2" />
+        <Line2 type="text" value="2,2,6,0" />
+        <Line3 type="text" value="2,2,6,4" />
+      </Pattern_1>
+      <Pattern_2>
+        <Line1 type="text" value="6,2,0,2" />
+        <Line2 type="text" value="6,2,2,0" />
+        <Line3 type="text" value="6,2,2,4" />
+      </Pattern_2>
+      <Pattern_consumption_1>
+      </Pattern_consumption_1>
+      <Pattern_consumption_2>
+      </Pattern_consumption_2>
+      <Feature>
+        <LeftRight value="1"/>
+        <Draw type="bool" value="1" />
+      </Feature>
+      <Draw type="Number" value="1" />
+      <Quantity type="Number" value="1" />
+    </Card>
+    <Card ID="C31">
+      <CardName type="text" value="二段飞弹"/>
+      <CardType type="Number" value="1" />
+      <Require type="Number" value="7" />
+      <Consumption type="Number" value="0" />
+      <Value type="Number" value="1" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="4,4,2,2" />
+        <Line2 type="text" value="2,2,4,2" />
+        <Line3 type="text" value="4,2,6,2" />
+        <Line4 type="text" value="4,4,6,2" />
+        <Line5 type="text" value="4,2,2,0" />
+        <Line6 type="text" value="4,2,6,0" />
+        <Line7 type="text" value="2,0,6,0" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+      </Pattern_consumption_1>
+      <Feature>
+        <Preparation type="bool" value="1" />
+        <Preparation_option type="bool" value="1" />
+        <Cohension type="bool" value="1" />
+      </Feature>
+      <Preparation type="Number" value="2" />
+      <Preparation_alter type="Number" value="3" />
+      <Cohension type="Number" value="1" />
+      <Quantity type="Number" value="2" />
+    </Card>
+    <Card ID="C32">
+      <CardName type="text" value="新星护盾"/>
+      <CardType type="Number" value="2" />
+      <Require type="Number" value="4" />
+      <Consumption type="Number" value="0" />
+      <Value type="Number" value="5" />
+      <PatternNumber value="1"/>
+      <Pattern_1>
+        <Line1 type="text" value="1,1,7,1" />
+        <Line2 type="text" value="1,3,7,3" />
+        <Line3 type="text" value="1,1,1,3" />
+        <Line4 type="text" value="7,1,7,3" />
+      </Pattern_1>
+      <Pattern_consumption_1>
+      </Pattern_consumption_1>
+      <Feature>
+        <Huge_shield type="bool" value="1" />
+      </Feature>
+      <Quantity type="Number" value="1" />
+    </Card>
+  </Circle>
+</Database>

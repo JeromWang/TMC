@@ -193,9 +193,8 @@ public class DrawCard : MonoBehaviour
     }
     public IEnumerator EnemyShowCard()
     {
-        if (!LevelManager.Instance.IsOnline &&
-            (enemyResidue > 0 || AI.Instance.aiType == AIType.RoundList || AI.Instance.aiType == AIType.WeakAI)
-            || LevelManager.Instance.IsOnline)
+        if (LevelManager.Instance.IsOnline ||
+            (enemyResidue > 0 || AI.Instance.aiType == AIType.RoundList || AI.Instance.aiType == AIType.WeakAI))
         {
             GameObject c = (GameObject)Instantiate(cardObject, EnemyHand.position, EnemyHand.rotation);
             Card card=c.gameObject.AddComponent<Card>();
@@ -207,6 +206,18 @@ public class DrawCard : MonoBehaviour
             yield return new WaitForSeconds(1f);
             StartCoroutine(cardScript.Use());
             //Debug.Log("escEnd");
+        }
+    }
+    public void ShowAuraCard(List<Card> list)
+    {
+        int i = 1;
+        foreach(Card c in list)
+        {
+            c.transform.parent = NewCardList;
+            Vector3 pos = NewCardList.position + (i % 2 == 1 ? (-(i - 1) / 2) : i / 2) * new Vector3(0.18f, 0, 0);
+            c.transform.position = pos;
+            c.gameObject.SetActive(true);
+            i++;
         }
     }
     void EShowCardPerform(GameObject c)
@@ -232,9 +243,11 @@ public class DrawCard : MonoBehaviour
         Card cardScript = c.gameObject.AddComponent<Card>();
         c.gameObject.AddComponent<CardMoving>().BacklightShowHide(true);
         cardScript.ID = ID;
-        iTween.MoveTo(c.gameObject,NewCardList.position + (NewCardList.childCount - 1) * new Vector3(0.18f, 0, 0), 0.5f);
-        iTween.RotateTo(c.gameObject, new Vector3(-50f, 0f, 0f), 1f);
         c.transform.parent = NewCardList;
+        int i=(NewCardList.childCount % 2 == 1 ? (-(NewCardList.childCount-1)/2) : (NewCardList.childCount)/2);
+        Vector3 pos = NewCardList.position +  i* new Vector3(0.18f, 0, 0);
+        iTween.MoveTo(c.gameObject,pos, 0.5f);
+        iTween.RotateTo(c.gameObject, new Vector3(-50f, 0f, 0f), 1f);
     }
     public void EnemyDraw(int index)//weakAI使用
     {
@@ -357,7 +370,15 @@ public class DrawCard : MonoBehaviour
         {
             card.GetComponent<Card>().Destroy();
         }
+
+
+        List<Transform> t = new List<Transform>();
         foreach (Transform card in NewCardList.transform)
+        {
+            //card.GetComponent<Card>().Destroy();//这么删会出问题，原因未知
+            t.Add(card);
+        }
+        foreach(Transform card in t )
         {
             card.GetComponent<Card>().Destroy();
         }

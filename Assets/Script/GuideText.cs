@@ -338,11 +338,15 @@ public class GuideText : MonoBehaviour
                 SEWarning.audio.Play();
                 break;
             case "AuraManager": 
-                LabeltextAsAura(AuraManager.Instance.auraText, AuraManager.Instance.GetAuraListCount()); 
+                LabeltextAsAura(AuraManager.Instance.auraText, AuraManager.Instance.GetAuraCount()); 
                 this.page = 1000; 
                 return;
             case "EnemyAura":
-                LabeltextAsAura(AuraManager.Instance.enemyAuraText, AuraManager.Instance.GetEnemyAuraListCount()); 
+                if (AuraManager.Instance.GetEnemyAuraCount() == 0)
+                {
+                    return;
+                }
+                LabeltextAsAura(AuraManager.Instance.enemyAuraText, AuraManager.Instance.GetEnemyAuraCount()); 
                 return;
             case "NeedEnergy": uiLabel.text = "能量不足！"; SEGuiding.audio.Play(); break;
             case "NeedPattern": uiLabel.text = "没有合适的魔法阵！"; SEGuiding.audio.Play(); break;
@@ -387,7 +391,7 @@ public class GuideText : MonoBehaviour
             case 106: uiLabel.text = "You Win!\n\n恭喜你获得新卡，在[b]卡组调整[/b]中可以修改卡组"; return;
             case 1000:
             case 1001: 
-                LabeltextAsAura(AuraManager.Instance.auraText, AuraManager.Instance.GetAuraListCount());
+                LabeltextAsAura(AuraManager.Instance.auraText, AuraManager.Instance.GetAuraCount());
                 return;
         }
         //Debug.Log(PageText.Length.ToString());

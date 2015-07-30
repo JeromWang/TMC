@@ -7,6 +7,7 @@ public class Hero : MonoBehaviour {
     public bool isHero;
     public int health = 10;
     public int damage = 0;//与其他脚本交互用
+    float time;
 	// Use this for initialization
 	void Awake () {
         UIhealth = transform.FindChild("Health").GetComponent<UILabel>();
@@ -32,11 +33,28 @@ public class Hero : MonoBehaviour {
         if (!isHero && EnergyManager.Instance.roundCount>0 )
         {
             GuideText.Instance.ReturnText("EnemyAura");
+            time = 0;
         }
     }
+    void OnMouseOver()
+    {
+        if (!isHero && EnergyManager.Instance.roundCount > 0)
+        {
+            time += Time.deltaTime;
+            if(time>0.5f && EnergyManager.Instance.turnsEnd==false)
+            {
+                AuraManager.Instance.ShowEnemyAuraCard();
+            }
+        }
+    }
+    
     void OnMouseExit()
     {
-        GuideText.Instance.ReturnText();
+        if (!isHero && EnergyManager.Instance.roundCount > 0)
+        {
+            GuideText.Instance.ReturnText();
+            AuraManager.Instance.HideEnemyAuraCard();
+        }
     }
     IEnumerator Damage(int da)
     {

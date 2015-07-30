@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 public enum Operation
 {
@@ -10,7 +11,7 @@ public class Client : MonoBehaviour
     public static Client Instance;
 
     //要连接的服务器地址  
-    public string IP = "192.168.9.230";
+    public string IP ="";
     //要连接的端口  
     public int Port = 10100;
     //聊天信息  
@@ -78,31 +79,39 @@ public class Client : MonoBehaviour
     }
     public void StartConnect() //禁止客户端连接运行, 服务器未初始化  
     {
+        startPanel.SetActive(false);
+        onlinePanel.SetActive(true);
         if (Network.peerType == NetworkPeerType.Disconnected)
         {
             //Debug.Log("StartConnect");
+            IP = GetLocalIp();
             opponentIp = "";
             IsMatching = false;
             Matched = false;
             SearchLock = false;
-            NetworkConnectionError error = Network.Connect(IP, Port);
-            //连接状态  
-            switch (error)
+
+            
+            string IPstart = IP.Substring(0, IP.LastIndexOf('.') + 1);
+            string[] IPlist =new string[254];
+            for(int subnet = 1,i=0;subnet < 255; subnet++,i++)
             {
-                case NetworkConnectionError.NoError:
-                    break;
-                default:
-                    Debug.Log("客户端错误" + error);
-                    break;
+                IPlist[i]=(IPstart + subnet.ToString());
             }
+            try
+            {
+                var error = Network.Connect(IPlist, Port);
+                //连接状态  
+                switch (error)
+                {
+                    case NetworkConnectionError.NoError:
+                        break;
+                }
+            }
+            catch { }
 
         }
-        startPanel.SetActive(false);
-
-        onlinePanel.SetActive(true);
-       // Debug.Log("a");
+        
     }
-
     public void GiveUp()//认输
     {
         Client.Instance.OnWin();
@@ -126,7 +135,6 @@ public class Client : MonoBehaviour
     {
         networkView.RPC("TrajectoryChange", RPCMode.Others, Client.Instance.GetLocalIp(), attackID, trajectory);
     }
-
     public void OnCastAttack(string ID)
     {
         networkView.RPC("CastAttack", RPCMode.Others, GetLocalIp(), ID);
@@ -250,19 +258,18 @@ public class Client : MonoBehaviour
             opponentIp = "";
             Matched = false;
             SearchLock = false;
-            Debug.Log("Draw detected");
+            //Debug.Log("Draw detected");
             CameraMoving.Instance.Move(-1);
             LevelManager.Instance.EndGame();
             LevelManager.Instance.IsOnline = false;
         }
     }
-
     [RPC]
     void CastAttack(string opIp, string ID)
     {
         if (opponentIp == opIp)
         {
-            Debug.Log(ID + " detected");
+            //Debug.Log(ID + " detected");
             EnergyManager.Instance.enemyOperationID.Add(ID);
             EnergyManager.Instance.operation.Add(Operation.Cast);
             EnergyManager.Instance.enemyTrajectoryID.Add(0);
@@ -270,11 +277,22 @@ public class Client : MonoBehaviour
         }
     }
     [RPC]
+    void Shield(string opIp, string ID, int position)
+    {
+        Debug.Log("castShield");
+        if (opponentIp == opIp)
+        {
+            EnergyManager.Instance.enemyOperationID.Add(ID);
+            EnergyManager.Instance.operation.Add(Operation.Cast);
+            EnergyManager.Instance.enemyTrajectoryID.Add(position);
+        }
+    }
+    [RPC]
     void DestroyAura(string opIp, string ID, int PatternUsed)
     {
         if (opponentIp == opIp)
         {
-            Debug.Log(ID + " detected");
+            //Debug.Log(ID + " detected");
             EnergyManager.Instance.enemyOperationID.Add(ID);
             EnergyManager.Instance.operation.Add(Operation.DestroyAura);
             EnergyManager.Instance.enemyTrajectoryID.Add(PatternUsed);
@@ -286,7 +304,7 @@ public class Client : MonoBehaviour
     {
         if (opponentIp == opIp)
         {
-            Debug.Log(ID + " detected");
+            //Debug.Log(ID + " detected");
             EnergyManager.Instance.enemyOperationID.Add(ID);
             EnergyManager.Instance.operation.Add(Operation.Cast);
             EnergyManager.Instance.enemyTrajectoryID.Add(0);
@@ -298,7 +316,7 @@ public class Client : MonoBehaviour
     {
         if (opponentIp == opIp)
         {
-            Debug.Log(ID + "detected,trajectory:" + trajectory);
+            //Debug.Log(ID + "detected,trajectory:" + trajectory);
             EnergyManager.Instance.enemyOperationID.Add(ID.ToString());
             EnergyManager.Instance.operation.Add(Operation.ChangeTrajectory);
             EnergyManager.Instance.enemyTrajectoryID.Add(trajectory);
@@ -331,16 +349,7 @@ public class Client : MonoBehaviour
             EnergyManager.Instance.operation.Add(Operation.Entrench);
         }
     }
-    [RPC]
-    void Shield(string opIp, string ID, int position)
-    {
-        if (opponentIp == opIp)
-        {
-            EnergyManager.Instance.enemyOperationID.Add(ID);
-            EnergyManager.Instance.operation.Add(Operation.Cast);
-            EnergyManager.Instance.enemyTrajectoryID.Add(position);
-        }
-    }
+   
     // Use this for initialization  
     void Start()
     {
@@ -348,8 +357,8 @@ public class Client : MonoBehaviour
     }
     void OnFailedToConnect(NetworkConnectionError error)
     {
-        //Debug.Log("Could not connect to server: " + error);
-        if (onlinePanel.activeSelf)
+        Debug.Log("Could not connect to server: " + error);
+        if (onlinePanel.activeSelf) 
         {
             findButton.text = "连接失败";
             failConnect = true;

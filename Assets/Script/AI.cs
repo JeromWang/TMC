@@ -62,10 +62,20 @@ public class AI : MonoBehaviour {
         enemyHero = GameObject.Find("EnemyHero").GetComponent<Hero>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public void ReadKengList(List<Point> list)
+    {
+        kengList = list;
+    }
+    public void AIDrawCard()
+    {
+        if (aiType != AIType.WeakAI)
+            return;
+        //抽牌+卡牌实体化
+        if (EnergyManager.Instance.roundCount == 1)
+            for (int i = 0; i < 4; i++)
+                DrawCard.Instance.EnemyDraw(i);
+        DrawCard.Instance.EnemyDraw(EnergyManager.Instance.roundCount + 3);
+    }
     public void SetAIStyle(AIStyle style)
     {
         aiStyle = style;
@@ -88,6 +98,57 @@ public class AI : MonoBehaviour {
                 break;
         }
     }
+    public void AIOperation()
+    {
+        //Debug.Log("AIOperation");
+        //放水晶
+        if (EnergyManager.Instance.roundCount <= 6)
+        {
+            int round = EnergyManager.Instance.roundCount;
+            EnergyManager.Instance.EnemyMagicCircle.KengTrue(kengList[round * 2 - 2]);
+            EnergyManager.Instance.EnemyMagicCircle.KengTrue(kengList[round * 2 - 1]);
+        }
+        AIDefence();
+        for (; EnemyDrawLine(); ) ;//把所有能量都拿来画线
+        //使用牌后如果没有回手就摧毁
+        //使用可以用的结界
+        Card card;
+        for (int i = EnemyHand.childCount - 1; i >= 0; i--)
+        {
+            card = EnemyHand.GetChild(i).GetComponent<Card>();
+            if (card.IsAccessible(false) == Accessible.OK && card.GetCardType() == CardType.aura && !AuraManager.Instance.InTempList(card))
+            {
+                DrawCard.Instance.Cast(card.ID, 0);
+                AuraManager.Instance.AddTempList(card);
+                usedAuraList.Add(card);
+                continue;
+            }
+            if (AuraManager.Instance.InTempList(card))
+            {
+                DrawCard.Instance.Cast(card.ID, 0);
+                usedAuraList.Add(card);
+                continue;
+            }
+        }
+        AIUseCard();
+        AuraManager.Instance.ClearTempList();
+        ReturnHand();
+    }
+    public void DestroyUsedAura()
+    {
+        foreach (Card card in usedAuraList)
+        {
+            card.Destroy();
+        }
+        usedAuraList.Clear();
+    }
+    public void EndGame()
+    {
+        foreach (Transform card in EnemyHand.transform)
+        {
+            card.GetComponent<Card>().Destroy();
+        }
+    }
     void UpdateAccessibleCardList()
     {
         accessibleCardList.Clear();
@@ -107,21 +168,8 @@ public class AI : MonoBehaviour {
     //{
     //    lineList = list;
     //}
-    public void ReadKengList(List<Point> list)
-    {
-        kengList = list;
-    }
-    public void AIDrawCard()
-    {
-        if (aiType != AIType.WeakAI)
-            return;
-        //抽牌+卡牌实体化
-        if (EnergyManager.Instance.roundCount == 1)
-            for (int i = 0; i < 4; i++)
-                DrawCard.Instance.EnemyDraw(i);
-        DrawCard.Instance.EnemyDraw(EnergyManager.Instance.roundCount + 3);
-    }
-    void CastAttack(Card card)
+   
+    void CastAtk(Card card)
     {
         if (card == null)
             return;
@@ -392,7 +440,7 @@ public class AI : MonoBehaviour {
         {
             if(card.IsAccessible(false)==Accessible.OK && card.GetCardType()==CardType.attack)
             {
-                CastAttack(card);
+                CastAtk(card);
                 DestroyUsedCard(card);
             }
         }
@@ -445,57 +493,7 @@ public class AI : MonoBehaviour {
         }
         
     }
-    public void AIOperation()
-    {
-        //Debug.Log("AIOperation");
-        //放水晶
-        if(EnergyManager.Instance.roundCount<=6)
-        {
-            int round=EnergyManager.Instance.roundCount;
-            EnergyManager.Instance.EnemyMagicCircle.KengTrue(kengList[round * 2 - 2]);
-            EnergyManager.Instance.EnemyMagicCircle.KengTrue(kengList[round * 2-1]);
-        }
-        AIDefence();
-        for (; EnemyDrawLine(); ) ;//把所有能量都拿来画线
-        //使用牌后如果没有回手就摧毁
-        //使用可以用的结界
-        Card card;
-        for (int i = EnemyHand.childCount-1; i >= 0;i-- )
-        {
-            card = EnemyHand.GetChild(i).GetComponent<Card>();
-            if (card.IsAccessible(false) == Accessible.OK && card.GetCardType() == CardType.aura && !AuraManager.Instance.InTempList(card))
-            {
-                DrawCard.Instance.Cast(card.ID, 0);
-                AuraManager.Instance.AddTempList(card);
-                usedAuraList.Add(card);
-                continue;
-            }
-            if(AuraManager.Instance.InTempList(card))
-            {
-                DrawCard.Instance.Cast(card.ID, 0);
-                usedAuraList.Add(card);
-                continue;
-            }
-        }
-        AIUseCard();
-        AuraManager.Instance.ClearTempList();
-        ReturnHand();
-    }
-    public void DestroyUsedAura()
-    {
-        foreach(Card card in usedAuraList)
-        {
-            card.Destroy();
-        }
-        usedAuraList.Clear();
-    }
-    public void EndGame()
-    {
-        foreach (Transform card in EnemyHand.transform)
-        {
-            card.GetComponent<Card>().Destroy();
-        }
-    }
+    
     bool EnemyDrawLine()
     {
         //if (lineList.Count <= 0)
